@@ -7,6 +7,7 @@ import { IoIosClose } from "react-icons/io";
 import { Button } from "@/components/button";
 import { Logo } from "@/components/logo";
 import { useMotionValueEvent, useScroll } from "framer-motion";
+import { CustomLink } from "../custom components/custom-link";
 
 export const MobileNavbar = ({ navItems }: any) => {
   const [open, setOpen] = useState(false);
@@ -81,17 +82,9 @@ export const MobileNavbar = ({ navItems }: any) => {
             ))}
           </div>
           <div className="flex flex-row w-full items-start gap-2.5  px-8 py-4 ">
-            <Button>Book a demo</Button>
-            <Button
-              variant="simple"
-              as={Link}
-              href="/register"
-              onClick={() => {
-                setOpen(false);
-              }}
-            >
-              Register
-            </Button>
+           <CustomLink href="/contact" variant="primary">
+              Contact
+            </CustomLink>
           </div>
         </div>
       )}
