@@ -2,11 +2,12 @@ import { BlogLayout } from "@/components/blog-layout";
 import Thumbnail from "./thumbnail.jpeg";
 
 export const blog = {
-  author: { name: "Manu Arora", src: "/avatar.jpeg" },
+  author: { name: "Argonaute Digital", src: "/avatar.jpeg" },
   date: "2021-07-14",
-  title: "Top 5 LLM of all time",
+  title: "Top 5 Large Language Models (LLMs) of All Time",
   description:
-    "Explore the latest AI tools and applications that are revolutionizing various industries. From image generation to natural language processing, AI is changing the way we think and interact with the world.",
+    "Dive into the world of the top large language models that have reshaped industries. From natural language processing to innovative applications, discover how these models are influencing technology and business.",
+  image: Thumbnail,
 };
 
 export const metadata = {
@@ -19,68 +20,32 @@ export const metadata = {
 
 export default (props) => <BlogLayout blog={blog} {...props} />;
 
-## Lorem ipsum heading
+## The Rise of Large Language Models
 
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+Large Language Models (LLMs) have become pivotal in various sectors, from customer service to healthcare. By processing and generating human-like text, these models enable sophisticated applications in language translation, automated content generation, and more. Let's explore some of the most impactful LLMs and their contributions to AI and industry innovation.
 
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+## 1. GPT-3: OpenAI's Game-Changer
 
-```jsx
-"use client";
+OpenAI's GPT-3 set a new standard in natural language processing (NLP) when it was launched. Known for its high accuracy and vast vocabulary, GPT-3 has been used for everything from chatbots to automated writing tools. With 175 billion parameters, it demonstrated unprecedented understanding and generation of human-like text.
 
-import { useRouter } from "next/navigation";
-import { BlogWithSlug } from "@/lib/blog";
+## 2. BERT: Google’s Contribution to NLP
 
-export function BlogLayout({
-  blog,
-  children,
-}: {
-  blog: BlogWithSlug,
-  children: React.ReactNode,
-}) {
-  let router = useRouter();
-  return (
-    <div className="mt-16 lg:mt-32">
-      <div className="xl:relative">
-        <div className="mx-auto max-w-2xl">
-          <article>
-            <header className="flex flex-col">
-              <h1 className="mt-6 text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
-                {blog.title}
-              </h1>
-              <time
-                dateTime={blog.date}
-                className="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500"
-              >
-                <span className="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500" />
-                <span className="ml-3">{blog.date.toString()}</span>
-              </time>
-            </header>
-            <div className="mt-8 prose prose-sm" data-mdx-content>
-              {children}
-            </div>
-          </article>
-        </div>
-      </div>
-    </div>
-  );
-}
-```
+BERT (Bidirectional Encoder Representations from Transformers) from Google marked a shift by enabling context-based understanding in NLP. BERT's two-way training approach allowed it to capture nuances in language, which made it especially effective in tasks like question-answering and sentiment analysis. Its impact on Google Search was revolutionary, helping improve search relevance and user satisfaction.
 
-## Lorem ipsum heading
+## 3. T5 (Text-To-Text Transfer Transformer): Google’s Versatile Model
 
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+Google’s T5 unified NLP tasks into a single framework by transforming all text-based tasks into a text-to-text format. T5 proved highly adaptable, excelling in summarization, translation, and classification. This model's versatility makes it an ideal solution for many AI-driven applications where diverse text processing is required.
 
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+## 4. RoBERTa: A Robust Evolution of BERT
 
-## Lorem ipsum heading
+Developed by Facebook AI, RoBERTa is an enhanced version of BERT, focusing on performance and accuracy. By training on a larger dataset for longer, RoBERTa achieved state-of-the-art results in various NLP benchmarks, becoming a favorite for tasks needing a deep understanding of language, such as language generation and sentiment analysis.
 
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+## 5. ChatGPT: Conversational AI for Everyone
 
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+OpenAI’s ChatGPT, an adaptation of GPT-3.5, was fine-tuned specifically for conversational applications. It gained popularity as an accessible, interactive AI tool for answering questions, providing recommendations, and even assisting in customer support. ChatGPT’s conversational ability has set it apart as a user-friendly AI assistant for businesses and consumers alike.
 
-## Lorem ipsum heading
+## The Future of LLMs
 
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+As these models continue to evolve, they are set to become more integrated into our daily lives, powering a wide range of applications. LLMs are not only improving but are also shaping the way industries approach customer service, automation, and user engagement.
 
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+At Argonaute Digital, we stay updated with the latest advancements in AI and NLP, ensuring that our clients benefit from the best technology available. By leveraging the capabilities of LLMs, we aim to deliver transformative digital experiences that push the boundaries of what’s possible in automation and customer interaction.

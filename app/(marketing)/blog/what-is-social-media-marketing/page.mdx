@@ -3,12 +3,13 @@ import { BlogLayout } from "@/components/blog-layout";
 export const blog = {
   author: { name: "Manu Arora", src: "/avatar.jpeg" },
   date: "2024-07-14",
-  title: "What is marketing anyway",
+  title: "What is Marketing Anyway?",
   description:
-    "Explore the latest updates and enhancements in our 2024 changelog. Discover new features and improvements that enhance user experience.",
+    "Dive into the essence of marketing and explore its impact on businesses, from creating brand awareness to driving growth in the digital age.",
   image:
     "https://images.unsplash.com/photo-1493612276216-ee3925520721?q=80&w=3308&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 };
+
 export const metadata = {
   title: blog.title,
   description: blog.description,
@@ -19,68 +20,32 @@ export const metadata = {
 
 export default (props) => <BlogLayout blog={blog} {...props} />;
 
-## Lorem ipsum heading
+## What is Marketing?
 
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+Marketing is much more than promoting products—it's a fundamental aspect of business that builds relationships between brands and their audience. From understanding customer needs to creating compelling narratives, marketing encompasses strategies that not only drive sales but also shape brand identity and trust.
 
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+## The Core Components of Marketing
 
-```jsx
-"use client";
+Modern marketing is a blend of creativity, analytics, and strategic thinking. Here are some key elements that define it:
 
-import { useRouter } from "next/navigation";
-import { BlogWithSlug } from "@/lib/blog";
+1. **Brand Awareness**: The process of making potential customers aware of a brand’s existence. Through ads, social media, and content, brands establish their identity in consumers' minds.
+2. **Lead Generation**: Identifying potential customers, or "leads," and nurturing them to a point where they are likely to make a purchase.
+3. **Customer Engagement**: Interacting with customers in meaningful ways through personalized content, social media, or customer service, building loyalty and trust.
 
-export function BlogLayout({
-  blog,
-  children,
-}: {
-  blog: BlogWithSlug,
-  children: React.ReactNode,
-}) {
-  let router = useRouter();
-  return (
-    <div className="mt-16 lg:mt-32">
-      <div className="xl:relative">
-        <div className="mx-auto max-w-2xl">
-          <article>
-            <header className="flex flex-col">
-              <h1 className="mt-6 text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
-                {blog.title}
-              </h1>
-              <time
-                dateTime={blog.date}
-                className="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500"
-              >
-                <span className="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500" />
-                <span className="ml-3">{blog.date.toString()}</span>
-              </time>
-            </header>
-            <div className="mt-8 prose prose-sm" data-mdx-content>
-              {children}
-            </div>
-          </article>
-        </div>
-      </div>
-    </div>
-  );
-}
-```
+## Digital Marketing: The New Frontier
 
-## Lorem ipsum heading
+With the rise of the internet, digital marketing has become essential. It includes techniques like search engine optimization (SEO), pay-per-click advertising (PPC), and email marketing. These digital tools allow brands to reach global audiences, track customer interactions, and refine their approach based on data.
 
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+## Why Marketing Matters for Business Growth
 
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+Marketing drives growth by positioning a brand in front of the right audience. Effective marketing:
 
-## Lorem ipsum heading
+- **Builds Brand Loyalty**: By connecting with customers on a personal level, marketing fosters loyalty and increases repeat business.
+- **Boosts Sales**: Marketing strategies target specific customer needs, creating demand and encouraging purchases.
+- **Strengthens Brand Identity**: Consistent marketing reinforces a brand's voice, values, and image, making it recognizable and memorable.
 
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+## The Future of Marketing
 
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+As technology advances, marketing is expected to become even more data-driven and personalized. AI-powered tools, predictive analytics, and immersive experiences like augmented reality (AR) are transforming how brands engage with consumers. The future will likely see more interactive and tailored marketing campaigns, with brands focusing on creating memorable experiences.
 
-## Lorem ipsum heading
-
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
-
-Nostrud sit reprehenderit labore enim minim veniam elit reprehenderit laborum ea consequat excepteur elit anim. Labore consequat Lorem dolor magna consequat sunt eu occaecat laboris mollit incididunt quis consectetur dolore. Cillum eiusmod ipsum ex do qui. Proident ex ullamco excepteur proident Lorem aliquip quis ex sunt nostrud qui excepteur velit proident laborum.
+Understanding marketing in its entirety helps businesses not only thrive in the market but also build lasting relationships with their audience. At its core, marketing is about connecting, engaging, and delivering value.

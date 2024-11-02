@@ -7,13 +7,14 @@ import { Tools } from "@/components/tools";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Features | Proactiv | Aceternity Templates",
+  title: "Features | Argonaute Digital",
   description:
-    "Proactiv is an all in on marketing automation platform that handles emails, tasks tracking, social media management and everything in between.",
+    "Argonaute Digital offers comprehensive digital solutions, including API integration, custom software, and SaaS for seamless business operations.",
   openGraph: {
-    images: ["https://proactiv-aceternity.vercel.app/banner.png"],
+    images: ["https://argonaute-digital.vercel.app/banner.png"],
   },
 };
+
 
 export default function PricingPage() {
   return (
