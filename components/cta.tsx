@@ -23,12 +23,7 @@ export const CTA = () => {
             Join others who have transformed their digital workflows with us.
           </p>
 
-          <FeaturedImages
-            textClassName="lg:text-left text-center"
-            className="lg:justify-start justify-start items-center"
-            containerClassName="md:items-start"
-            showStars
-          />
+  
         </div>
         <Button className="flex space-x-2 items-center group !text-lg">
           <span>Get in touch</span>
