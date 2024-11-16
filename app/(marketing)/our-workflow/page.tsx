@@ -1,5 +1,6 @@
 import { AmbientColor } from "@/components/ambient-color";
 import { CTA } from "@/components/cta";
+import { CustomTimeline } from "@/components/custom components/CustomTimeline";
 import { Features } from "@/components/features";
 import { FeaturesGrid } from "@/components/features/features-grid";
 import { Testimonials } from "@/components/testimonials";
@@ -15,13 +16,12 @@ export const metadata: Metadata = {
   },
 };
 
-
 export default function PricingPage() {
   return (
     <div className="relative overflow-hidden">
       <AmbientColor />
-      <Tools />
-      <Features />
+      <CustomTimeline />
+
       <FeaturesGrid />
 
       <div className="pb-40">

@@ -1,0 +1,50 @@
+.fibonacci-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  background: #0F172A; /* Deep slate blue for contrast */
+  overflow: hidden;
+  perspective: 800px;
+}
+
+.fibonacci-spiral {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  animation: rotateSpiral 20s linear infinite;
+  transform-style: preserve-3d;
+}
+
+.sphere {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #06B6D4; /* Primary teal color */
+  border-radius: 50%;
+  animation: glowSphere 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* Spiral Rotation Animation */
+@keyframes rotateSpiral {
+  from {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  to {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
+/* Glowing Sphere Animation */
+@keyframes glowSphere {
+  0% {
+    box-shadow: 0 0 10px #06B6D4; /* Teal */
+  }
+  50% {
+    box-shadow: 0 0 20px #0EA5E9; /* Lighter blue */
+  }
+  100% {
+    box-shadow: 0 0 10px #38BDF8; /* Sky blue */
+  }
+}

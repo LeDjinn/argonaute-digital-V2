@@ -97,7 +97,7 @@ export const ScrollContent = ({
           className=""
         >
           <div>{item.icon}</div>
-          <motion.h2 className="mt-2 font-bold text-2xl lg:text-4xl inline-block bg-clip-text text-left text-transparent bg-gradient-to-b from-white  to-white">
+          <motion.h2 className="mt-2 font-bold text-2xl  lg:text-4xl inline-block bg-clip-text text-left text-transparent bg-gradient-to-b from-white  to-white">
             {item.title}
           </motion.h2>
 

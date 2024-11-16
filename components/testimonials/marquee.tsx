@@ -17,9 +17,10 @@ export const TestimonialsMarquee = () => {
         <FeatureIconContainer className="flex justify-center items-center overflow-hidden">
           <TbLocationBolt className="h-6 w-6 text-cyan-500" />
         </FeatureIconContainer>
-        <Heading className="pt-4">Used by entreprenurs</Heading>
+        <Heading className="pt-4">Apps and Websites We've Built</Heading>
         <Subheading>
-          Proactiv is used by serial entrepreneurs and overachievers.
+          Explore the custom applications and websites we’ve developed for
+          businesses and teams.
         </Subheading>
       </div>
 
@@ -28,24 +29,44 @@ export const TestimonialsMarquee = () => {
         <div className="h-full w-10 md:w-80 absolute right-0 inset-y-0 bg-gradient-to-l from-charcoal to-transparent pointer-events-none z-40"></div>
         <Marquee pauseOnHover className="h-full">
           {testimonials.map((testimonial, index) => (
-            <Card key={`testimonial-${testimonial.src}-${index}`}>
-              <Quote>{testimonial.quote}</Quote>
-              <div className="flex gap-2 items-center mt-8">
+            <Card
+              key={`testimonial-${testimonial.src}-${index}`}
+              className="flex flex-col items-center"
+            >
+              {/* Full-width Image */}
+              <div className="w-full h-[200px]">
+                {" "}
+                {/* Enforces a fixed height */}
                 <Image
                   src={testimonial.src}
-                  alt="Manu Arora"
-                  width={40}
-                  height={40}
-                  className="rounded-full"
+                  alt={testimonial.name}
+                  width={300} // Adjust width as needed
+                  height={200} // Adjust height as needed
+                  className="rounded-t-lg object-cover w-full h-full"
                 />
-                <div className="flex flex-col">
-                  <QuoteDescription className="text-neutral-300">
+              </div>
+              {/* Text Content */}
+              <div className="flex flex-col items-center p-4">
+                <Quote className="text-center">{testimonial.quote}</Quote>
+                <div className="mt-4 text-center">
+                  <QuoteDescription className="text-neutral-300 font-semibold">
                     {testimonial.name}
                   </QuoteDescription>
                   <QuoteDescription className="text-neutral-400">
                     {testimonial.designation}
                   </QuoteDescription>
                 </div>
+                {/* Link to website */}
+                {testimonial.website && (
+                  <a
+                    href={testimonial.website} // Add the website URL in your data
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 underline mt-2"
+                  >
+                    Visit Website
+                  </a>
+                )}
               </div>
             </Card>
           ))}
@@ -57,24 +78,44 @@ export const TestimonialsMarquee = () => {
           pauseOnHover
         >
           {testimonials.map((testimonial, index) => (
-            <Card key={`testimonial-${testimonial.src}-${index}`}>
-              <Quote>{testimonial.quote}</Quote>
-              <div className="flex gap-2 items-center mt-8">
+            <Card
+              key={`testimonial-${testimonial.src}-${index}`}
+              className="flex flex-col items-center"
+            >
+              {/* Full-width Image */}
+              <div className="w-full h-[200px]">
+                {" "}
+                {/* Enforces a fixed height */}
                 <Image
                   src={testimonial.src}
-                  alt="Manu Arora"
-                  width={40}
-                  height={40}
-                  className="rounded-full"
+                  alt={testimonial.name}
+                  width={300} // Adjust width as needed
+                  height={200} // Adjust height as needed
+                  className="rounded-t-lg object-cover w-full h-full"
                 />
-                <div className="flex flex-col">
-                  <QuoteDescription className="text-neutral-300">
+              </div>
+              {/* Text Content */}
+              <div className="flex flex-col items-center p-4">
+                <Quote className="text-center">{testimonial.quote}</Quote>
+                <div className="mt-4 text-center">
+                  <QuoteDescription className="text-neutral-300 font-semibold">
                     {testimonial.name}
                   </QuoteDescription>
                   <QuoteDescription className="text-neutral-400">
                     {testimonial.designation}
                   </QuoteDescription>
                 </div>
+                {/* Link to website */}
+                {testimonial.website && (
+                  <a
+                    href={testimonial.website} // Add the website URL in your data
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 underline mt-2"
+                  >
+                    Visit Website
+                  </a>
+                )}
               </div>
             </Card>
           ))}

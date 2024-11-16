@@ -52,9 +52,8 @@ export const Hero = () => {
         >
           Argonaute Digital
         </Heading>
-        <Subheading className="text-center mt-2 md:mt-6 text-base md:text-xl text-muted dark:text-muted-dark max-w-3xl mx-auto relative z-10">
-          Precision-crafted software, seamlessly designed to elevate your unique
-          business journey
+        <Subheading className="text-center mt-2 md:mt-6 text-base md:text-2xl text-muted dark:text-muted-dark max-w-3xl mx-auto relative z-10">
+          From idea to execution, we build reliable software.
         </Subheading>
 
         <div className="flex items-center gap-4 justify-center my-10 relative z-10">

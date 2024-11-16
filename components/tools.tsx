@@ -5,6 +5,7 @@ import { FeatureIconContainer } from "./features/feature-icon-container";
 import { Heading } from "./heading";
 import { Subheading } from "./subheading";
 import { StickyScroll } from "./ui/sticky-scroll";
+import { AiOutlineGlobal } from "react-icons/ai";
 import {
   IconLayoutGrid,
   IconMailForward,
@@ -14,74 +15,45 @@ import {
 } from "@tabler/icons-react";
 import { useScroll } from "framer-motion";
 import { BlurImage } from "./blur-image";
+import { Globe } from "./aceternity/globe";
+import { GlobeDemo } from "./aceternity/GlobeDemo";
+import CubeControl from "./custom components/cube/CubeControl";
+import FuturisticShape from "./custom components/cube/FuturisticShape";
 
 export const Tools = () => {
   const content = [
     {
       icon: <IconLayoutGrid className="h-8 w-8 text-secondary" />,
-      title: "Custom Frontend Templates",
+
+      title: "Custom Websites and Templates",
       description:
-        "Build engaging frontend experiences with customizable templates that align with your brand and needs.",
+        "Create responsive and visually appealing websites tailored to your brand, with templates designed for seamless user experiences.",
       content: (
         <ImageContainer>
-          <BlurImage
-            src="/first.png"
-            alt="dashboard"
-            height="1000"
-            width="1000"
-            className="w-full rounded-lg shadow-xl shadow-brand/[0.2]"
-          />
+          <GlobeDemo />
+        </ImageContainer>
+      ),
+    },
+
+    {
+      icon: <IconTerminal className="h-8 w-8 text-secondary" />,
+      title: " E-commerce and Custom App Integration",
+      description:
+        "Build and integrate custom applications and e-commerce platforms with seamless workflows, tailored features, and robust reporting capabilities.",
+      content: (
+        <ImageContainer>
+          <FuturisticShape />
         </ImageContainer>
       ),
     },
     {
       icon: <IconSocial className="h-8 w-8 text-secondary" />,
-      title: "Robust Backend Architecture",
+      title: "Seamless Tool Integration",
       description:
-        "Create a solid backend foundation tailored to handle data securely and efficiently, supporting scalable growth.",
+        "Connect your favorite tools and platforms with custom integrations to streamline workflows and reduce manual effort.",
       content: (
         <ImageContainer>
-          <BlurImage
-            src="/second-backup.png"
-            alt="dashboard"
-            height="1000"
-            width="1000"
-            className="w-full rounded-lg shadow-xl shadow-brand/[0.2]"
-          />
-        </ImageContainer>
-      ),
-    },
-    {
-      icon: <IconTerminal className="h-8 w-8 text-secondary" />,
-      title: "External Tool Integration & Reporting",
-      description:
-        "Seamlessly connect external tools with tagging and reporting capabilities for comprehensive insights and streamlined workflows.",
-      content: (
-        <ImageContainer>
-          <BlurImage
-            src="/fourth-backup.png"
-            alt="dashboard"
-            height="1000"
-            width="1000"
-            className="w-full rounded-lg shadow-xl shadow-brand/[0.2]"
-          />
-        </ImageContainer>
-      ),
-    },
-    {
-      icon: <IconTerminal className="h-8 w-8 text-secondary" />,
-      title: "Tailored SaaS Solutions",
-      description:
-        "Develop SaaS solutions customized to your business model, optimizing workflows and enhancing productivity.",
-      content: (
-        <ImageContainer>
-          <BlurImage
-            src="/third.png"
-            alt="dashboard"
-            height="1000"
-            width="1000"
-            className="w-full rounded-lg shadow-xl shadow-brand/[0.2]"
-          />
+          <CubeControl />
         </ImageContainer>
       ),
     },
@@ -129,9 +101,10 @@ export const Tools = () => {
         <FeatureIconContainer className="flex justify-center items-center overflow-hidden">
           <IconTool className="h-6 w-6 text-cyan-500" />
         </FeatureIconContainer>
-        <Heading className="mt-4">Perfect set of tools</Heading>
+        <Heading className="mt-4">The Right Tools for Every Job</Heading>
         <Subheading>
-          Proactiv comes with perfect tools for the perfect jobs out there.
+          Proactiv offers tools designed to meet your needs and get the job done
+          efficiently.
         </Subheading>
       </div>
       <StickyScroll content={content} />

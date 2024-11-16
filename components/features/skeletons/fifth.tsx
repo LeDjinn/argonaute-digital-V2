@@ -1,26 +1,22 @@
 "use client";
 import React from "react";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+
 
 export const SkeletonFive = () => {
   return (
     <div className="p-8 overflow-hidden h-full relative flex items-start justify-center">
       <div className="flex absolute inset-0 flex-col group-hover:-translate-y-80 transition duration-200 items-center justify-center">
         <Container>
-          <Image
-            src="/avatar.png"
-            className="h-16 w-16 rounded-md object-cover"
-            alt="avatar"
-            width="100"
-            height="100"
-          />
+          <div className="h-10 w-10 rounded-full bg-neutral-500 flex items-center justify-center text-white">
+          <CartIcon />
+          </div>
         </Container>
-        <p className="mt-4 text-sm text-neutral-400 font-bold">Manu Arora</p>
+        <p className="mt-4 text-sm text-neutral-400 font-bold">E-commerce Store</p>
         <div className="flex items-center gap-2 text-xs mt-4">
-          <p>Most engagements</p>
+          <p>Items Sold</p>
           <div className="h-1 w-1 rounded-full bg-neutral-400" />
-          <p>69,420</p>
+          <p>12,345</p>
         </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -38,19 +34,15 @@ export const SkeletonFive = () => {
       </div>
       <div className="flex absolute inset-0 flex-col translate-y-80 group-hover:translate-y-0 transition duration-200 items-center justify-center">
         <Container>
-          <Image
-            src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80"
-            className="h-16 w-16 rounded-md object-cover"
-            alt="avatar"
-            width="100"
-            height="100"
-          />
+          <div className="h-10 w-10 rounded-full bg-neutral-500 flex items-center justify-center text-white">
+          <BoxIcon />
+          </div>
         </Container>
-        <p className="mt-4 text-sm text-neutral-400 font-bold">Tyler Durden</p>
+        <p className="mt-4 text-sm text-neutral-400 font-bold">Product Inventory</p>
         <div className="flex items-center gap-2 text-xs mt-4">
-          <p>Most engagements</p>
+          <p>Items in Stock</p>
           <div className="h-1 w-1 rounded-full bg-neutral-400" />
-          <p>8008</p>
+          <p>8,765</p>
         </div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -90,3 +82,24 @@ const Container = ({
     </div>
   );
 };
+const CartIcon = () => (
+  <svg
+    className="h-10 w-10 text-white bg-blue-500 rounded-full p-2"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+  >
+    <path d="M3 3h2l3.6 7.59L5.25 14.04A1.99 1.99 0 005 15.5 2 2 0 007 17h12v-2H7l1.1-2h7.45c.75 0 1.41-.41 1.75-1.03l3.24-5.97a.998.998 0 00-.91-1.5H6.21l-.94-2H1V3h2zm16 15a2 2 0 100 4 2 2 0 000-4zm-10 2a2 2 0 104 0 2 2 0 00-4 0z" />
+  </svg>
+);
+
+const BoxIcon = () => (
+  <svg
+    className="h-10 w-10 text-white bg-green-500 rounded-full p-2"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+  >
+    <path d="M21 8V6a1 1 0 00-1-1h-2V3a1 1 0 00-1-1H7a1 1 0 00-1 1v2H4a1 1 0 00-1 1v2l9 5.29L21 8zm-2 5.28L12 16.86l-7-3.58V18a1 1 0 001 1h14a1 1 0 001-1v-5.72z" />
+  </svg>
+);

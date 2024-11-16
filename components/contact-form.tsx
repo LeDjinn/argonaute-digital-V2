@@ -24,7 +24,9 @@ export const ContactForm = () => {
 
         <div className="text-sm mt-10">
           <p className="text-sm text-neutral-200">Email</p>
-          <p className="text-sm text-neutral-400">argonautedigital.tim@gmail.com</p>
+          <p className="text-sm text-neutral-400">
+            argonautedigital.tim@gmail.com
+          </p>
         </div>
         <div className="text-sm mt-4">
           <p className="text-sm text-neutral-200">Phone</p>
@@ -38,30 +40,71 @@ export const ContactForm = () => {
       >
         <Grid size={20} />
         <div className="mb-4 w-full relative z-20">
-          <label className="text-neutral-300 text-sm font-medium mb-2 inline-block" htmlFor="name">
+          <label
+            className="text-neutral-300 text-sm font-medium mb-2 inline-block"
+            htmlFor="name"
+          >
             Full name
           </label>
-          <input id="name" type="text" name="name" placeholder="Your Name" required className="h-10 pl-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800" />
+          <input
+            id="name"
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            required
+            className="h-10 pl-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800"
+          />
         </div>
         <div className="mb-4 w-full relative z-20">
-          <label className="text-neutral-300 text-sm font-medium mb-2 inline-block" htmlFor="email">
+          <label
+            className="text-neutral-300 text-sm font-medium mb-2 inline-block"
+            htmlFor="email"
+          >
             Email Address
           </label>
-          <input id="email" type="email" name="email" placeholder="your-email@example.com" required className="h-10 pl-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800" />
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="your-email@example.com"
+            required
+            className="h-10 pl-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800"
+          />
         </div>
         <div className="mb-4 w-full relative z-20">
-          <label className="text-neutral-300 text-sm font-medium mb-2 inline-block" htmlFor="company">
+          <label
+            className="text-neutral-300 text-sm font-medium mb-2 inline-block"
+            htmlFor="company"
+          >
             Company
           </label>
-          <input id="company" type="text" name="company" placeholder="Your Company" className="h-10 pl-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800" />
+          <input
+            id="company"
+            type="text"
+            name="company"
+            placeholder="Your Company"
+            className="h-10 pl-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800"
+          />
         </div>
         <div className="mb-4 w-full relative z-20">
-          <label className="text-neutral-300 text-sm font-medium mb-2 inline-block" htmlFor="message">
+          <label
+            className="text-neutral-300 text-sm font-medium mb-2 inline-block"
+            htmlFor="message"
+          >
             Message
           </label>
-          <textarea id="message" name="message" rows={5} placeholder="Type your message here" required className="pl-4 pt-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800" />
+          <textarea
+            id="message"
+            name="message"
+            rows={5}
+            placeholder="Type your message here"
+            required
+            className="pl-4 pt-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800"
+          />
         </div>
-        <Button type="submit" variant="muted">Submit</Button>
+        <Button type="submit" variant="muted">
+          Submit
+        </Button>
       </form>
     </Container>
   );

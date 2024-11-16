@@ -12,15 +12,16 @@ export const SkeletonFour = () => {
         <CircleWithLine />
         <CircleWithLine />
         <CircleWithLine />
-        <CircleWithLine />
-        <CircleWithLine />
-        <CircleWithLine />
       </div>
-      <Container className="mt-10 ml-4">Twitter post</Container>
+      <Container className="mt-10 ml-4">Hero Section</Container>
       <Container className="mt-4 ml-10 group-hover:border-secondary transition duration-200 group-hover:scale-[1.02]">
-        Email Campaign
+        Call-to-Action Button
       </Container>
-      <Container className="mt-4 ml-4">Newsletter Campaign</Container>
+      <Container className="mt-4 ml-4">Features Section</Container>
+      <Container className="mt-4 ml-10 group-hover:border-secondary transition duration-200 group-hover:scale-[1.02]">
+        Testimonial Section
+      </Container>
+      <Container className="mt-4 ml-4">Contact Form</Container>
       <Cursor
         className="top-20 left-40 group-hover:left-32"
         textClassName="group-hover:text-secondary"
@@ -28,7 +29,7 @@ export const SkeletonFour = () => {
       <Cursor
         className="top-60 left-12 group-hover:left-32 group-hover:top-44"
         textClassName="group-hover:text-white"
-        text="Tyler Durden"
+        text="Edit Layout"
       />
     </div>
   );
@@ -70,7 +71,7 @@ const Cursor = ({
           textClassName
         )}
       >
-        {text ?? "Manu Arora"}
+        {text ?? "Edit Section"}
       </div>
     </div>
   );

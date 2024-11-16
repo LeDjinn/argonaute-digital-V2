@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import "./prism.css";
+@import "./futuristic.css";
 
 :root {
   --foreground-rgb: 255, 255, 255;
@@ -72,6 +73,120 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+  }
+}
+.cube-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  background: theme("colors.zinc.900");
+}
+
+.port {
+  perspective: 800px;
+}
+
+.cube {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  transform-style: preserve-3d;
+  animation: spinXYZ 15s linear infinite;
+}
+
+/* Cube Faces with Transparent Background and Visible Edges */
+.cube div {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: transparent; /* Make faces transparent */
+  border: 2px solid; /* Add lines for edges */
+  border-color: theme("colors.blue.400");
+  transition: border-color 1.5s ease-in-out, transform 1.5s ease-in-out;
+}
+
+/* Individual Faces with Different Edge Colors */
+.cube .back {
+  transform: rotateY(180deg) translateZ(100px);
+  border-color: theme("colors.teal.300");
+}
+
+.cube .front {
+  transform: translateZ(100px);
+  border-color: theme("colors.emerald.400");
+}
+
+.cube .left {
+  transform: rotateY(-90deg) translateZ(100px);
+  border-color: theme("colors.sky.200");
+}
+
+.cube .right {
+  transform: rotateY(90deg) translateZ(100px);
+  border-color: theme("colors.slate.300");
+}
+
+.cube .top {
+  transform: rotateX(90deg) translateZ(100px);
+  border-color: theme("colors.zinc.400");
+}
+
+.cube .bottom {
+  transform: rotateX(-90deg) translateZ(100px);
+  border-color: theme("colors.blue.400");
+}
+
+/* Spin Animation */
+@keyframes spinXYZ {
+  from {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  to {
+    transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+  }
+}
+
+/* Glowing Edges */
+.cube div:hover {
+  animation: glow 3s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0% {
+    border-color: theme("colors.blue.400");
+  }
+  50% {
+    border-color: theme("colors.teal.300");
+  }
+  100% {
+    border-color: theme("colors.emerald.400");
+  }
+}
+
+/* Edge Highlight Animation */
+.cube div::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    theme("colors.blue.400"),
+    theme("colors.teal.300"),
+    theme("colors.emerald.400")
+  );
+  top: 0;
+  left: 0;
+  animation: line-glow 3s linear infinite;
+}
+
+@keyframes line-glow {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
   }
 }
 

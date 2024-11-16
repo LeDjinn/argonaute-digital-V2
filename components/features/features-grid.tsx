@@ -4,46 +4,47 @@ import { Grid } from "./grid";
 export const FeaturesGrid = () => {
   const grid = [
     {
-      title: "HIPAA and SOC2 Compliant",
+      title: "Custom Software Development",
       description:
-        "Our applications are HIPAA and SOC2 compliant, your data is safe with us, always.",
+        "We build tailored applications to meet your unique business needs, ensuring scalability and efficiency.",
     },
     {
-      title: "Automated Social Media Posting",
+      title: "E-commerce Solutions",
       description:
-        "Schedule and automate your social media posts across multiple platforms to save time and maintain a consistent online presence.",
+        "Design and develop powerful e-commerce platforms with seamless user experiences and integrated payment systems.",
     },
     {
-      title: "Advanced Analytics",
+      title: "API Integrations",
       description:
-        "Gain insights into your social media performance with detailed analytics and reporting tools to measure engagement and ROI.",
+        "Connect your tools and platforms with custom API integrations to streamline workflows and automate processes.",
     },
     {
-      title: "Content Calendar",
+      title: "Data-Driven Dashboards",
       description:
-        "Plan and organize your social media content with an intuitive calendar view, ensuring you never miss a post.",
+        "Create interactive dashboards to visualize key metrics, providing actionable insights for your business.",
     },
     {
-      title: "Audience Targeting",
+      title: "Internal Tools and Apps",
       description:
-        "Reach the right audience with advanced targeting options, including demographics, interests, and behaviors.",
+        "Develop internal applications to enhance team productivity, manage workflows, and simplify operations.",
     },
     {
-      title: "Social Listening",
+      title: "Content Management Systems",
       description:
-        "Monitor social media conversations and trends to stay informed about what your audience is saying and respond in real-time.",
+        "Build dynamic CMS solutions to manage and publish content effortlessly across multiple platforms.",
     },
     {
-      title: "Customizable Templates",
+      title: "Custom Chatbots",
       description:
-        "Create stunning social media posts with our customizable templates, designed to fit your brand's unique style and voice.",
+        "Deploy intelligent chatbots that leverage your data to provide precise answers and improve user interactions.",
     },
     {
-      title: "Collaboration Tools",
+      title: "Landing Pages and Templates",
       description:
-        "Work seamlessly with your team using our collaboration tools, allowing you to assign tasks, share drafts, and provide feedback in real-time.",
+        "Create high-performing landing pages and customizable templates to support your marketing campaigns and branding efforts.",
     },
   ];
+  
   return (
     <div className="py-20 lg:py-40">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 max-w-7xl mx-auto">

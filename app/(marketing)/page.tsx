@@ -1,9 +1,11 @@
+"use client";
 import { GlobeDemo } from "@/components/aceternity/GlobeDemo";
 import { LampDemo } from "@/components/aceternity/lamp";
 import { AmbientColor } from "@/components/ambient-color";
 import { AnimatedSvg } from "@/components/animated-svg";
 import { Container } from "@/components/container";
 import { CTA } from "@/components/cta";
+import { BackgroundGradient } from "@/components/custom components/background-gradient";
 import CardExperienceCustom from "@/components/custom components/card-experience-custom";
 import { CustomCaroussel } from "@/components/custom components/caroussel-custom";
 import { FAQs } from "@/components/faqs";
@@ -14,6 +16,8 @@ import { Hero } from "@/components/hero";
 import { PricingGrid } from "@/components/pricing-grid";
 import { Subheading } from "@/components/subheading";
 import { Testimonials } from "@/components/testimonials";
+import { TestimonialsGrid } from "@/components/testimonials/grid";
+import { TestimonialsMarquee } from "@/components/testimonials/marquee";
 import { TestimonialsSlider } from "@/components/testimonials/slider";
 import { Tools } from "@/components/tools";
 import { IconReceiptFilled } from "@tabler/icons-react";
@@ -80,14 +84,18 @@ export default function Home() {
     <div className="relative overflow-hidden">
       <AmbientColor />
       <Hero />
-      <div className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3">
+      {/*     
+      <div className="  grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3">
         {apps.slice(0, 3).map((app, index) => (
           <CardExperienceCustom key={index} {...app} />
         ))}
-      </div>
+      </div> */}
       <Features />
-      <Tools />
       <LampDemo />
+
+      <TestimonialsMarquee />
+      <Tools />
+
       <div className="py-20 sm:py-40">
         <FeatureIconContainer className="flex justify-center items-center overflow-hidden">
           <IconReceiptFilled className="h-6 w-6 text-cyan-500" />

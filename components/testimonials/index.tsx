@@ -10,6 +10,8 @@ import { testimonials } from "@/constants/page-testimonials";
 import Image from "next/image";
 import { TestimonialsGrid } from "./grid";
 import { AmbientColor } from "../ambient-color";
+import Marquee from "react-fast-marquee";
+import { TestimonialsMarquee } from "./marquee";
 
 export const Testimonials = () => {
   return (
@@ -19,9 +21,10 @@ export const Testimonials = () => {
         <FeatureIconContainer className="flex justify-center items-center overflow-hidden">
           <TbLocationBolt className="h-6 w-6 text-cyan-500" />
         </FeatureIconContainer>
-        <Heading className="pt-4">Used by entreprenurs</Heading>
+        <Heading className="pt-4">Our Experience</Heading>
         <Subheading>
-          Proactiv is used by serial entrepreneurs and overachievers.
+          Explore the custom applications and websites we’ve developed for
+          businesses and teams.
         </Subheading>
       </div>
 

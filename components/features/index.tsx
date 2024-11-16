@@ -20,70 +20,73 @@ import { SkeletonFive } from "./skeletons/fifth";
 export const Features = () => {
   return (
     <GradientContainer className="md:my-20">
-    <Container className="py-20 max-w-5xl mx-auto relative z-40">
-      <FeatureIconContainer className="flex justify-center items-center overflow-hidden">
-        <FaBolt className="h-6 w-6 text-cyan-500" />
-      </FeatureIconContainer>
-      <Heading className="pt-4">
-        Transform Your Digital Workflow
-      </Heading>
-      <Subheading>
-        Unlock seamless connectivity and enhance your business operations through tailored digital solutions.
-      </Subheading>
-  
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 py-10">
-        <Card className="lg:col-span-2">
-          <CardTitle>API Integration for Cohesive Operations</CardTitle>
-          <CardDescription>
-            Connect your digital tools with customized API integrations that reduce manual work and foster seamless data flow.
-          </CardDescription>
-  
-          <CardSkeletonContainer>
-            <SkeletonOne />
-          </CardSkeletonContainer>
-        </Card>
-        <Card>
-          <CardSkeletonContainer className="max-w-[16rem] mx-auto">
-            <SkeletonTwo />
-          </CardSkeletonContainer>
-          <CardTitle>Data-Driven Insights</CardTitle>
-          <CardDescription>
-            Access comprehensive analytics and insights to drive informed decisions and optimize engagement.
-          </CardDescription>
-        </Card>
-        <Card>
-          <CardSkeletonContainer>
-            <SkeletonThree />
-          </CardSkeletonContainer>
-          <CardTitle>AI-Powered Automation</CardTitle>
-          <CardDescription>
-            Implement AI-driven automation to streamline processes and make data management effortless.
-          </CardDescription>
-        </Card>
-        <Card>
-          <CardSkeletonContainer
-            showGradient={false}
-            className="max-w-[16rem] mx-auto"
-          >
-            <SkeletonFour />
-          </CardSkeletonContainer>
-          <CardTitle>Flexible Platform Compatibility</CardTitle>
-          <CardDescription>
-            Work effortlessly across platforms like Shopify and Next.js, with custom solutions to meet your unique needs.
-          </CardDescription>
-        </Card>
-        <Card>
-          <CardSkeletonContainer>
-            <SkeletonFive />
-          </CardSkeletonContainer>
-          <CardTitle>Audience Engagement Strategy</CardTitle>
-          <CardDescription>
-            Craft targeted strategies based on audience insights, enhancing engagement and aligning with your goals.
-          </CardDescription>
-        </Card>
-      </div>
-    </Container>
-  </GradientContainer>
-  
+      <Container className="py-20 max-w-5xl mx-auto relative z-40">
+        <FeatureIconContainer className="flex justify-center items-center overflow-hidden">
+          <FaBolt className="h-6 w-6 text-cyan-500" />
+        </FeatureIconContainer>
+        <Heading className="pt-4">
+          Websites, Apps, and Tools for Your Business
+        </Heading>
+        <Subheading>
+          From websites to internal apps, we deliver what your team needs.
+        </Subheading>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 py-10">
+          <Card className="lg:col-span-2">
+            <CardTitle>Connecting Your Tools</CardTitle>
+            <CardDescription>
+              Reduce manual work with smart integrations tailored for you.
+            </CardDescription>
+
+            <CardSkeletonContainer>
+              <SkeletonOne />
+            </CardSkeletonContainer>
+          </Card>
+          <Card>
+            <CardSkeletonContainer className="max-w-[16rem] mx-auto">
+              <SkeletonTwo />
+            </CardSkeletonContainer>
+            <CardTitle>Internal Software Solutions</CardTitle>
+            <CardDescription>
+              Develop software to improve internal workflows, streamline
+              operations, and enhance team productivity.
+            </CardDescription>
+          </Card>
+          <Card>
+            <CardSkeletonContainer>
+              <SkeletonThree />
+            </CardSkeletonContainer>
+            <CardTitle>API Integrations</CardTitle>
+            <CardDescription>
+              Connect tools like Webflow, Slack, and GPT to automate workflows
+              and reduce manual work.
+            </CardDescription>
+          </Card>
+          <Card>
+            <CardSkeletonContainer
+              showGradient={false}
+              className="max-w-[16rem] mx-auto"
+            >
+              <SkeletonFour />
+            </CardSkeletonContainer>
+            <CardTitle>Custom Websites and Landing Pages</CardTitle>
+            <CardDescription>
+              We design and build websites and landing pages tailored to your
+              business needs, ensuring great performance and usability.
+            </CardDescription>
+          </Card>
+          <Card>
+            <CardSkeletonContainer>
+              <SkeletonFive />
+            </CardSkeletonContainer>
+            <CardTitle>Optimized Online Stores</CardTitle>
+            <CardDescription>
+              Build e-commerce platforms with fast performance, seamless
+              navigation, and tools to boost sales and user satisfaction.
+            </CardDescription>
+          </Card>
+        </div>
+      </Container>
+    </GradientContainer>
   );
 };
