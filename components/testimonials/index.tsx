@@ -6,14 +6,17 @@ import { Heading } from "../heading";
 import { Subheading } from "../subheading";
 import { TbLocationBolt } from "react-icons/tb";
 import { cn } from "@/lib/utils";
-import { testimonials } from "@/constants/page-testimonials";
+import { testimonialsEnglish } from "@/constants/page-testimonials";
 import Image from "next/image";
 import { TestimonialsGrid } from "./grid";
 import { AmbientColor } from "../ambient-color";
 import Marquee from "react-fast-marquee";
 import { TestimonialsMarquee } from "./marquee";
+import { get } from "http";
+import { getCookie } from "@/lib/cookies";
 
 export const Testimonials = () => {
+  const cookie= getCookie('NEXT_LOCALE')||'en';
   return (
     <div className="relative">
       <AmbientColor />
@@ -30,9 +33,9 @@ export const Testimonials = () => {
 
       <div className="py-60 relative">
         <div className="absolute inset-0 h-full w-full bg-charcoal opacity-30 [mask-image:radial-gradient(circle_at_center,transparent_10%,white_90%)]">
-          <TestimonialsGrid />
+          <TestimonialsGrid locale={cookie} />
         </div>
-        <TestimonialsSlider />
+        <TestimonialsSlider locale={cookie} />
       </div>
       <div className="absolute bottom-0 inset-x-0 h-40 w-full bg-gradient-to-t from-charcoal to-transparent"></div>
     </div>

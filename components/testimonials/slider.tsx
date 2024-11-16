@@ -4,7 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
 import { Transition } from "@headlessui/react";
 import { SparklesCore } from "../ui/sparkles";
-import { testimonials as pageTestimonials } from "@/constants/page-testimonials";
+import { testimonialsEnglish as pageEnglishTestimonials } from "@/constants/page-testimonials";
+import { testimonialsFrench as pageFrenchTestimonials } from "@/constants/page-testimonials-french";
 import { cn } from "@/lib/utils";
 // import Particles from './particles'
 
@@ -15,10 +16,11 @@ interface Item {
   designation?: string;
 }
 
-export const TestimonialsSlider = () => {
+export const TestimonialsSlider = ({locale}:{locale:string}) => {
   const [active, setActive] = useState<number>(0);
   const [autorotate, setAutorotate] = useState<boolean>(true);
   const testimonialsRef = useRef<HTMLDivElement>(null);
+  const pageTestimonials = locale === 'fr' ? pageFrenchTestimonials : pageEnglishTestimonials;
 
   const testimonials = pageTestimonials.slice(0, 3);
 

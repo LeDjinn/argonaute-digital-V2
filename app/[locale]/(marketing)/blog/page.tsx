@@ -37,6 +37,9 @@ export default async function ArticlesIndex() {
             Discover insightful resources and expert advice from our seasoned
             team to elevate your knowledge.
           </Subheading>
+          <Subheading className="text-center text-teal-300">
+           French version will be available soon.
+          </Subheading>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full relative z-20">

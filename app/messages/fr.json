@@ -1,0 +1,70 @@
+{
+    "hero": {
+        "subContent": "De l'idée à l'exécution, nous créons des logiciels fiables.",
+        "button": "Contactez-nous"
+    },
+    "tools": {
+        "heading": "Les bons outils pour chaque tâche",
+        "subheading": "Proactiv propose des outils conçus pour répondre à vos besoins et accomplir le travail efficacement."
+    },
+    "faq": {
+        "heading": "Questions Fréquemment Posées"
+    },
+    "lampDemo": {
+    "firstWOrd": "Créer des logiciels",
+    "secondWord": "de la bonne manière"
+},"marqueeTestimonial": {
+    "heading": "Applications et Sites Web Que Nous Avons Créés",
+    "subheading": "Découvrez les applications et sites web personnalisés que nous avons développés pour des entreprises et des équipes."
+}
+,
+    "cta": {
+        "heading": "Commencez dès aujourd'hui avec Argonaute Digital pour des solutions numériques sur mesure",
+        "subheading": "Découvrez une suite d'outils personnalisés conçus pour propulser votre entreprise. Rejoignez ceux qui ont transformé leurs flux de travail numériques avec nous.",
+        "button": "Contactez-nous"
+    },
+    "contact": {
+        "heading": "Contactez-nous",
+        "subheading": "Nous cherchons toujours à améliorer nos produits et services. Contactez-nous et faites-nous savoir comment nous pouvons vous aider.",
+        "phone": "Téléphone",
+        "name": "Nom Complet",
+        "namePlaceholder": "Entrez votre nom complet",
+        "email": "Adresse Email",
+        "emailPlaceholder": "Entrez votre adresse email",
+        "company": "Entreprise",
+        "companyPlaceholder": "Entrez le nom de votre entreprise",
+        "message": "Message",
+        "messagePlaceholder": "Entrez votre message",
+        "button": "Envoyer le Message"
+    },
+    "customTimeline": {
+        "heading": "Notre Processus de Travail",
+        "subheading": "Découvrez comment nous abordons les projets, des discussions initiales à la livraison finale, en garantissant des résultats exceptionnels à chaque étape."
+    },
+    "features": {
+        "heading": "Sites Web, Applications et Outils pour Votre Entreprise",
+        "subheading": "Des sites web aux applications internes, nous livrons ce dont votre équipe a besoin.",
+        "cards": [
+            {
+                "title": "Connecter Vos Outils",
+                "description": "Réduisez le travail manuel avec des intégrations intelligentes adaptées à vos besoins."
+            },
+            {
+                "title": "Solutions Logicielles Internes",
+                "description": "Développez des logiciels pour améliorer les flux de travail internes, rationaliser les opérations et accroître la productivité de votre équipe."
+            },
+            {
+                "title": "Intégrations API",
+                "description": "Connectez des outils comme Webflow, Slack et GPT pour automatiser les flux de travail et réduire le travail manuel."
+            },
+            {
+                "title": "Sites Web et Pages de Destination Personnalisés",
+                "description": "Nous concevons et construisons des sites web et des pages de destination adaptés aux besoins de votre entreprise, garantissant de bonnes performances et une grande convivialité."
+            },
+            {
+                "title": "Boutiques en Ligne Optimisées",
+                "description": "Créez des plateformes e-commerce avec des performances rapides, une navigation fluide et des outils pour augmenter les ventes et la satisfaction des utilisateurs."
+            }
+        ]
+    }
+}

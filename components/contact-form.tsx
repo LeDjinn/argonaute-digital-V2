@@ -6,8 +6,11 @@ import { Button } from "./button";
 import { Grid } from "./features/grid";
 import { FeatureIconContainer } from "./features/feature-icon-container";
 import { IconMailFilled } from "@tabler/icons-react";
+import frenchtext from "@/app/messages/fr.json";
+import englishtext from "@/app/messages/en.json";
 
-export const ContactForm = () => {
+export const ContactForm = ({locale}:{locale:string}) => {
+  const text = locale === 'fr' ? frenchtext.contact : englishtext.contact;
   return (
     <Container className="py-40 md:py-60 grid grid-cols-1 md:grid-cols-2 gap-10 px-6">
       <div>
@@ -16,10 +19,9 @@ export const ContactForm = () => {
             <IconMailFilled className="h-6 w-6 text-cyan-500" />
           </FeatureIconContainer>
         </div>
-        <Heading className="text-left">Contact us</Heading>
+        <Heading className="text-left">{text.heading}</Heading>
         <Subheading className="text-left text-neutral-400">
-          We are always looking for ways to improve our products and services.
-          Contact us and let us know how we can help you.
+      {text.subheading}
         </Subheading>
 
         <div className="text-sm mt-10">
@@ -29,7 +31,7 @@ export const ContactForm = () => {
           </p>
         </div>
         <div className="text-sm mt-4">
-          <p className="text-sm text-neutral-200">Phone</p>
+          <p className="text-sm text-neutral-200">{text.phone}</p>
           <p className="text-sm text-neutral-400">+216 58 900 309</p>
         </div>
       </div>
@@ -44,13 +46,13 @@ export const ContactForm = () => {
             className="text-neutral-300 text-sm font-medium mb-2 inline-block"
             htmlFor="name"
           >
-            Full name
+            {text.name}
           </label>
           <input
             id="name"
             type="text"
             name="name"
-            placeholder="Your Name"
+            placeholder={text.namePlaceholder}
             required
             className="h-10 pl-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800"
           />
@@ -60,13 +62,13 @@ export const ContactForm = () => {
             className="text-neutral-300 text-sm font-medium mb-2 inline-block"
             htmlFor="email"
           >
-            Email Address
+            {text.email}
           </label>
           <input
             id="email"
             type="email"
             name="email"
-            placeholder="your-email@example.com"
+            placeholder={text.emailPlaceholder}
             required
             className="h-10 pl-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800"
           />
@@ -76,13 +78,13 @@ export const ContactForm = () => {
             className="text-neutral-300 text-sm font-medium mb-2 inline-block"
             htmlFor="company"
           >
-            Company
+            {text.company}
           </label>
           <input
             id="company"
             type="text"
             name="company"
-            placeholder="Your Company"
+            placeholder={text.companyPlaceholder}
             className="h-10 pl-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800"
           />
         </div>
@@ -91,19 +93,19 @@ export const ContactForm = () => {
             className="text-neutral-300 text-sm font-medium mb-2 inline-block"
             htmlFor="message"
           >
-            Message
+           {text.message}
           </label>
           <textarea
             id="message"
             name="message"
             rows={5}
-            placeholder="Type your message here"
+            placeholder={text.messagePlaceholder}
             required
             className="pl-4 pt-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800"
           />
         </div>
         <Button type="submit" variant="muted">
-          Submit
+        {text.button}
         </Button>
       </form>
     </Container>

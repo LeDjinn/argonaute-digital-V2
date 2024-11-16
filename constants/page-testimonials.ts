@@ -6,7 +6,7 @@ interface Testimonial {
   website?: string;
 }
 
-export const testimonials: Testimonial[] = [
+export const testimonialsEnglish: Testimonial[] = [
   {
     name: "Stock and Pricing Calculator",
     quote:

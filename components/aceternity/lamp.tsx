@@ -2,8 +2,10 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-
-export function LampDemo() {
+import frenchtext from "@/app/messages/fr.json";
+import englishtext from "@/app/messages/en.json";
+export function LampDemo({locale}:{locale:string}) {
+  const text = locale === 'fr' ? frenchtext.lampDemo : englishtext.lampDemo;
   return (
     <LampContainer>
       <motion.h1
@@ -16,7 +18,7 @@ export function LampDemo() {
         }}
         className="mt-8 bg-gradient-to-br from-slate-300 to-slate-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
       >
-        Build softwares <br /> the right way
+        {text.firstWOrd} <br /> {text.secondWord}
       </motion.h1>
     </LampContainer>
   );

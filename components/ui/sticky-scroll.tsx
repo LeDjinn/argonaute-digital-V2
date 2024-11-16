@@ -2,6 +2,7 @@
 import React, { useRef } from "react";
 import { useScroll, useTransform } from "framer-motion";
 import { motion } from "framer-motion";
+import { getCookie } from "@/lib/cookies";
 
 export const StickyScroll = ({
   content,
@@ -22,6 +23,7 @@ export const StickyScroll = ({
     "linear-gradient(to bottom right, var(--pink-500), var(--indigo-500))",
     "linear-gradient(to bottom right, var(--orange-500), var(--yellow-500))",
   ];
+ 
   return (
     <div className="py-4 md:py-20">
       <motion.div className="hidden lg:flex h-full  flex-col max-w-7xl mx-auto justify-between relative   p-10 ">

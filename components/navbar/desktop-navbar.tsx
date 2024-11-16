@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Link } from "next-view-transitions";
 import { CustomLink } from "../custom components/custom-link";
+import LanguageChanger from "../custom components/language-switcher";
 
 type Props = {
   navItems: {
@@ -19,9 +20,10 @@ type Props = {
     title: string;
     target?: "_blank";
   }[];
+  locale: string;
 };
 
-export const DesktopNavbar = ({ navItems }: Props) => {
+export const DesktopNavbar = ({ navItems, locale }: Props) => {
   const { scrollY } = useScroll();
 
   const [showBackground, setShowBackground] = useState(false);
@@ -75,8 +77,9 @@ export const DesktopNavbar = ({ navItems }: Props) => {
           variant="primary"
           className="my-custom-class"
         >
-          Get in touch
+          {locale === "en" ? "Get in touch" : "Contactez-nous"}
         </CustomLink>
+        <LanguageChanger></LanguageChanger>
       </div>
     </motion.div>
   );

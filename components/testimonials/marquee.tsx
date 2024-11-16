@@ -1,5 +1,6 @@
 "use client";
-import { testimonials } from "@/constants/page-testimonials";
+import { testimonialsEnglish } from "@/constants/page-testimonials";
+import { testimonialsFrench } from "@/constants/page-testimonials-french";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
@@ -9,19 +10,23 @@ import { FeatureIconContainer } from "../features/feature-icon-container";
 import { TbLocationBolt } from "react-icons/tb";
 import { Heading } from "../heading";
 import { Subheading } from "../subheading";
-
-export const TestimonialsMarquee = () => {
+import frenchtext from "@/app/messages/fr.json";
+import englishtext from "@/app/messages/en.json";
+export const TestimonialsMarquee = ({ locale }: { locale: string }) => {
+  const testimonials =
+    locale === "fr" ? testimonialsFrench : testimonialsEnglish;
+  const text =
+    locale === "fr"
+      ? frenchtext.marqueeTestimonial
+      : englishtext.marqueeTestimonial;
   return (
     <div className="relative pb-40">
       <div className="pb-20">
         <FeatureIconContainer className="flex justify-center items-center overflow-hidden">
           <TbLocationBolt className="h-6 w-6 text-cyan-500" />
         </FeatureIconContainer>
-        <Heading className="pt-4">Apps and Websites We&lsquo;ve Built</Heading>
-        <Subheading>
-          Explore the custom applications and websites we’ve developed for
-          businesses and teams.
-        </Subheading>
+        <Heading className="pt-4">{text.heading}</Heading>
+        <Subheading>{text.subheading}</Subheading>
       </div>
 
       <div className="relative">

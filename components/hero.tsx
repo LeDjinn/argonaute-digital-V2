@@ -12,7 +12,11 @@ import { VideoModal } from "./video-modal";
 import { FeaturedImages } from "./featured-images";
 import Beam from "./beam";
 import { CustomLink } from "./custom components/custom-link";
-export const Hero = () => {
+import frenchText from "@/app/messages/fr.json";
+import englishText from "@/app/messages/en.json";
+
+export const Hero = ({ locale }: { locale: string }) => {
+  const text = locale === "fr" ? frenchText : englishText;
   const router = useRouter();
 
   const containerRef = useRef<any>(null);
@@ -53,7 +57,7 @@ export const Hero = () => {
           Argonaute Digital
         </Heading>
         <Subheading className="text-center mt-2 md:mt-6 text-base md:text-2xl text-muted dark:text-muted-dark max-w-3xl mx-auto relative z-10">
-          From idea to execution, we build reliable software.
+          {text.hero.subContent}
         </Subheading>
 
         <div className="flex items-center gap-4 justify-center my-10 relative z-10">
@@ -62,7 +66,7 @@ export const Hero = () => {
             variant="primary"
             className="my-custom-class"
           >
-            Get in touch
+            {text.hero.button}
           </CustomLink>
         </div>
       </Container>

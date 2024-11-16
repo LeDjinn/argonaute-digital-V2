@@ -15,11 +15,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ContactPage() {
+export default function ContactPage({params}:{params:{locale:string}}) {
   return (
     <div className="relative overflow-hidden">
       <AmbientColor />
-      <ContactForm />
+      <ContactForm locale={params.locale} />
     </div>
   );
 }

@@ -1,10 +1,12 @@
 "use client";
-import { testimonials } from "@/constants/page-testimonials";
+import { testimonialsEnglish } from "@/constants/page-testimonials";
+import { testimonialsFrench } from "@/constants/page-testimonials-french";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 
-export const TestimonialsGrid = () => {
+export const TestimonialsGrid = ({locale}:{locale:string}) => {
+  const testimonials= locale === 'fr' ? testimonialsFrench : testimonialsEnglish;
   const first = testimonials.slice(0, 4);
   const second = testimonials.slice(4, 8);
   const third = testimonials.slice(8, 12);

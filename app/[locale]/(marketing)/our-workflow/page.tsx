@@ -16,18 +16,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PricingPage() {
+export default function PricingPage({
+  params,
+}: {
+  params: { topic: string; slug: string; locale: string };
+}) {
   return (
     <div className="relative overflow-hidden">
       <AmbientColor />
-      <CustomTimeline />
+      <CustomTimeline locale={params.locale}/>
 
-      <FeaturesGrid />
+      <FeaturesGrid locale ={params.locale}/>
 
       <div className="pb-40">
         <Testimonials />
       </div>
-      <CTA />
     </div>
   );
 }

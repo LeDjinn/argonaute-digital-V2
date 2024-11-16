@@ -8,8 +8,9 @@ import { Button } from "@/components/button";
 import { Logo } from "@/components/logo";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import { CustomLink } from "../custom components/custom-link";
+import LanguageChanger from "../custom components/language-switcher";
 
-export const MobileNavbar = ({ navItems }: any) => {
+export const MobileNavbar = ({ navItems , locale}: any) => {
   const [open, setOpen] = useState(false);
 
   const { scrollY } = useScroll();
@@ -83,8 +84,9 @@ export const MobileNavbar = ({ navItems }: any) => {
           </div>
           <div className="flex flex-row w-full items-start gap-2.5  px-8 py-4 ">
            <CustomLink href="/contact" variant="primary">
-              Contact
+           {locale === "en" ? "Get in touch" : "Contactez-nous"}
             </CustomLink>
+            <LanguageChanger></LanguageChanger>
           </div>
         </div>
       )}

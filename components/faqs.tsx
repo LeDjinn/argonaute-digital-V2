@@ -2,8 +2,10 @@
 import React, { useState } from "react";
 import Accordion from "./accordion";
 import { Heading } from "./heading";
+import englishText from "@/app/messages/en.json";
+import frenchText from "@/app/messages/fr.json";
 
-const questions = [
+const questionsEn = [
   {
     id: 1,
     title: "What is Argonaute Digital?",
@@ -66,13 +68,79 @@ const questions = [
   },
 ];
 
+const questionsFr = [
+  {
+    id: 1,
+    title: "Qu'est-ce qu'Argonaute Digital ?",
+    description:
+      "Argonaute Digital est une agence numérique spécialisée dans la création de solutions sur mesure adaptées aux besoins uniques de votre entreprise, allant des intégrations API aux applications web modernes.",
+  },
+  {
+    id: 2,
+    title: "Comment Argonaute Digital améliore-t-il mon entreprise ?",
+    description:
+      "Nous proposons des intégrations API personnalisées, de l'automatisation et des solutions SaaS sur mesure qui simplifient les flux de travail et connectent vos outils numériques de manière fluide.",
+  },
+  {
+    id: 3,
+    title: "Argonaute Digital peut-il s'intégrer avec des outils externes ?",
+    description:
+      "Oui, nous sommes spécialisés dans la connexion avec une large gamme d'outils populaires, notamment Slack, Coda, Mailchimp, et bien d'autres, pour assurer une opération numérique cohérente.",
+  },
+  {
+    id: 4,
+    title: "Qu'est-ce qui rend les solutions web d'Argonaute Digital uniques ?",
+    description:
+      "Nos applications web sont conçues avec une approche centrée sur l'utilisateur, créant des expériences captivantes qui vont au-delà de la fonctionnalité pour engager profondément votre audience.",
+  },
+  {
+    id: 5,
+    title: "Argonaute Digital propose-t-il des analyses et des rapports ?",
+    description:
+      "Nous offrons des options avancées de tagging et de reporting, fournissant des analyses complètes et des informations exploitables pour soutenir une prise de décision basée sur les données.",
+  },
+  {
+    id: 6,
+    title:
+      "Les solutions d'Argonaute Digital conviennent-elles aux petites entreprises ?",
+    description:
+      "Oui, nos solutions sont conçues pour être évolutives et adaptables, ce qui les rend idéales pour les entreprises de toutes tailles.",
+  },
+  {
+    id: 7,
+    title:
+      "Argonaute Digital peut-il aider avec le SEO et la visibilité numérique ?",
+    description:
+      "Notre équipe élabore des stratégies SEO ciblées pour renforcer votre présence en ligne, optimisant les performances de votre site pour engager efficacement les audiences.",
+  },
+  {
+    id: 8,
+    title: "Quel type de support offre Argonaute Digital ?",
+    description:
+      "Nous fournissons un support continu pour garantir que vos solutions numériques continuent de répondre aux objectifs de votre entreprise, de la mise en place aux optimisations régulières.",
+  },
+  {
+    id: 9,
+    title: "Argonaute Digital propose-t-il une consultation ?",
+    description:
+      "Oui, nous proposons une consultation pour comprendre les besoins de votre entreprise et discuter de la manière dont nos services peuvent s'aligner sur vos objectifs.",
+  },
+  {
+    id: 10,
+    title: "Comment puis-je commencer avec Argonaute Digital ?",
+    description:
+      "Contactez-nous simplement pour discuter de vos besoins, et notre équipe vous guidera à travers notre processus pour élaborer une solution parfaitement adaptée à vos objectifs.",
+  },
+];
 
-export const FAQs = () => {
+export const FAQs = ({ locale }: { locale: string }) => {
+  const questions = locale === "fr" ? questionsFr : questionsEn;
+  const text = locale === "fr" ? frenchText.faq : englishText.faq;
   const [expanded, setExpanded] = useState(false);
 
   return (
     <div className="max-w-3xl mx-auto py-20 px-8">
-      <Heading className="pt-4">Frequently asked questions</Heading>
+      <Heading className="pt-4">{text.heading}</Heading>
       <div className="grid  gap-10 pt-20">
         {questions.map((item, i) => (
           <Accordion

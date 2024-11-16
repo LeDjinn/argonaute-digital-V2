@@ -30,19 +30,21 @@ const inter = Inter({
 
 export default function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: { locale: string };
 }>) {
   return (
     <ViewTransitions>
-      <html lang="en">
+      <html lang={params.locale}>
         <body
           className={cn(
             inter.className,
             "bg-charcoal antialiased h-full w-full"
           )}
         >
-          <NavBar />
+          <NavBar locale={params.locale} />
           {children}
           <Footer />
         </body>

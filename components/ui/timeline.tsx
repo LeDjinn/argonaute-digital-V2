@@ -1,11 +1,15 @@
 "use client";
+import { getCookie } from "@/lib/cookies";
 import {
   useMotionValueEvent,
   useScroll,
   useTransform,
   motion,
 } from "framer-motion";
+import { get } from "http";
 import React, { useEffect, useRef, useState } from "react";
+import englishText from "@/app/messages/en.json";
+import frenchText from "@/app/messages/fr.json";
 
 interface TimelineEntry {
   title: string;
@@ -13,6 +17,8 @@ interface TimelineEntry {
 }
 
 export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
+  const cookie = getCookie("NEXT_LOCALE");
+  const text = cookie === "fr" ? frenchText.customTimeline : englishText.customTimeline;
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
@@ -39,11 +45,10 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
     >
       <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
         <h2 className="text-lg md:text-4xl mb-4 text-white max-w-4xl">
-          Our Work Process
+         {text.heading}
         </h2>
         <p className="text-white text-sm md:text-base max-w-sm">
-          Discover how we approach projects, from initial discussions to final
-          delivery, ensuring exceptional results every step of the way.
+        {text.subheading}
         </p>
       </div>
 

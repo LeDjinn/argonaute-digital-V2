@@ -1,0 +1,76 @@
+{
+    "hero": {
+        
+        "subContent": "From idea to execution, we build reliable software.",
+        "button": "Get in touch"
+
+    },
+    "tools":{
+           "heading": "The Right Tools for Every Job",
+            "subheading": " Proactiv offers tools designed to meet your needs and get the job done efficiently."
+    },
+    "faq":{
+        "heading": "Frequently Asked Questions"
+    },
+    "lampDemo":{
+        "firstWOrd":"Build Softwares",
+        "secondWord":"the right way"
+    },
+    "marqueeTestimonial": {
+        "heading": "Apps and Websites We'Built",
+        "subheading": "Explore the custom applications and websites we’ve developed for businesses and teams."
+    },
+    "cta": {
+        "heading": "Get started today with Argonaute Digital for tailored digital solutions",
+        "subheading": "Discover a suite of custom tools designed to elevate your business. Join others who have transformed their digital workflows with us.",
+        "button": "Get in touch"
+    },
+    "contact": {
+        "heading": "Contact us",
+        "subheading": "  We are always looking for ways to improve our products and services. Contact us and let us know how we can help you.",
+        "phone": "Phone",
+        "name": "Full Name",
+        "namePlaceholder": "Enter your full name",
+        "email": "Email Adress",
+        "emailPlaceholder": "Enter your email adress",
+        "company": "Company",
+        "companyPlaceholder": "Enter your company name",
+        
+        "message": "Message",
+        "messagePlaceholder": "Enter your message",
+        "button": "Send Message"
+
+    },
+    "customTimeline":{
+        "heading": " Our Work Process",
+        "subheading": "Discover how we approach projects, from initial discussions to final delivery, ensuring exceptional results every step of the way."
+    },
+    "features": {
+    "heading": "Websites, Apps, and Tools for Your Business",
+    "subheading": "From websites to internal apps, we deliver what your team needs.",
+    "cards": [
+      {
+        "title": "Connecting Your Tools",
+        "description": "Reduce manual work with smart integrations tailored for you."
+      },
+      {
+        "title": "Internal Software Solutions",
+        "description": "Develop software to improve internal workflows, streamline operations, and enhance team productivity."
+      },
+      {
+        "title": "API Integrations",
+        "description": "Connect tools like Webflow, Slack, and GPT to automate workflows and reduce manual work."
+      },
+      {
+        "title": "Custom Websites and Landing Pages",
+        "description": "We design and build websites and landing pages tailored to your business needs, ensuring great performance and usability."
+      },
+      {
+        "title": "Optimized Online Stores",
+        "description": "Build e-commerce platforms with fast performance, seamless navigation, and tools to boost sales and user satisfaction."
+      }
+    ]
+
+  }
+
+}

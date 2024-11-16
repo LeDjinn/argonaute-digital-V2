@@ -19,9 +19,47 @@ import { Globe } from "./aceternity/globe";
 import { GlobeDemo } from "./aceternity/GlobeDemo";
 import CubeControl from "./custom components/cube/CubeControl";
 import FuturisticShape from "./custom components/cube/FuturisticShape";
+import englishText from "@/app/messages/en.json";
+import frenchText from "@/app/messages/fr.json";
 
-export const Tools = () => {
-  const content = [
+export const Tools = ({ locale }: { locale: string }) => {
+  const text = locale === "fr" ? frenchText.tools : englishText.tools;
+  const contentFr = [
+    {
+      icon: <IconLayoutGrid className="h-8 w-8 text-secondary" />,
+      title: "Sites Web Personnalisés et Modèles",
+      description:
+        "Créez des sites web réactifs et attrayants visuellement, adaptés à votre marque, avec des modèles conçus pour une expérience utilisateur fluide.",
+      content: (
+        <ImageContainer>
+          <GlobeDemo />
+        </ImageContainer>
+      ),
+    },
+    {
+      icon: <IconTerminal className="h-8 w-8 text-secondary" />,
+      title: "E-commerce et Intégration d'Applications Personnalisées",
+      description:
+        "Développez et intégrez des applications personnalisées et des plateformes e-commerce avec des flux de travail fluides, des fonctionnalités adaptées et des capacités de reporting robustes.",
+      content: (
+        <ImageContainer>
+          <FuturisticShape />
+        </ImageContainer>
+      ),
+    },
+    {
+      icon: <IconSocial className="h-8 w-8 text-secondary" />,
+      title: "Intégration Transparente d'Outils",
+      description:
+        "Connectez vos outils et plateformes préférés avec des intégrations personnalisées pour rationaliser les flux de travail et réduire les efforts manuels.",
+      content: (
+        <ImageContainer>
+          <CubeControl />
+        </ImageContainer>
+      ),
+    },
+  ];
+  const contentEn = [
     {
       icon: <IconLayoutGrid className="h-8 w-8 text-secondary" />,
 
@@ -58,6 +96,7 @@ export const Tools = () => {
       ),
     },
   ];
+  const content = locale === "fr" ? contentFr : contentEn;
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -101,11 +140,8 @@ export const Tools = () => {
         <FeatureIconContainer className="flex justify-center items-center overflow-hidden">
           <IconTool className="h-6 w-6 text-cyan-500" />
         </FeatureIconContainer>
-        <Heading className="mt-4">The Right Tools for Every Job</Heading>
-        <Subheading>
-          Proactiv offers tools designed to meet your needs and get the job done
-          efficiently.
-        </Subheading>
+        <Heading className="mt-4">{text.heading}</Heading>
+        <Subheading>{text.subheading}</Subheading>
       </div>
       <StickyScroll content={content} />
     </motion.div>
