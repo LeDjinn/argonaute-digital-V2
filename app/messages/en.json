@@ -16,6 +16,10 @@
         "firstWOrd":"Build Softwares",
         "secondWord":"the right way"
     },
+    "testimonials": {
+    "heading": "Our Experience",
+    "subheading": "Explore the custom applications and websites we’ve developed for businesses and teams."
+},
     "marqueeTestimonial": {
         "heading": "Apps and Websites We'Built",
         "subheading": "Explore the custom applications and websites we’ve developed for businesses and teams."

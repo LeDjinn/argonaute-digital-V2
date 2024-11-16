@@ -14,9 +14,13 @@ import Marquee from "react-fast-marquee";
 import { TestimonialsMarquee } from "./marquee";
 import { get } from "http";
 import { getCookie } from "@/lib/cookies";
+import frenchText from "@/app/messages/fr.json";
+import englishText from "@/app/messages/en.json";
 
 export const Testimonials = () => {
-  const cookie= getCookie('NEXT_LOCALE')||'en';
+  const cookie = getCookie("NEXT_LOCALE") || "en";
+  const text =
+    cookie === "fr" ? frenchText.testimonials : englishText.testimonials;
   return (
     <div className="relative">
       <AmbientColor />
@@ -24,11 +28,8 @@ export const Testimonials = () => {
         <FeatureIconContainer className="flex justify-center items-center overflow-hidden">
           <TbLocationBolt className="h-6 w-6 text-cyan-500" />
         </FeatureIconContainer>
-        <Heading className="pt-4">Our Experience</Heading>
-        <Subheading>
-          Explore the custom applications and websites we’ve developed for
-          businesses and teams.
-        </Subheading>
+        <Heading className="pt-4">{text.heading}</Heading>
+        <Subheading>{text.subheading}</Subheading>
       </div>
 
       <div className="py-60 relative">

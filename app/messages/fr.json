@@ -18,9 +18,14 @@
     "subheading": "Découvrez les applications et sites web personnalisés que nous avons développés pour des entreprises et des équipes."
 }
 ,
+"testimonials": {
+    "heading": "Notre Expertise",
+    "subheading": "Découvrez comment nos solutions digitales ont aidé les entreprises à atteindre leurs objectifs."
+},
+
     "cta": {
-        "heading": "Commencez dès aujourd'hui avec Argonaute Digital pour des solutions numériques sur mesure",
-        "subheading": "Découvrez une suite d'outils personnalisés conçus pour propulser votre entreprise. Rejoignez ceux qui ont transformé leurs flux de travail numériques avec nous.",
+        "heading": "Commencez dès aujourd'hui avec Argonaute Digital pour des solutions digitales sur mesure",
+        "subheading": "Découvrez une suite d'outils personnalisés conçus pour propulser votre entreprise. Rejoignez ceux qui ont transformé leurs flux de travail digitales avec nous.",
         "button": "Contactez-nous"
     },
     "contact": {
