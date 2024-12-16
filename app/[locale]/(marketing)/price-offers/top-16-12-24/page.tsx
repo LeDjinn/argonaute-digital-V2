@@ -48,51 +48,56 @@ export default function page() {
         </p>
         <TaskEstimationTable />
       </div>
-      <div className="py-12">
-        <h2 className="text-xl font-semibold text-gray-200 mb-4">Livrables</h2>
-        <p className="text-gray-300 mb-4">
-          Les éléments suivants seront livrés au client à la fin du projet :
-        </p>
-        <ul className="list-disc list-inside text-gray-300">
-          <li>Code source complet et fonctionnel</li>
-          <li>Interfaces graphiques validées</li>
-          <li>Tests unitaires et fonctionnels</li>
-        </ul>
-      </div>
-      <div className="py-12">
-        <h2 className="text-xl font-semibold text-gray-200 mb-4">
-          Méthodologie
-        </h2>
-        <p className="text-gray-300 mb-4">
-          Le développement se déroulera en 3 phases principales :
-        </p>
-        <ol className="list-decimal list-inside text-gray-300">
-          <li>Conception des interfaces utilisateur </li>
-          <li>Application de la logique de filtre et interactions </li>
-          <li>Premiers tests en internes</li>
-          <li>Validation des fonctionnalités avec le client</li>
-        </ol>
-      </div>
-      <div className="py-12">
-        <h2 className="text-xl font-semibold text-gray-200 mb-4">
-          Conditions Générales
-        </h2>
-        <p className="text-gray-300 mb-4">
-          Ce devis est valable pour une durée de 30 jours à compter de sa date
-          d’émission. Les paiements se feront en trois tranches : 30% à la
-          commande, 40% à mi-parcours, et 30% à la livraison finale.
-        </p>
-      </div>
+      <div className="px-4">
+        <div className="py-12">
+          <h2 className="text-xl font-semibold text-gray-200 mb-4">
+            Livrables
+          </h2>
+          <p className="text-gray-300 mb-4">
+            Les éléments suivants seront livrés au client à la fin du projet :
+          </p>
+          <ul className="list-disc list-inside text-gray-300">
+            <li>Code source complet et fonctionnel</li>
+            <li>Interfaces graphiques validées</li>
+            <li>Tests unitaires et fonctionnels</li>
+          </ul>
+        </div>
+        <div className="py-12">
+          <h2 className="text-xl font-semibold text-gray-200 mb-4">
+            Méthodologie
+          </h2>
+          <p className="text-gray-300 mb-4">
+            Le développement se déroulera en 3 phases principales :
+          </p>
+          <ol className="list-decimal list-inside text-gray-300">
+            <li>Conception des interfaces utilisateur </li>
+            <li>Application de la logique de filtre et interactions </li>
+            <li>Premiers tests en internes</li>
+            <li>Validation des fonctionnalités avec le client</li>
+          </ol>
+        </div>
+        <div className="py-12">
+          <h2 className="text-xl font-semibold text-gray-200 mb-4">
+            Conditions Générales
+          </h2>
+          <p className="text-gray-300 mb-4">
+            Ce devis est valable pour une durée de 30 jours à compter de sa date
+            d’émission. Les paiements se feront en trois tranches : 30% à la
+            commande, 40% à mi-parcours, et 30% à la livraison finale.
+          </p>
+        </div>
 
-      {/* Engagements et Prochaines Étapes */}
-      <div className="py-12 pb-40">
-        <h2 className="text-xl font-semibold text-gray-200 mb-4">
-          Engagements et Prochaines Étapes
-        </h2>
-        <p className="text-gray-300 mb-4">
-          Pour valider ce devis, veuillez me contacter par mail. Une fois
-          validé, nous programmerons un kick-off meeting pour lancer le projet.
-        </p>
+        {/* Engagements et Prochaines Étapes */}
+        <div className="py-12 pb-40">
+          <h2 className="text-xl font-semibold text-gray-200 mb-4">
+            Engagements et Prochaines Étapes
+          </h2>
+          <p className="text-gray-300 mb-4">
+            Pour valider ce devis, veuillez me contacter par mail. Une fois
+            validé, nous programmerons un kick-off meeting pour lancer le
+            projet.
+          </p>
+        </div>
       </div>
       <div className="pb-40"></div>
     </div>
