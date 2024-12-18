@@ -15,29 +15,43 @@ const handler = NextAuth({
       },
       async authorize(credentials, req) {
         if (!credentials?.email || !credentials.password) {
-          return null; // Invalid credentials
+          console.log("Missing email or password");
+          return null;
         }
-
+      
         const { email, password } = credentials;
-
-        // Use Drizzle query builder to fetch the user
+      
+        console.log("Attempting to authenticate user:", email);
+      
+        // Query database for the user by email
         const user = await db
           .select()
           .from(users)
           .where(eq(users.email, email))
           .then((res) => res[0]);
-
-        // Validate user and password
-        if (user && user.password === password) {
-          return {
-            id: String(user.id), // Ensure `id` is a string
-            name: typeof user.name === "string" ? user.name : null, // Validate `name` as string or null
-            email: typeof user.email === "string" ? user.email : null, // Validate `email` as string or null
-          };
+      
+        if (!user) {
+          console.log("User not found in the database");
+          return null;
         }
-
-        return null; // Authentication failed
-      },
+      
+        console.log("User found:", user);
+      
+        // Validate the password
+        if (user.password !== password) {
+          console.log("Invalid password for user:", email);
+          return null;
+        }
+      
+        console.log("Authentication successful for user:", email);
+      
+        return {
+          id: String(user.id),
+          name: user.name || null,
+          email: user.email || null,
+        };
+      }
+      
     }),
   ],
   session: {
