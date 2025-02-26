@@ -12,7 +12,7 @@ import englishText from "@/app/messages/en.json";
 import frenchText from "@/app/messages/fr.json";
 
 interface TimelineEntry {
-  title: string;
+  title: React.ReactNode;
   content: React.ReactNode;
 }
 

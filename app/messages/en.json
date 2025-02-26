@@ -1,20 +1,20 @@
 {
     "hero": {
         
-        "subContent": "From idea to execution, we build reliable software.",
+        "subContent": "Your vision, our digital expertise.",
         "button": "Get in touch"
 
     },
     "tools":{
-           "heading": "The Right Tools for Every Job",
-            "subheading": " Proactiv offers tools designed to meet your needs and get the job done efficiently."
+           "heading": "Smart solutions for every need.",
+            "subheading": "Argonaute Digital offers tools designed to meet your needs and maximize efficiency."
     },
     "faq":{
         "heading": "Frequently Asked Questions"
     },
     "lampDemo":{
-        "firstWOrd":"Build Softwares",
-        "secondWord":"the right way"
+        "firstWOrd":"Crafting software ",
+        "secondWord":"with excellence."
     },
     "testimonials": {
     "heading": "Our Experience",
@@ -25,7 +25,7 @@
         "subheading": "Explore the custom applications and websites we’ve developed for businesses and teams."
     },
     "cta": {
-        "heading": "Get started today with Argonaute Digital for tailored digital solutions",
+        "heading": "Argonaute Digital for tailored digital solutions",
         "subheading": "Discover a suite of custom tools designed to elevate your business. Join others who have transformed their digital workflows with us.",
         "button": "Get in touch"
     },
@@ -59,19 +59,19 @@
       },
       {
         "title": "Internal Software Solutions",
-        "description": "Develop software to improve internal workflows, streamline operations, and enhance team productivity."
+        "description": "mart tools to simplify workflows and maximize team efficiency."
       },
       {
         "title": "API Integrations",
-        "description": "Connect tools like Webflow, Slack, and GPT to automate workflows and reduce manual work."
+        "description": "Boost productivity by linking Webflow, Slack, and GPT to minimize repetitive tasks."
       },
       {
         "title": "Custom Websites and Landing Pages",
-        "description": "We design and build websites and landing pages tailored to your business needs, ensuring great performance and usability."
+        "description": "Web solutions that captivate, perform, and adapt to your needs."
       },
       {
         "title": "Optimized Online Stores",
-        "description": "Build e-commerce platforms with fast performance, seamless navigation, and tools to boost sales and user satisfaction."
+        "description": "E-commerce platforms with fast performance, seamless navigation, and tools to boost sales and user satisfaction."
       }
     ]
 

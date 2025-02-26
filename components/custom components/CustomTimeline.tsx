@@ -5,7 +5,7 @@ import { FaClipboardList, FaLaptopCode, FaRocket } from "react-icons/fa";
 export function CustomTimeline({locale}: {locale: string}) {
   const dataEn = [
     {
-      title: "Step 1: Requirement Gathering",
+      title: <div><span className="text-white">Step1:</span><br></br>Requirement and Gathering</div>,
       content: (
         <div className="flex items-center gap-4">
           <FaClipboardList className="text-cyan-500 w-6 h-6" />
@@ -14,9 +14,9 @@ export function CustomTimeline({locale}: {locale: string}) {
           </p>
         </div>
       ),
-    },
-    {
-      title: "Step 2: Design and Prototyping",
+        },
+        {
+      title: <div><span className="text-white">Step 2:</span><br></br>Design and Prototyping</div>,
       content: (
         <div className="flex items-center gap-4">
           <FaLaptopCode className="text-cyan-500 w-6 h-6" />
@@ -25,9 +25,9 @@ export function CustomTimeline({locale}: {locale: string}) {
           </p>
         </div>
       ),
-    },
-    {
-      title: "Step 3: Development and Testing",
+        },
+        {
+      title: <div><span className="text-white">Step 3:</span><br></br>Development and Testing</div>,
       content: (
         <div className="flex items-center gap-4">
           <FaRocket className="text-cyan-500 w-6 h-6" />
@@ -36,9 +36,9 @@ export function CustomTimeline({locale}: {locale: string}) {
           </p>
         </div>
       ),
-    },
-    {
-      title: "Step 4: Deployment and Support",
+        },
+        {
+      title: <div><span className="text-white">Step 4:</span><br></br>Deployment and Support</div>,
       content: (
         <div className="flex items-center gap-4">
           <FaRocket className="text-cyan-500 w-6 h-6" />
@@ -51,7 +51,7 @@ export function CustomTimeline({locale}: {locale: string}) {
   ];
   const dataFr = [
     {
-      title: "Étape 1 : Collecte des Besoins",
+      title: <div><span className="text-white">Étape 1 :</span><br></br>Collecte des Besoins</div>,
       content: (
         <div className="flex items-center gap-4">
           <FaClipboardList className="text-cyan-500 w-6 h-6" />
@@ -62,7 +62,7 @@ export function CustomTimeline({locale}: {locale: string}) {
       ),
     },
     {
-      title: "Étape 2 : Conception et Prototypage",
+      title: <div><span className="text-white">Étape 2 :</span><br></br>Conception et Prototypage</div>,
       content: (
         <div className="flex items-center gap-4">
           <FaLaptopCode className="text-cyan-500 w-6 h-6" />
@@ -73,7 +73,7 @@ export function CustomTimeline({locale}: {locale: string}) {
       ),
     },
     {
-      title: "Étape 3 : Développement et Tests",
+      title: <div><span className="text-white">Étape 3 :</span><br></br>Développement et Tests</div>,
       content: (
         <div className="flex items-center gap-4">
           <FaRocket className="text-cyan-500 w-6 h-6" />
@@ -84,7 +84,7 @@ export function CustomTimeline({locale}: {locale: string}) {
       ),
     },
     {
-      title: "Étape 4 : Déploiement et Support",
+      title: <div><span className="text-white">Étape 4 :</span><br></br>Déploiement et Support</div>,
       content: (
         <div className="flex items-center gap-4">
           <FaRocket className="text-cyan-500 w-6 h-6" />

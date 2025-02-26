@@ -27,7 +27,7 @@ export const Tools = ({ locale }: { locale: string }) => {
   const contentFr = [
     {
       icon: <IconLayoutGrid className="h-8 w-8 text-secondary" />,
-      title: "Sites Web Personnalisés et Modèles",
+      title: "Sites Web Personnalisés ",
       description:
         "Créez des sites web réactifs et attrayants visuellement, adaptés à votre marque, avec des modèles conçus pour une expérience utilisateur fluide.",
       content: (
@@ -38,9 +38,9 @@ export const Tools = ({ locale }: { locale: string }) => {
     },
     {
       icon: <IconTerminal className="h-8 w-8 text-secondary" />,
-      title: "E-commerce et Intégration d'Applications Personnalisées",
+      title: "Plateformes E-commerce ",
       description:
-        "Développez et intégrez des applications personnalisées et des plateformes e-commerce avec des flux de travail fluides, des fonctionnalités adaptées et des capacités de reporting robustes.",
+        "Spécialistes de Shopify, nous créons et intégrons des applications sur mesure ainsi que des plateformes e-commerce performantes, avec des fonctionnalités adaptées et un reporting avancé.",
       content: (
         <ImageContainer>
           <FuturisticShape />
@@ -49,9 +49,9 @@ export const Tools = ({ locale }: { locale: string }) => {
     },
     {
       icon: <IconSocial className="h-8 w-8 text-secondary" />,
-      title: "Intégration Transparente d'Outils",
+      title: "Creation de software sur mesure.",
       description:
-        "Connectez vos outils et plateformes préférés avec des intégrations personnalisées pour rationaliser les flux de travail et réduire les efforts manuels.",
+        "Nous développons des logiciels sur mesure pour connecter vos outils et automatiser vos processus.",
       content: (
         <ImageContainer>
           <CubeControl />
@@ -63,7 +63,7 @@ export const Tools = ({ locale }: { locale: string }) => {
     {
       icon: <IconLayoutGrid className="h-8 w-8 text-secondary" />,
 
-      title: "Custom Websites and Templates",
+      title: "Custom Websites",
       description:
         "Create responsive and visually appealing websites tailored to your brand, with templates designed for seamless user experiences.",
       content: (
@@ -75,9 +75,9 @@ export const Tools = ({ locale }: { locale: string }) => {
 
     {
       icon: <IconTerminal className="h-8 w-8 text-secondary" />,
-      title: " E-commerce and Custom App Integration",
+      title: " E-commerce Platforms",
       description:
-        "Build and integrate custom applications and e-commerce platforms with seamless workflows, tailored features, and robust reporting capabilities.",
+        "As Shopify specialists, we develop and integrate custom applications and high-performance e-commerce platforms with tailored features and advanced reporting capabilities.",
       content: (
         <ImageContainer>
           <FuturisticShape />
@@ -86,9 +86,9 @@ export const Tools = ({ locale }: { locale: string }) => {
     },
     {
       icon: <IconSocial className="h-8 w-8 text-secondary" />,
-      title: "Seamless Tool Integration",
+      title: "Custom Softwares",
       description:
-        "Connect your favorite tools and platforms with custom integrations to streamline workflows and reduce manual effort.",
+        "We build custom software to connect your tools and automate processes.",
       content: (
         <ImageContainer>
           <CubeControl />

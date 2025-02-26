@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 const navItemsEN = [
   {
-    title: "Our workflow",
+    title: "Our approach.",
     link: "/our-workflow",
   },
 
@@ -22,7 +22,7 @@ const navItemsEN = [
 ];
 const navItemsFR = [
   {
-    title: "Notre Processus",
+    title: "Notre approche",
     link: "/our-workflow",
   },
   {

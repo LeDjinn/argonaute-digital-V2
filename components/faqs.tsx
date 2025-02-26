@@ -10,7 +10,7 @@ const questionsEn = [
     id: 1,
     title: "What is Argonaute Digital?",
     description:
-      "Argonaute Digital is a digital agency focused on delivering custom solutions tailored to your unique business needs, from API integrations to modern web applications.",
+      "Argonaute Digital is a software agency focused on delivering custom solutions tailored to your unique business needs, from API integrations to modern web applications.",
   },
   {
     id: 2,
@@ -73,7 +73,7 @@ const questionsFr = [
     id: 1,
     title: "Qu'est-ce qu'Argonaute Digital ?",
     description:
-      "Argonaute Digital est une agence numérique spécialisée dans la création de solutions sur mesure adaptées aux besoins uniques de votre entreprise, allant des intégrations API aux applications web modernes.",
+      "Argonaute Digital est une agence spécialisée dans la création de software sur mesure adaptées aux besoins uniques de votre entreprise, allant des intégrations API aux applications web modernes.",
   },
   {
     id: 2,

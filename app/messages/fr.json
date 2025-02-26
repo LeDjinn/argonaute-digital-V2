@@ -1,18 +1,18 @@
 {
     "hero": {
-        "subContent": "De l'idée à l'exécution, nous créons des logiciels fiables.",
+        "subContent": "Votre vision, notre expertise digitale.",
         "button": "Contactez-nous"
     },
     "tools": {
-        "heading": "Les bons outils pour chaque tâche",
-        "subheading": "Proactiv propose des outils conçus pour répondre à vos besoins et accomplir le travail efficacement."
+        "heading": "Des solutions intelligentes pour chaque besoin.",
+        "subheading": "Argonaute Digital propose des outils conçus pour s’adapter à vos besoins et optimiser votre productivité."
     },
     "faq": {
         "heading": "Questions Fréquemment Posées"
     },
     "lampDemo": {
-    "firstWOrd": "Créer des logiciels",
-    "secondWord": "de la bonne manière"
+    "firstWOrd": "Concevoir des logiciels",
+    "secondWord": "avec excellence."
 },"marqueeTestimonial": {
     "heading": "Applications et Sites Web Que Nous Avons Créés",
     "subheading": "Découvrez les applications et sites web personnalisés que nous avons développés pour des entreprises et des équipes."
@@ -24,7 +24,7 @@
 },
 
     "cta": {
-        "heading": "Commencez dès aujourd'hui avec Argonaute Digital pour des solutions digitales sur mesure",
+        "heading": "Argonaute Digital pour des solutions digitales sur mesure",
         "subheading": "Découvrez une suite d'outils personnalisés conçus pour propulser votre entreprise. Rejoignez ceux qui ont transformé leurs flux de travail digitales avec nous.",
         "button": "Contactez-nous"
     },
@@ -55,20 +55,20 @@
                 "description": "Réduisez le travail manuel avec des intégrations intelligentes adaptées à vos besoins."
             },
             {
-                "title": "Solutions Logicielles Internes",
-                "description": "Développez des logiciels pour améliorer les flux de travail internes, rationaliser les opérations et accroître la productivité de votre équipe."
+                "title": "Softwares Internes",
+                "description": "Des outils digitaux pour fluidifier vos échanges et maximiser l’efficacité de votre équipe."
             },
             {
                 "title": "Intégrations API",
-                "description": "Connectez des outils comme Webflow, Slack et GPT pour automatiser les flux de travail et réduire le travail manuel."
+                "description": "Optimisez votre travail en connectant Webflow, Slack et GPT pour limiter les actions répétitives."
             },
             {
                 "title": "Sites Web et Pages de Destination Personnalisés",
-                "description": "Nous concevons et construisons des sites web et des pages de destination adaptés aux besoins de votre entreprise, garantissant de bonnes performances et une grande convivialité."
+                "description": "Des solutions web sur mesure, alliant performance, fluidité et expérience utilisateur optimale."
             },
             {
                 "title": "Boutiques en Ligne Optimisées",
-                "description": "Créez des plateformes e-commerce avec des performances rapides, une navigation fluide et des outils pour augmenter les ventes et la satisfaction des utilisateurs."
+                "description": "Conception de plateforme e-commerce performante, intuitive et conçue pour maximiser vos ventes."
             }
         ]
     }
