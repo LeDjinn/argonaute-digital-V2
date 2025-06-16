@@ -1,0 +1,104 @@
+{
+  "en": {
+    "title": "APIs",
+    "subtitle": "Node.js & NestJS",
+    "description": "Developing robust, scalable backend services with modern JavaScript and TypeScript frameworks.",
+    "features": [
+      {
+        "title": "RESTful APIs",
+        "description": "Scalable endpoint architecture",
+        "framework": "node"
+      },
+      {
+        "title": "Modular Structure",
+        "description": "Organized controllers & services",
+        "framework": "nest"
+      },
+      {
+        "title": "Data Streaming",
+        "description": "Real-time data processing",
+        "framework": "node"
+      },
+      {
+        "title": "TypeScript Support",
+        "description": "Type-safe API development",
+        "framework": "nest"
+      },
+      {
+        "title": "Authentication",
+        "description": "Secure user verification",
+        "framework": "node"
+      },
+      {
+        "title": "Microservices",
+        "description": "Distributed architecture",
+        "framework": "nest"
+      }
+    ],
+    "metrics": [
+      {
+        "label": "Requests/sec",
+        "value": "50,000+"
+      },
+      {
+        "label": "Response time",
+        "value": "< 50ms"
+      },
+      {
+        "label": "Uptime",
+        "value": "99.9%"
+      }
+    ]
+  },
+  "fr": {
+    "title": "APIs",
+    "subtitle": "Node.js & NestJS",
+    "description": "Développement de services backend robustes et évolutifs avec des frameworks JavaScript et TypeScript modernes.",
+    "features": [
+      {
+        "title": "APIs RESTful",
+        "description": "Architecture d'endpoints évolutive",
+        "framework": "node"
+      },
+      {
+        "title": "Structure Modulaire",
+        "description": "Contrôleurs et services organisés",
+        "framework": "nest"
+      },
+      {
+        "title": "Streaming de Données",
+        "description": "Traitement de données en temps réel",
+        "framework": "node"
+      },
+      {
+        "title": "Support TypeScript",
+        "description": "Développement d'API typé sécurisé",
+        "framework": "nest"
+      },
+      {
+        "title": "Authentification",
+        "description": "Vérification sécurisée des utilisateurs",
+        "framework": "node"
+      },
+      {
+        "title": "Microservices",
+        "description": "Architecture distribuée",
+        "framework": "nest"
+      }
+    ],
+    "metrics": [
+      {
+        "label": "Requêtes/sec",
+        "value": "50,000+"
+      },
+      {
+        "label": "Temps de réponse",
+        "value": "< 50ms"
+      },
+      {
+        "label": "Disponibilité",
+        "value": "99.9%"
+      }
+    ]
+  }
+}

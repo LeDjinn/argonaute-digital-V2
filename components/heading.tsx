@@ -8,12 +8,14 @@ export const Heading = ({
   as: Tag = "h2",
   children,
   size = "md",
+  center = true,
   ...props
 }: {
   className?: string;
   as?: any;
   children: any;
   size?: "sm" | "md" | "xl" | "2xl";
+  center?: boolean;
   props?: React.HTMLAttributes<HTMLHeadingElement | AnimationProps>;
 } & MotionProps &
   React.HTMLAttributes<HTMLHeadingElement | AnimationProps>) => {
@@ -26,9 +28,10 @@ export const Heading = ({
   return (
     <Tag
       className={cn(
-        "text-3xl md:text-5xl md:leading-tight max-w-5xl mx-auto text-center tracking-tight",
+        "text-3xl md:text-5xl md:leading-tight max-w-5xl tracking-tight",
         "font-medium",
         "bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-white to-white",
+        center && "mx-auto text-center",
         sizeVariants[size],
         className
       )}

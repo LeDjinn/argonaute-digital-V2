@@ -3,6 +3,7 @@
 @tailwind utilities;
 @import "./prism.css";
 @import "./futuristic.css";
+@import "./custom-animations.css";
 
 :root {
   --foreground-rgb: 255, 255, 255;
@@ -13,10 +14,30 @@
     --foreground-rgb: 255, 255, 255;
   }
 }
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 8s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .bg-gradient-radial {
+    background-image: radial-gradient(var(--tw-gradient-stops));
   }
 }
 

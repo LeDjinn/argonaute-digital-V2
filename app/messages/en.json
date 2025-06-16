@@ -1,8 +1,9 @@
 {
     "hero": {
         
-        "subContent": "Your vision, our digital expertise.",
-        "button": "Get in touch"
+      "headline": "Node & NextJS specialists",
+      "subContent": "From architecture to production, we ship resilient Node back‑ends, responsive React UIs, and practical AI features.",
+      "button": "Schedule a call"
 
     },
     "tools":{

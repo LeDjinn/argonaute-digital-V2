@@ -1,0 +1,204 @@
+{
+  "en": {
+    "title": "Tech Radar",
+    "description": "Our carefully selected technology ecosystem for building modern, scalable applications",
+    "categories": [
+      {
+        "name": "Frontend",
+        "description": "Modern UI frameworks and libraries for building responsive, interactive user interfaces.",
+        "tools": [
+          { "name": "React", "icon": "react", "level": "core" },
+          { "name": "Next.js", "icon": "nextjs", "level": "core" },
+          { "name": "TypeScript", "icon": "typescript", "level": "core" },
+          { "name": "Tailwind CSS", "icon": "tailwind", "level": "core" },
+          { "name": "Framer Motion", "icon": "framer", "level": "preferred" },
+          { "name": "shadcn/ui", "icon": "shadcn", "level": "preferred" }
+        ]
+      },
+      {
+        "name": "Backend",
+        "description": "Robust server-side technologies for API development and business logic implementation.",
+        "tools": [
+          { "name": "Node.js", "icon": "nodejs", "level": "core" },
+          { "name": "NestJS", "icon": "nestjs", "level": "core" },
+          { "name": "Express", "icon": "express", "level": "preferred" },
+          { "name": "tRPC", "icon": "trpc", "level": "preferred" },
+          { "name": "GraphQL", "icon": "graphql", "level": "preferred" },
+          { "name": "REST", "icon": "rest", "level": "core" }
+        ]
+      },
+      {
+        "name": "Database",
+        "description": "Data storage solutions for efficient persistence and retrieval of application data.",
+        "tools": [
+          { "name": "PostgreSQL", "icon": "postgresql", "level": "core" },
+          { "name": "Supabase", "icon": "supabase", "level": "core" },
+          { "name": "Prisma", "icon": "prisma", "level": "core" },
+          { "name": "MongoDB", "icon": "mongodb", "level": "preferred" },
+          { "name": "Redis", "icon": "redis", "level": "preferred" },
+          { "name": "Drizzle", "icon": "drizzle", "level": "experimental" }
+        ]
+      },
+      {
+        "name": "AI & ML",
+        "description": "Cutting-edge artificial intelligence and machine learning tools for smart applications.",
+        "tools": [
+          { "name": "OpenAI", "icon": "openai", "level": "core" },
+          { "name": "Langchain", "icon": "langchain", "level": "core" },
+          { "name": "Pinecone", "icon": "pinecone", "level": "preferred" },
+          { "name": "Vercel AI SDK", "icon": "vercel-ai", "level": "core" },
+          { "name": "HuggingFace", "icon": "huggingface", "level": "preferred" },
+          { "name": "TensorFlow", "icon": "tensorflow", "level": "experimental" }
+        ]
+      },
+      {
+        "name": "DevOps",
+        "description": "Infrastructure and deployment tools for reliable, scalable application delivery.",
+        "tools": [
+          { "name": "Vercel", "icon": "vercel", "level": "core" },
+          { "name": "GitHub Actions", "icon": "github-actions", "level": "core" },
+          { "name": "Docker", "icon": "docker", "level": "preferred" },
+          { "name": "Kubernetes", "icon": "kubernetes", "level": "experimental" },
+          { "name": "Terraform", "icon": "terraform", "level": "experimental" },
+          { "name": "AWS", "icon": "aws", "level": "preferred" }
+        ]
+      },
+      {
+        "name": "Testing",
+        "description": "Comprehensive testing frameworks to ensure application quality and reliability.",
+        "tools": [
+          { "name": "Jest", "icon": "jest", "level": "core" },
+          { "name": "Cypress", "icon": "cypress", "level": "core" },
+          { "name": "Playwright", "icon": "playwright", "level": "preferred" },
+          { "name": "Vitest", "icon": "vitest", "level": "preferred" },
+          { "name": "Testing Library", "icon": "testing-library", "level": "core" },
+          { "name": "Storybook", "icon": "storybook", "level": "preferred" }
+        ]
+      }
+    ],
+    "levelDescriptions": {
+      "core": "Technologies we use in almost every project",
+      "preferred": "Our go-to tools for specific use cases",
+      "experimental": "Technologies we're exploring for future projects"
+    },
+    "stats": [
+      {
+        "value": "30+",
+        "label": "Technologies"
+      },
+      {
+        "value": "6",
+        "label": "Specializations"
+      },
+      {
+        "value": "5+",
+        "label": "Years Experience"
+      },
+      {
+        "value": "100%",
+        "label": "Client Satisfaction"
+      }
+    ]
+  },
+  "fr": {
+    "title": "Radar Technologique",
+    "description": "Notre écosystème technologique soigneusement sélectionné pour construire des applications modernes et évolutives",
+    "categories": [
+      {
+        "name": "Frontend",
+        "description": "Frameworks et bibliothèques UI modernes pour créer des interfaces utilisateur réactives et interactives.",
+        "tools": [
+          { "name": "React", "icon": "react", "level": "core" },
+          { "name": "Next.js", "icon": "nextjs", "level": "core" },
+          { "name": "TypeScript", "icon": "typescript", "level": "core" },
+          { "name": "Tailwind CSS", "icon": "tailwind", "level": "core" },
+          { "name": "Framer Motion", "icon": "framer", "level": "preferred" },
+          { "name": "shadcn/ui", "icon": "shadcn", "level": "preferred" }
+        ]
+      },
+      {
+        "name": "Backend",
+        "description": "Technologies robustes côté serveur pour le développement d'API et l'implémentation de logique métier.",
+        "tools": [
+          { "name": "Node.js", "icon": "nodejs", "level": "core" },
+          { "name": "NestJS", "icon": "nestjs", "level": "core" },
+          { "name": "Express", "icon": "express", "level": "preferred" },
+          { "name": "tRPC", "icon": "trpc", "level": "preferred" },
+          { "name": "GraphQL", "icon": "graphql", "level": "preferred" },
+          { "name": "REST", "icon": "rest", "level": "core" }
+        ]
+      },
+      {
+        "name": "Base de Données",
+        "description": "Solutions de stockage de données pour une persistance et une récupération efficaces des données d'application.",
+        "tools": [
+          { "name": "PostgreSQL", "icon": "postgresql", "level": "core" },
+          { "name": "Supabase", "icon": "supabase", "level": "core" },
+          { "name": "Prisma", "icon": "prisma", "level": "core" },
+          { "name": "MongoDB", "icon": "mongodb", "level": "preferred" },
+          { "name": "Redis", "icon": "redis", "level": "preferred" },
+          { "name": "Drizzle", "icon": "drizzle", "level": "experimental" }
+        ]
+      },
+      {
+        "name": "IA & ML",
+        "description": "Outils d'intelligence artificielle et d'apprentissage automatique de pointe pour des applications intelligentes.",
+        "tools": [
+          { "name": "OpenAI", "icon": "openai", "level": "core" },
+          { "name": "Langchain", "icon": "langchain", "level": "core" },
+          { "name": "Pinecone", "icon": "pinecone", "level": "preferred" },
+          { "name": "Vercel AI SDK", "icon": "vercel-ai", "level": "core" },
+          { "name": "HuggingFace", "icon": "huggingface", "level": "preferred" },
+          { "name": "TensorFlow", "icon": "tensorflow", "level": "experimental" }
+        ]
+      },
+      {
+        "name": "DevOps",
+        "description": "Outils d'infrastructure et de déploiement pour une livraison d'applications fiable et évolutive.",
+        "tools": [
+          { "name": "Vercel", "icon": "vercel", "level": "core" },
+          { "name": "GitHub Actions", "icon": "github-actions", "level": "core" },
+          { "name": "Docker", "icon": "docker", "level": "preferred" },
+          { "name": "Kubernetes", "icon": "kubernetes", "level": "experimental" },
+          { "name": "Terraform", "icon": "terraform", "level": "experimental" },
+          { "name": "AWS", "icon": "aws", "level": "preferred" }
+        ]
+      },
+      {
+        "name": "Tests",
+        "description": "Frameworks de test complets pour garantir la qualité et la fiabilité des applications.",
+        "tools": [
+          { "name": "Jest", "icon": "jest", "level": "core" },
+          { "name": "Cypress", "icon": "cypress", "level": "core" },
+          { "name": "Playwright", "icon": "playwright", "level": "preferred" },
+          { "name": "Vitest", "icon": "vitest", "level": "preferred" },
+          { "name": "Testing Library", "icon": "testing-library", "level": "core" },
+          { "name": "Storybook", "icon": "storybook", "level": "preferred" }
+        ]
+      }
+    ],
+    "levelDescriptions": {
+      "core": "Technologies que nous utilisons dans presque tous les projets",
+      "preferred": "Nos outils de prédilection pour des cas d'utilisation spécifiques",
+      "experimental": "Technologies que nous explorons pour les projets futurs"
+    },
+    "stats": [
+      {
+        "value": "30+",
+        "label": "Technologies"
+      },
+      {
+        "value": "6",
+        "label": "Spécialisations"
+      },
+      {
+        "value": "5+",
+        "label": "Années d'Expérience"
+      },
+      {
+        "value": "100%",
+        "label": "Satisfaction Client"
+      }
+    ]
+  }
+}

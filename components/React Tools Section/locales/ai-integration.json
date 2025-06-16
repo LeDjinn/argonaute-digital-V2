@@ -1,0 +1,112 @@
+{
+  "en": {
+    "title": "AI",
+    "subtitle": "Integrations",
+    "description": "Enhance your applications with powerful AI capabilities using our standardized SDK for seamless model integration.",
+    "features": [
+      {
+        "title": "GPT-Powered Chat",
+        "description": "Intelligent conversational interfaces",
+        "category": "chat"
+      },
+      {
+        "title": "Custom Assistants",
+        "description": "Domain-specific AI helpers",
+        "category": "chat"
+      },
+      {
+        "title": "Image Generation",
+        "description": "AI-created visuals and designs",
+        "category": "content"
+      },
+      {
+        "title": "Workflow Automation",
+        "description": "AI-powered process optimization",
+        "category": "automation"
+      },
+      {
+        "title": "Data Analysis",
+        "description": "Intelligent insights extraction",
+        "category": "automation"
+      },
+      {
+        "title": "Content Generation",
+        "description": "Automated text and creative content",
+        "category": "content"
+      }
+    ],
+    "codeSnippet": {
+      "title": "AI SDK Integration",
+      "code": [
+        "import { generateText } from \"ai\";",
+        "import { openai } from \"@ai-sdk/openai\";",
+        "",
+        "const { text } = await generateText({",
+        "  model: openai(\"gpt-4o\"),",
+        "  prompt: \"Explain AI integration\"",
+        "});"
+      ]
+    },
+    "models": [
+      { "name": "GPT-4o", "color": "cyan" },
+      { "name": "Claude", "color": "purple" },
+      { "name": "Gemini", "color": "blue" },
+      { "name": "Llama", "color": "green" }
+    ]
+  },
+  "fr": {
+    "title": "IA",
+    "subtitle": "Intégrations",
+    "description": "Améliorez vos applications avec de puissantes capacités d'IA en utilisant notre SDK standardisé pour une intégration transparente des modèles.",
+    "features": [
+      {
+        "title": "Chat Propulsé par GPT",
+        "description": "Interfaces conversationnelles intelligentes",
+        "category": "chat"
+      },
+      {
+        "title": "Assistants Personnalisés",
+        "description": "Assistants IA spécifiques au domaine",
+        "category": "chat"
+      },
+      {
+        "title": "Génération d'Images",
+        "description": "Visuels et designs créés par IA",
+        "category": "content"
+      },
+      {
+        "title": "Automatisation de Flux",
+        "description": "Optimisation des processus par IA",
+        "category": "automation"
+      },
+      {
+        "title": "Analyse de Données",
+        "description": "Extraction intelligente d'insights",
+        "category": "automation"
+      },
+      {
+        "title": "Génération de Contenu",
+        "description": "Texte automatisé et contenu créatif",
+        "category": "content"
+      }
+    ],
+    "codeSnippet": {
+      "title": "Intégration SDK IA",
+      "code": [
+        "import { generateText } from \"ai\";",
+        "import { openai } from \"@ai-sdk/openai\";",
+        "",
+        "const { text } = await generateText({",
+        "  model: openai(\"gpt-4o\"),",
+        "  prompt: \"Expliquer l'intégration IA\"",
+        "});"
+      ]
+    },
+    "models": [
+      { "name": "GPT-4o", "color": "cyan" },
+      { "name": "Claude", "color": "purple" },
+      { "name": "Gemini", "color": "blue" },
+      { "name": "Llama", "color": "green" }
+    ]
+  }
+}

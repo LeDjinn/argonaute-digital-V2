@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { MotionValue, motion, useScroll, useTransform } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Button } from "./button";
@@ -14,6 +14,10 @@ import Beam from "./beam";
 import { CustomLink } from "./custom components/custom-link";
 import frenchText from "@/app/messages/fr.json";
 import englishText from "@/app/messages/en.json";
+import teteRebot from "@/public/logos/tete_rebot.svg";
+import { SvgIcon } from "./animated-logo";
+import TeteRebotIcon from "./test-logo";
+
 
 export const Hero = ({ locale }: { locale: string }) => {
   const text = locale === "fr" ? frenchText : englishText;
@@ -39,6 +43,13 @@ export const Hero = ({ locale }: { locale: string }) => {
   const scaleDimensions = () => {
     return isMobile ? [0.7, 0.9] : [1.05, 1.2];
   };
+  const [animation, setAnimation] = useState<
+    "pulse" | "bounce" | "spin" | "shake" | "none"
+  >("pulse");
+  const [color, setColor] = useState("#3b82f6");
+  const [size, setSize] = useState(100);
+  const [duration, setDuration] = useState(2);
+  const [hover, setHover] = useState(true);
 
   const rotate = useTransform(scrollYProgress, [0, 0.5], [20, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
@@ -52,23 +63,18 @@ export const Hero = ({ locale }: { locale: string }) => {
       <Container className="flex  flex-col items-center justify-center">
         <Heading
           as="h1"
-          className="text-4xl md:text-4xl lg:text-8xl font-semibold max-w-6xl mx-auto text-center mt-6 relative z-10  py-6"
+          className="text-4xl md:text-4xl lg:text-8xl font-semibold max-w-6xl mx-auto text-center mt-6 relative z-10  pt-6 pb-3"
         >
-          Argonaute Digital
+               {text.hero.headline}
         </Heading>
+
+        
         <Subheading className="text-center mt-2 md:mt-6 text-base md:text-2xl text-muted dark:text-muted-dark max-w-3xl mx-auto relative z-10">
           {text.hero.subContent}
         </Subheading>
-
-        <div className="flex items-center gap-4 justify-center my-10 relative z-10">
-          <CustomLink
-            href="/contact"
-            variant="primary"
-            className="my-custom-class"
-          >
-            {text.hero.button}
-          </CustomLink>
-        </div>
+  
+        <div className="p-4"></div>
+   
       </Container>
       {/* <div className="flex  items-center justify-center relative p-2 md:p-20 cursor-pointer md:-mt-20">
         <div

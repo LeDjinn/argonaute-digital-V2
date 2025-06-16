@@ -1,0 +1,76 @@
+{
+  "en": {
+    "title": "Web Apps",
+    "subtitle": "React & Next.js",
+    "description": "Building modern, responsive web applications with component-based architecture and server-side rendering.",
+    "features": [
+      {
+        "title": "Component Architecture",
+        "description": "Reusable UI components with React",
+        "framework": "react"
+      },
+      {
+        "title": "Server Components",
+        "description": "Faster rendering with Next.js",
+        "framework": "next"
+      },
+      {
+        "title": "App Router",
+        "description": "Intuitive file-based routing",
+        "framework": "next"
+      },
+      {
+        "title": "Responsive Design",
+        "description": "Mobile-first UI development",
+        "framework": "react"
+      },
+      {
+        "title": "API Integration",
+        "description": "Seamless data fetching",
+        "framework": "next"
+      },
+      {
+        "title": "Rich Interactions",
+        "description": "Engaging user experiences",
+        "framework": "react"
+      }
+    ]
+  },
+  "fr": {
+    "title": "Applications Web",
+    "subtitle": "React & Next.js",
+    "description": "Création d'applications web modernes et réactives avec une architecture basée sur des composants et un rendu côté serveur.",
+    "features": [
+      {
+        "title": "Architecture Composant",
+        "description": "Composants UI réutilisables avec React",
+        "framework": "react"
+      },
+      {
+        "title": "Composants Serveur",
+        "description": "Rendu plus rapide avec Next.js",
+        "framework": "next"
+      },
+      {
+        "title": "Routeur d'Application",
+        "description": "Routage intuitif basé sur les fichiers",
+        "framework": "next"
+      },
+      {
+        "title": "Design Responsive",
+        "description": "Développement UI mobile-first",
+        "framework": "react"
+      },
+      {
+        "title": "Intégration API",
+        "description": "Récupération de données transparente",
+        "framework": "next"
+      },
+      {
+        "title": "Interactions Riches",
+        "description": "Expériences utilisateur engageantes",
+        "framework": "react"
+      }
+    ]
+  }
+}

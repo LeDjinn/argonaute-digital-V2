@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import frenchtext from "@/app/messages/fr.json";
 import englishtext from "@/app/messages/en.json";
-export function LampDemo({locale}:{locale:string}) {
-  const text = locale === 'fr' ? frenchtext.lampDemo : englishtext.lampDemo;
+export function LampDemo({ locale }: { locale: string }) {
+  const text = locale === "fr" ? frenchtext.lampDemo : englishtext.lampDemo;
   return (
     <LampContainer>
       <motion.h1
@@ -34,10 +34,13 @@ export const LampContainer = ({
   return (
     <div
       className={cn(
-        "relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-slate-950 w-full rounded-md z-0",
+        "relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-slate-950 via-slate-950/90 to-slate-950 w-full rounded-md z-0",
         className
       )}
     >
+      {/* Subtle grid background for consistency */}
+      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]"></div>
+
       <div className="relative flex w-full flex-1 scale-y-125 items-center justify-center isolate z-0 ">
         <motion.div
           initial={{ opacity: 0.5, width: "15rem" }}

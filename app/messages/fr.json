@@ -1,7 +1,8 @@
 {
     "hero": {
-        "subContent": "Votre vision, notre expertise digitale.",
-        "button": "Contactez-nous"
+        "headline": "Experts en Node et NextJS ",
+        "subContent": "De l’architecture à la mise en production, en Node JS, des interfaces React modernes et des fonctionnalités IA.",
+        "button": "Planifier un appel"
     },
     "tools": {
         "heading": "Des solutions intelligentes pour chaque besoin.",

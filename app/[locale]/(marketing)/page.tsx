@@ -23,6 +23,17 @@ import { Tools } from "@/components/tools";
 import { IconReceiptFilled } from "@tabler/icons-react";
 import englishText from "@/app/messages/en.json";
 import frenchText from "@/app/messages/fr.json";
+import { CompactChatbot } from "@/components/chatbot";
+import {
+  AiIntegrationSection,
+  ApiSection,
+  ClientLogosSection,
+  TechRadarSection,
+  WebAppsSection,
+} from "@/components/React Tools Section";
+import { SectionTransition } from "@/components/shared/section-transition";
+import { InterSectionDivider } from "@/components/shared/inter-section-divider";
+import { Lamp } from "lucide-react";
 
 export default function Home({
   params,
@@ -34,12 +45,24 @@ export default function Home({
   };
 }) {
   const text = params.locale === "fr" ? frenchText : englishText;
+
   return (
     <div className="relative overflow-hidden">
       <AmbientColor />
       <Hero locale={params.locale} />
-
-      <Features locale={params.locale} />
+      <CompactChatbot />
+      <SectionTransition />
+      <WebAppsSection locale="en" />
+      <InterSectionDivider variant="dots" height={60} />
+      <ApiSection locale="en" />
+      <InterSectionDivider variant="waves" height={80} />
+      <AiIntegrationSection locale="en" />
+      <InterSectionDivider variant="particles" height={70} />
+      <TechRadarSection locale="en" />
+      <InterSectionDivider variant="minimal" height={50} />
+      <LampDemo locale="en" />
+      {/* <ClientLogosSection locale="en" /> */}
+      {/* <Features locale={params.locale} />
       <LampDemo locale= {params.locale} />
 
       <TestimonialsMarquee locale={params.locale} />
@@ -52,7 +75,7 @@ export default function Home({
 
         <FAQs locale={params.locale} />
       </div>
-      <CTA locale={params.locale} />
+      <CTA locale={params.locale} /> */}
     </div>
   );
 }

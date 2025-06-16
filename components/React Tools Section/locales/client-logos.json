@@ -1,0 +1,94 @@
+{
+  "en": {
+    "title": "Trusted by",
+    "subtitle": "innovative companies",
+    "description": "Partnering with forward-thinking organizations to deliver exceptional results",
+    "trustIndicators": [
+      {
+        "icon": "check",
+        "text": "100% satisfaction rate"
+      },
+      {
+        "icon": "clock",
+        "text": "On-time delivery"
+      },
+      {
+        "icon": "zap",
+        "text": "Cutting-edge solutions"
+      }
+    ],
+    "clients": [
+      {
+        "id": 1,
+        "name": "TechCorp",
+        "image": "/abstract-tech-logo-blue.png"
+      },
+      {
+        "id": 2,
+        "name": "InnovateLabs",
+        "image": "/placeholder.svg?key=rtrmh"
+      },
+      {
+        "id": 3,
+        "name": "FutureWave",
+        "image": "/futuristic-wave-logo.png"
+      },
+      {
+        "id": 4,
+        "name": "GlobalSolutions",
+        "image": "/placeholder.svg?key=gbexw"
+      },
+      {
+        "id": 5,
+        "name": "NexusGroup",
+        "image": "/nexus-group-logo.png"
+      }
+    ]
+  },
+  "fr": {
+    "title": "Fait confiance par",
+    "subtitle": "des entreprises innovantes",
+    "description": "Partenariat avec des organisations visionnaires pour fournir des résultats exceptionnels",
+    "trustIndicators": [
+      {
+        "icon": "check",
+        "text": "100% de taux de satisfaction"
+      },
+      {
+        "icon": "clock",
+        "text": "Livraison dans les délais"
+      },
+      {
+        "icon": "zap",
+        "text": "Solutions de pointe"
+      }
+    ],
+    "clients": [
+      {
+        "id": 1,
+        "name": "TechCorp",
+        "image": "/abstract-tech-logo-blue.png"
+      },
+      {
+        "id": 2,
+        "name": "InnovateLabs",
+        "image": "/placeholder.svg?key=rtrmh"
+      },
+      {
+        "id": 3,
+        "name": "FutureWave",
+        "image": "/futuristic-wave-logo.png"
+      },
+      {
+        "id": 4,
+        "name": "GlobalSolutions",
+        "image": "/placeholder.svg?key=gbexw"
+      },
+      {
+        "id": 5,
+        "name": "NexusGroup",
+        "image": "/nexus-group-logo.png"
+      }
+    ]
+  }
+}
