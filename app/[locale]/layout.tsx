@@ -64,6 +64,9 @@ export async function generateMetadata({
       description: content.description,
       images: ["/banner.png"],
     },
+    icons: {
+      icon: [{ url: "/logos/tete_rebot.svg", type: "image/svg+xml" }],
+    },
   };
 }
 
