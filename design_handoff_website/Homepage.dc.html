@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#0a0a0b; }
+  ::selection { background:#6366f1; color:#fff; }
+  a { color:inherit; text-decoration:none; }
+  .link:hover { color:#f2f2f1 !important; }
+  .navlink:hover { color:#f2f2f1 !important; }
+  .btn-primary:hover { background:#e5e5e4 !important; }
+  .btn-ghost:hover { border-color:rgba(255,255,255,0.28) !important; background:rgba(255,255,255,0.03) !important; }
+  .card:hover { border-color:rgba(255,255,255,0.16) !important; background:#151517 !important; }
+  .case-card:hover { border-color:rgba(255,255,255,0.18) !important; }
+  .offer-card:hover { border-color:rgba(99,102,241,0.35) !important; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.35; } }
+</style>
+</helmet>
+<template id="__bundler_thumbnail"><svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#0a0a0b"/><text x="30" y="58" font-size="34" fill="#f2f2f1" font-family="sans-serif">A/</text></svg></template>
+
+<div style="font-family:'Inter',sans-serif; background:#0a0a0b; color:#f2f2f1; min-height:100vh; -webkit-font-smoothing:antialiased;">
+
+  <!-- NAV -->
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:20px 48px; backdrop-filter:blur(12px); background:rgba(10,10,11,0.75); border-bottom:1px solid rgba(255,255,255,0.07);">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div style="width:26px; height:26px; border-radius:7px; background:#f2f2f1; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:14px; color:#0a0a0b;">A/</div>
+      <span style="font-weight:600; font-size:15px; letter-spacing:-0.01em;">Argonaute Digital</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:36px;">
+      <a href="#offers" class="navlink" style="font-size:14px; color:#9a9a9a; transition:color .15s;">Services</a>
+      <a href="Case Studies.dc.html" class="navlink" style="font-size:14px; color:#9a9a9a; transition:color .15s;">Case Studies</a>
+      <a href="#process" class="navlink" style="font-size:14px; color:#9a9a9a; transition:color .15s;">Process</a>
+      <a href="Contact.dc.html" class="navlink" style="font-size:14px; color:#9a9a9a; transition:color .15s;">Contact</a>
+    </div>
+    <a href="Contact.dc.html" class="btn-primary" style="font-size:14px; font-weight:600; background:#f2f2f1; color:#0a0a0b; padding:9px 18px; border-radius:8px; transition:background .15s;">Book a call</a>
+  </nav>
+
+  <!-- HERO -->
+  <section style="max-width:1160px; margin:0 auto; padding:100px 48px 0;">
+    <div style="display:grid; grid-template-columns:1.15fr 0.85fr; gap:64px; align-items:center;">
+      <div>
+        <div style="display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border:1px solid rgba(255,255,255,0.12); border-radius:100px; margin-bottom:28px;">
+          <span style="width:6px; height:6px; border-radius:50%; background:#6ee7a7; animation:pulse 2s infinite;"></span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.04em; color:#9a9a9a;">LIMITED JANUARY CONSULTING CAPACITY</span>
+        </div>
+        <h1 style="font-size:54px; line-height:1.08; letter-spacing:-0.02em; font-weight:700; margin:0 0 24px; text-wrap:pretty;">Production-ready software for teams that can't afford to get it wrong.</h1>
+        <p style="font-size:17.5px; line-height:1.6; color:#9a9a9a; max-width:540px; margin:0 0 20px;">I help agencies, founders and product teams turn complex Next.js, TypeScript and AI-assisted projects into reliable production systems — from audit and architecture to launch and long-term support.</p>
+        <p style="font-size:14px; line-height:1.6; color:#7d7d82; max-width:520px; margin:0 0 32px;">Led by <span style="color:#c8c8c7;">Timour Spiridonov</span>, senior full-stack engineer with 8+ years building production systems for international teams.</p>
+        <div style="display:flex; gap:14px; align-items:center; margin-bottom:40px;">
+          <a href="Contact.dc.html" class="btn-primary" style="font-size:15px; font-weight:600; background:#f2f2f1; color:#0a0a0b; padding:14px 24px; border-radius:9px; transition:background .15s;">Book a discovery call</a>
+          <a href="Case Studies.dc.html" class="btn-ghost" style="font-size:15px; font-weight:500; border:1px solid rgba(255,255,255,0.14); padding:13px 22px; border-radius:9px; transition:all .15s;">View case studies →</a>
+        </div>
+      </div>
+
+      <!-- code-inspired visual -->
+      <div style="border:1px solid rgba(255,255,255,0.1); border-radius:14px; background:#111113; overflow:hidden; box-shadow:0 40px 80px -30px rgba(0,0,0,0.6);">
+        <div style="display:flex; align-items:center; gap:7px; padding:13px 16px; border-bottom:1px solid rgba(255,255,255,0.08);">
+          <span style="width:10px; height:10px; border-radius:50%; background:#3a3a3d;"></span>
+          <span style="width:10px; height:10px; border-radius:50%; background:#3a3a3d;"></span>
+          <span style="width:10px; height:10px; border-radius:50%; background:#3a3a3d;"></span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#6c6c70; margin-left:8px;">system-status.ts</span>
+        </div>
+        <div style="padding:22px 20px; font-family:'IBM Plex Mono',monospace; font-size:13px; line-height:1.9;">
+          <div style="color:#6c6c70;">// current stack</div>
+          <div><span style="color:#c586c0;">const</span> <span style="color:#9cdcfe;">stack</span> = {</div>
+          <div style="padding-left:16px; color:#ce9178;">runtime: <span style="color:#ce9178;">"Node.js"</span>,</div>
+          <div style="padding-left:16px; color:#ce9178;">framework: <span style="color:#ce9178;">"Next.js"</span>,</div>
+          <div style="padding-left:16px; color:#ce9178;">db: <span style="color:#ce9178;">"PostgreSQL"</span>,</div>
+          <div style="padding-left:16px; color:#ce9178;">infra: <span style="color:#ce9178;">"GCP / Vercel"</span>,</div>
+          <div style="padding-left:16px; color:#ce9178;">ai: <span style="color:#ce9178;">"integrated"</span></div>
+          <div>};</div>
+          <div style="margin-top:14px; color:#6c6c70;">// deploy status</div>
+          <div style="display:flex; align-items:center; gap:8px; margin-top:6px;">
+            <span style="width:7px; height:7px; border-radius:50%; background:#6ee7a7;"></span>
+            <span style="color:#9cdcfe;">production</span> <span style="color:#6c6c70;">— healthy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- audience pills -->
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:56px 0 100px;">
+      <sc-for list="{{ audiences }}" as="a" hint-placeholder-count="3">
+        <div style="border:1px solid rgba(255,255,255,0.09); border-radius:12px; padding:20px 22px; background:#0e0e10;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.06em; color:#6366f1; margin-bottom:8px;">{{ a.label }}</div>
+          <div style="font-size:14.5px; color:#e0e0df; line-height:1.5;">{{ a.copy }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <section style="border-top:1px solid rgba(255,255,255,0.07); border-bottom:1px solid rgba(255,255,255,0.07);">
+    <div style="max-width:1160px; margin:0 auto; padding:36px 48px; display:grid; grid-template-columns:repeat(4,1fr); gap:24px;">
+      <div><div style="font-size:28px; font-weight:700; letter-spacing:-0.01em;">8+ years</div><div style="font-size:13px; color:#9a9a9a; margin-top:4px;">building production software</div></div>
+      <div><div style="font-size:28px; font-weight:700; letter-spacing:-0.01em;">600+ pages</div><div style="font-size:13px; color:#9a9a9a; margin-top:4px;">migrated and maintained</div></div>
+      <div><div style="font-size:28px; font-weight:700; letter-spacing:-0.01em;">3 continents</div><div style="font-size:13px; color:#9a9a9a; margin-top:4px;">of project experience</div></div>
+      <div><div style="font-size:28px; font-weight:700; letter-spacing:-0.01em;">Direct</div><div style="font-size:13px; color:#9a9a9a; margin-top:4px;">senior delivery — no handoff to juniors</div></div>
+    </div>
+  </section>
+
+  <!-- PROBLEMS I SOLVE -->
+  <section style="max-width:1160px; margin:0 auto; padding:120px 48px 0;">
+    <div style="max-width:640px; margin-bottom:56px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:#6366f1; margin-bottom:14px;">PROBLEMS I SOLVE</div>
+      <h2 style="font-size:36px; font-weight:700; letter-spacing:-0.015em; margin:0; line-height:1.2;">If any of this sounds familiar, we should talk.</h2>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.08); border-radius:14px; overflow:hidden;">
+      <sc-for list="{{ problems }}" as="p" hint-placeholder-count="6">
+        <div style="background:#0a0a0b; padding:28px; display:flex; gap:14px; align-items:flex-start;">
+          <span style="width:6px; height:6px; border-radius:50%; background:#6366f1; margin-top:8px; flex-shrink:0;"></span>
+          <p style="font-size:15px; line-height:1.6; color:#d4d4d3; margin:0;">{{ p }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- MID CTA -->
+  <section style="max-width:1160px; margin:0 auto; padding:56px 48px 120px;">
+    <div style="border:1px solid rgba(255,255,255,0.09); border-radius:14px; padding:36px 44px; background:#0e0e10; display:flex; align-items:center; justify-content:space-between; gap:32px; flex-wrap:wrap;">
+      <div style="max-width:640px;">
+        <div style="font-size:19px; font-weight:600; margin-bottom:8px;">Recognize your situation?</div>
+        <p style="font-size:14.5px; line-height:1.6; color:#9a9a9a; margin:0;">If your product, prototype or client project is becoming too risky to ship, I can help you clarify what is safe, what needs rebuilding, and what can move to production.</p>
+      </div>
+      <a href="Contact.dc.html" class="btn-ghost" style="flex-shrink:0; font-size:14.5px; font-weight:600; border:1px solid rgba(255,255,255,0.16); padding:13px 22px; border-radius:9px; transition:all .15s; white-space:nowrap;">Book a technical diagnosis</a>
+    </div>
+  </section>
+
+  <!-- OFFERS -->
+  <section id="offers" style="max-width:1160px; margin:0 auto; padding:0 48px 120px;">
+    <div style="max-width:640px; margin-bottom:56px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:#6366f1; margin-bottom:14px;">HOW WE WORK TOGETHER</div>
+      <h2 style="font-size:36px; font-weight:700; letter-spacing:-0.015em; margin:0 0 14px; line-height:1.2;">Three ways to get senior engineering on your side.</h2>
+      <p style="font-size:16px; color:#9a9a9a; margin:0; line-height:1.6;">Scoped, senior, and priced for clarity — not an open-ended retainer with no defined outcome.</p>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+      <sc-for list="{{ offers }}" as="o" hint-placeholder-count="3">
+        <div class="offer-card" style="border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:32px; background:#111113; display:flex; flex-direction:column; transition:border-color .18s;">
+          <div style="font-size:18px; font-weight:600; margin-bottom:6px;">{{ o.title }}</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:#6ee7a7; margin-bottom:16px;">{{ o.price }}</div>
+          <p style="font-size:14px; line-height:1.6; color:#9a9a9a; margin:0 0 20px;">{{ o.desc }}</p>
+          <div style="display:flex; flex-direction:column; gap:9px; margin-bottom:28px; flex:1;">
+            <sc-for list="{{ o.includes }}" as="inc" hint-placeholder-count="6">
+              <div style="display:flex; gap:9px; align-items:flex-start; font-size:13.5px; color:#c8c8c7;">
+                <span style="color:#6366f1; margin-top:1px;">＋</span><span>{{ inc }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <a href="Contact.dc.html" class="btn-ghost" style="text-align:center; font-size:14.5px; font-weight:600; border:1px solid rgba(255,255,255,0.16); padding:12px 20px; border-radius:9px; transition:all .15s;">{{ o.cta }}</a>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- CASE STUDIES -->
+  <section style="border-top:1px solid rgba(255,255,255,0.07); background:#0c0c0e;">
+    <div style="max-width:1160px; margin:0 auto; padding:120px 48px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:56px; gap:32px; flex-wrap:wrap;">
+        <div style="max-width:640px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:#6366f1; margin-bottom:14px;">CASE STUDIES</div>
+          <h2 style="font-size:36px; font-weight:700; letter-spacing:-0.015em; margin:0 0 14px; line-height:1.2;">Proof from complex production systems.</h2>
+          <p style="font-size:16px; color:#9a9a9a; margin:0; line-height:1.6;">Selected work across content platforms, internal tools, CMS workflows and AI-assisted automation — anonymized where needed.</p>
+        </div>
+        <a href="Case Studies.dc.html" class="link" style="font-size:14.5px; color:#9a9a9a; transition:color .15s; flex-shrink:0;">View all →</a>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:20px;">
+        <sc-for list="{{ caseStudies }}" as="c" hint-placeholder-count="4">
+          <a href="Case Study Detail.dc.html" class="case-card" style="display:block; border:1px solid rgba(255,255,255,0.09); border-radius:14px; padding:28px; background:#111113; transition:border-color .18s;">
+            <div style="font-size:19px; font-weight:600; margin-bottom:10px; line-height:1.3;">{{ c.title }}</div>
+            <p style="font-size:14px; line-height:1.6; color:#9a9a9a; margin:0 0 20px;">{{ c.summary }}</p>
+            <div style="display:flex; flex-wrap:wrap; gap:8px;">
+              <sc-for list="{{ c.tags }}" as="tag" hint-placeholder-count="4">
+                <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#9a9a9a; border:1px solid rgba(255,255,255,0.1); padding:5px 10px; border-radius:6px;">{{ tag }}</span>
+              </sc-for>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY ARGONAUTE -->
+  <section>
+    <div style="max-width:1160px; margin:0 auto; padding:120px 48px;">
+      <div style="max-width:640px; margin-bottom:64px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:#6366f1; margin-bottom:14px;">WHY ARGONAUTE</div>
+        <h2 style="font-size:36px; font-weight:700; letter-spacing:-0.015em; margin:0; line-height:1.2;">Not another developer. A technical partner accountable for outcomes.</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.08); border-radius:14px; overflow:hidden;">
+        <div style="background:#0a0a0b; padding:32px;">
+          <div style="font-size:20px; font-weight:600; margin-bottom:10px;">Systems over scripts</div>
+          <p style="font-size:14.5px; line-height:1.65; color:#9a9a9a; margin:0;">I do not just ship isolated features. I design systems that remain maintainable after launch: architecture, data, deployment, permissions and long-term ownership.</p>
+        </div>
+        <div style="background:#0a0a0b; padding:32px;">
+          <div style="font-size:20px; font-weight:600; margin-bottom:10px;">AI-native, not AI-bolted-on</div>
+          <p style="font-size:14.5px; line-height:1.65; color:#9a9a9a; margin:0;">AI is integrated where it creates business value: content workflows, internal tools, automation and decision support — not random chatbot widgets.</p>
+        </div>
+        <div style="background:#0a0a0b; padding:32px;">
+          <div style="font-size:20px; font-weight:600; margin-bottom:10px;">Senior judgment, senior speed</div>
+          <p style="font-size:14.5px; line-height:1.65; color:#9a9a9a; margin:0;">You get senior trade-off decisions from day one: what to build, what to simplify, what to avoid, and what is safe enough to ship.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process" style="border-top:1px solid rgba(255,255,255,0.07); background:#0c0c0e;">
+    <div style="max-width:1160px; margin:0 auto; padding:120px 48px;">
+      <div style="max-width:640px; margin-bottom:64px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:#6366f1; margin-bottom:14px;">PROCESS</div>
+        <h2 style="font-size:36px; font-weight:700; letter-spacing:-0.015em; margin:0; line-height:1.2;">A predictable path from problem to production.</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:24px;">
+        <sc-for list="{{ steps }}" as="st" hint-placeholder-count="4">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#6366f1; margin-bottom:16px;">{{ st.n }}</div>
+            <div style="font-size:17px; font-weight:600; margin-bottom:10px;">{{ st.title }}</div>
+            <p style="font-size:14px; line-height:1.6; color:#9a9a9a; margin:0;">{{ st.desc }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIT -->
+  <section>
+    <div style="max-width:1160px; margin:0 auto; padding:120px 48px;">
+      <div style="max-width:640px; margin-bottom:56px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:#6366f1; margin-bottom:14px;">FIT</div>
+        <h2 style="font-size:36px; font-weight:700; letter-spacing:-0.015em; margin:0; line-height:1.2;">Best fit when the work needs senior ownership.</h2>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+        <div style="border:1px solid rgba(110,231,167,0.2); border-radius:14px; padding:32px; background:#111113;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.06em; color:#6ee7a7; margin-bottom:20px;">THIS IS FOR</div>
+          <sc-for list="{{ goodFit }}" as="g" hint-placeholder-count="5">
+            <div style="display:flex; gap:10px; align-items:flex-start; margin-bottom:14px;">
+              <span style="color:#6ee7a7; font-size:14px; margin-top:1px;">✓</span>
+              <span style="font-size:14.5px; color:#d4d4d3; line-height:1.5;">{{ g }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="border:1px solid rgba(255,255,255,0.09); border-radius:14px; padding:32px; background:#111113;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.06em; color:#7d7d82; margin-bottom:20px;">THIS IS NOT FOR</div>
+          <sc-for list="{{ badFit }}" as="b" hint-placeholder-count="5">
+            <div style="display:flex; gap:10px; align-items:flex-start; margin-bottom:14px;">
+              <span style="color:#7d7d82; font-size:14px; margin-top:1px;">✕</span>
+              <span style="font-size:14.5px; color:#9a9a9a; line-height:1.5;">{{ b }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section style="max-width:1160px; margin:0 auto; padding:120px 48px;">
+    <div style="border:1px solid rgba(255,255,255,0.12); border-radius:20px; padding:72px 64px; background:linear-gradient(180deg,#111113,#0a0a0b); text-align:center;">
+      <h2 style="font-size:36px; font-weight:700; letter-spacing:-0.015em; margin:0 0 16px; max-width:680px; margin-left:auto; margin-right:auto; line-height:1.25;">Need senior technical ownership before your next launch?</h2>
+      <p style="font-size:16px; color:#9a9a9a; margin:0 0 32px; max-width:600px; margin-left:auto; margin-right:auto; line-height:1.6;">If you are building with Next.js, TypeScript, cloud infrastructure or AI-assisted workflows, I can help you move from prototype or technical uncertainty to a reliable production system.</p>
+      <div style="display:flex; gap:14px; align-items:center; justify-content:center;">
+        <a href="Contact.dc.html" class="btn-primary" style="font-size:15px; font-weight:600; background:#f2f2f1; color:#0a0a0b; padding:15px 28px; border-radius:9px; transition:background .15s;">Book a discovery call</a>
+        <a href="Case Studies.dc.html" class="btn-ghost" style="font-size:15px; font-weight:500; border:1px solid rgba(255,255,255,0.14); padding:14px 26px; border-radius:9px; transition:all .15s;">View case studies →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.07);">
+    <div style="max-width:1160px; margin:0 auto; padding:56px 48px 40px; display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:32px;">
+      <div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+          <div style="width:24px; height:24px; border-radius:6px; background:#f2f2f1; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:13px; color:#0a0a0b;">A/</div>
+          <span style="font-weight:600; font-size:14.5px;">Argonaute Digital</span>
+        </div>
+        <p style="font-size:13.5px; color:#6c6c70; line-height:1.6; max-width:280px; margin:0;">Senior full-stack engineering &amp; cloud architecture for international teams. Based in Tunisia, working worldwide.</p>
+      </div>
+      <div>
+        <div style="font-size:12.5px; color:#6c6c70; margin-bottom:14px;">NAVIGATE</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <a href="#offers" class="navlink" style="font-size:14px; color:#9a9a9a;">Services</a>
+          <a href="Case Studies.dc.html" class="navlink" style="font-size:14px; color:#9a9a9a;">Case Studies</a>
+          <a href="Contact.dc.html" class="navlink" style="font-size:14px; color:#9a9a9a;">Contact</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12.5px; color:#6c6c70; margin-bottom:14px;">SERVICES</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <span style="font-size:14px; color:#9a9a9a;">Production Readiness Audit</span>
+          <span style="font-size:14px; color:#9a9a9a;">Prototype to Production</span>
+          <span style="font-size:14px; color:#9a9a9a;">Agency Technical Partner</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12.5px; color:#6c6c70; margin-bottom:14px;">CONTACT</div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <span style="font-size:14px; color:#9a9a9a;">hello@argonaute.digital</span>
+          <span style="font-size:14px; color:#9a9a9a;">Tunis, Tunisia — Remote</span>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1160px; margin:0 auto; padding:24px 48px; border-top:1px solid rgba(255,255,255,0.06); display:flex; justify-content:space-between; font-size:12.5px; color:#6c6c70;">
+      <span>© 2026 Argonaute Digital. All rights reserved.</span>
+      <span>Available for engagements worldwide</span>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      audiences: [
+        { label: "FOR AGENCIES", copy: "White-label senior Next.js / TypeScript delivery." },
+        { label: "FOR FOUNDERS", copy: "Turn AI-built MVPs into production-ready apps." },
+        { label: "FOR PRODUCT TEAMS", copy: "Internal tools, CMS workflows, cloud and integrations." },
+      ],
+      problems: [
+        "Your AI-built MVP works, but is not production-ready.",
+        "Your agency needs senior delivery capacity without hiring.",
+        "Your Next.js app is slow, fragile, or hard to maintain.",
+        "Your internal tools are stuck in spreadsheets and manual workflows.",
+        "Your team needs cloud, auth, database and deployment ownership.",
+        "Your CMS or content workflow has become messy.",
+      ],
+      offers: [
+        {
+          title: "Production Readiness Audit",
+          price: "From €950",
+          desc: "For founders or teams unsure if their app is safe to launch.",
+          includes: ["Codebase review", "Architecture review", "Deployment review", "Database and API risks", "Security basics", "30-day technical roadmap"],
+          cta: "Book an audit",
+        },
+        {
+          title: "Prototype to Production",
+          price: "From €3,000",
+          desc: "For founders using Cursor, Lovable, Bolt, Replit, no-code tools or early MVP code that needs to become reliable software.",
+          includes: ["Code cleanup", "Auth", "Database structure", "Deployment", "Error handling", "Performance", "Production hardening"],
+          cta: "Make my prototype launch-ready",
+        },
+        {
+          title: "Agency Technical Partner",
+          price: "From €1,500/month",
+          desc: "For agencies needing senior TypeScript / Next.js support without hiring full-time.",
+          includes: ["Client project delivery", "White-label development", "Technical rescue", "Integrations", "Cloud support", "Ongoing maintenance"],
+          cta: "Discuss agency partnership",
+        },
+      ],
+      caseStudies: [
+        { title: "Large multilingual Next.js platform", summary: "Maintained and improved a 600+ page content-heavy platform with bilingual content, SEO, redirects, analytics and CDN migration.", tags: ["Next.js", "TypeScript", "SEO", "CDN", "CMS"] },
+        { title: "Custom CMS and page builder", summary: "Designed structured content workflows, reusable blocks and publishing logic for a team managing complex digital content.", tags: ["Next.js", "PostgreSQL", "CMS", "Page Builder"] },
+        { title: "Internal business application", summary: "Built cloud-deployed internal tools with authentication, approvals, database workflows and production support.", tags: ["React", "Node.js", "PostgreSQL", "Google Cloud"] },
+        { title: "AI workflow automation", summary: "Implemented AI-assisted workflows for summarization, classification, content preparation and structured data extraction.", tags: ["OpenAI", "Automation", "Internal Tools", "APIs"] },
+      ],
+      steps: [
+        { n: "01", title: "Discovery", desc: "Understand the problem, constraints, and business goals before writing a line of code." },
+        { n: "02", title: "Architecture", desc: "Define the technical approach, stack, and delivery plan — reviewed with you before build starts." },
+        { n: "03", title: "Build", desc: "Iterative development with regular check-ins, staging environments, and visible progress." },
+        { n: "04", title: "Ship & Support", desc: "Production launch, monitoring, and an ongoing partnership for what comes next." },
+      ],
+      goodFit: [
+        "Agencies needing senior technical capacity",
+        "Founders with prototypes that need to become production-ready",
+        "Product teams with complex internal tools",
+        "Teams that need cloud, database and deployment ownership",
+        "Companies that value direct senior delivery",
+      ],
+      badFit: [
+        "Cheap landing pages",
+        "Low-budget one-off fixes",
+        "Vague ideas with no business owner",
+        "Teams looking for the cheapest developer",
+        "Projects with no clear decision-maker",
+      ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>

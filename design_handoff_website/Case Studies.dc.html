@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#0a0a0b; }
+  a { color:inherit; text-decoration:none; }
+  .navlink:hover { color:#f2f2f1 !important; }
+  .btn-primary:hover { background:#e5e5e4 !important; }
+  .case-card:hover { border-color:rgba(255,255,255,0.18) !important; background:#151517 !important; }
+</style>
+</helmet>
+<template id="__bundler_thumbnail"><svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#0a0a0b"/><text x="30" y="58" font-size="34" fill="#f2f2f1" font-family="sans-serif">A/</text></svg></template>
+
+<div style="font-family:'Inter',sans-serif; background:#0a0a0b; color:#f2f2f1; min-height:100vh; -webkit-font-smoothing:antialiased;">
+
+  <nav style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:20px 48px; backdrop-filter:blur(12px); background:rgba(10,10,11,0.75); border-bottom:1px solid rgba(255,255,255,0.07);">
+    <a href="Homepage.dc.html" style="display:flex; align-items:center; gap:10px;">
+      <div style="width:26px; height:26px; border-radius:7px; background:#f2f2f1; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:14px; color:#0a0a0b;">A/</div>
+      <span style="font-weight:600; font-size:15px; letter-spacing:-0.01em;">Argonaute Digital</span>
+    </a>
+    <div style="display:flex; align-items:center; gap:36px;">
+      <a href="Homepage.dc.html#services" class="navlink" style="font-size:14px; color:#9a9a9a;">Services</a>
+      <a href="Case Studies.dc.html" class="navlink" style="font-size:14px; color:#f2f2f1;">Case Studies</a>
+      <a href="Homepage.dc.html#process" class="navlink" style="font-size:14px; color:#9a9a9a;">Process</a>
+      <a href="Contact.dc.html" class="navlink" style="font-size:14px; color:#9a9a9a;">Contact</a>
+    </div>
+    <a href="Contact.dc.html" class="btn-primary" style="font-size:14px; font-weight:600; background:#f2f2f1; color:#0a0a0b; padding:9px 18px; border-radius:8px;">Book a call</a>
+  </nav>
+
+  <section style="max-width:1160px; margin:0 auto; padding:96px 48px 64px;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; color:#6366f1; margin-bottom:14px;">CASE STUDIES</div>
+    <h1 style="font-size:48px; font-weight:700; letter-spacing:-0.02em; margin:0 0 16px; max-width:720px; line-height:1.15;">Real problems, real architecture decisions, real outcomes.</h1>
+    <p style="font-size:17px; color:#9a9a9a; max-width:600px; margin:0; line-height:1.6;">A look at how engagements are scoped, built, and delivered — challenge, solution, and impact, without the noise of a screenshot gallery.</p>
+  </section>
+
+  <section style="max-width:1160px; margin:0 auto; padding:0 48px 140px; display:grid; grid-template-columns:repeat(2,1fr); gap:20px;">
+    <sc-for list="{{ cases }}" as="c" hint-placeholder-count="4">
+      <a href="Case Study Detail.dc.html" class="case-card" style="display:block; border:1px solid rgba(255,255,255,0.09); border-radius:16px; padding:36px; background:#111113; transition:all .18s;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:0.06em; color:#6366f1;">{{ c.tag }}</div>
+          <div style="font-size:13px; color:#6ee7a7; font-family:'IBM Plex Mono',monospace;">{{ c.impact }}</div>
+        </div>
+        <div style="font-size:22px; font-weight:600; margin-bottom:12px; line-height:1.3;">{{ c.title }}</div>
+        <p style="font-size:14.5px; line-height:1.65; color:#9a9a9a; margin:0 0 24px;">{{ c.summary }}</p>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <sc-for list="{{ c.stack }}" as="tech" hint-placeholder-count="4">
+            <span style="font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#9a9a9a; border:1px solid rgba(255,255,255,0.1); padding:5px 10px; border-radius:6px;">{{ tech }}</span>
+          </sc-for>
+        </div>
+      </a>
+    </sc-for>
+  </section>
+
+  <footer style="border-top:1px solid rgba(255,255,255,0.07);">
+    <div style="max-width:1160px; margin:0 auto; padding:32px 48px; display:flex; justify-content:space-between; font-size:12.5px; color:#6c6c70;">
+      <span>© 2026 Argonaute Digital. All rights reserved.</span>
+      <a href="Homepage.dc.html" class="navlink" style="color:#6c6c70;">← Back home</a>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      cases: [
+        { tag: "SAAS · NEXT.JS", title: "Rebuilding a legacy dashboard for scale", summary: "Migrated a monolithic admin panel to a modular Next.js architecture, cutting page load times and engineering onboarding time.", impact: "↓ 68% load time", stack: ["Next.js", "TypeScript", "PostgreSQL", "Vercel"] },
+        { tag: "AGENCY · CMS", title: "Custom CMS for a multi-brand publisher", summary: "Replaced a brittle WordPress setup with a headless CMS purpose-built for editorial speed and brand flexibility.", impact: "3x publishing speed", stack: ["Node.js", "React", "PostgreSQL", "GCP"] },
+        { tag: "NGO · AI", title: "AI-assisted case management system", summary: "Designed and shipped an AI-augmented workflow tool that reduced manual case triage for a field operations team.", impact: "↓ 40% manual hours", stack: ["TypeScript", "Next.js", "AI Integration"] },
+        { tag: "SME · INTERNAL TOOLS", title: "Operations platform replacing spreadsheets", summary: "Built an internal tool consolidating inventory, orders, and reporting into a single reliable system.", impact: "↓ 5hrs/week admin", stack: ["React", "Node.js", "PostgreSQL"] },
+      ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>
