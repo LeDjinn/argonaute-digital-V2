@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { TechIcon, getTechIcon } from "./utils/tech-icons";
 

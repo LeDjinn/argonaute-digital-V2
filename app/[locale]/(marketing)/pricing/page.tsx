@@ -11,11 +11,11 @@ import { IconReceiptFilled } from "@tabler/icons-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pricing | Proactiv | Aceternity Templates",
+  title: "Pricing | Argonaute Digital",
   description:
-    "Proactiv is an all in on marketing automation platform that handles emails, tasks tracking, social media management and everything in between.",
+    "Transparent, scoped pricing for senior Next.js and TypeScript engineering. Production readiness audits, prototype-to-production, and agency technical partnerships.",
   openGraph: {
-    images: ["https://proactiv-aceternity.vercel.app/banner.png"],
+    images: ["/banner.png"],
   },
 };
 

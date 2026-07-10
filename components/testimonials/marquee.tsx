@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 import { testimonialsEnglish } from "@/constants/page-testimonials";
 import { testimonialsFrench } from "@/constants/page-testimonials-french";

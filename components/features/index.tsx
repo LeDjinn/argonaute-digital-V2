@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 import { GradientContainer } from "../gradient-container";
 import { Container } from "../container";

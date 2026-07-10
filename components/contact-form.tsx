@@ -1,113 +1,191 @@
-import React from "react";
-import { Container } from "./container";
-import { Heading } from "./heading";
-import { Subheading } from "./subheading";
-import { Button } from "./button";
-import { Grid } from "./features/grid";
-import { FeatureIconContainer } from "./features/feature-icon-container";
-import { IconMailFilled } from "@tabler/icons-react";
-import frenchtext from "@/app/messages/fr.json";
-import englishtext from "@/app/messages/en.json";
+"use client";
+import React, { useState } from "react";
+import enText from "@/app/messages/en.json";
+import frText from "@/app/messages/fr.json";
 
-export const ContactForm = ({locale}:{locale:string}) => {
-  const text = locale === 'fr' ? frenchtext.contact : englishtext.contact;
+export const ContactForm = ({ locale }: { locale: string }) => {
+  const t = locale === "fr" ? frText.contact : enText.contact;
+  const [submitted, setSubmitted] = useState(false);
+
   return (
-    <Container className="py-40 md:py-60 grid grid-cols-1 md:grid-cols-2 gap-10 px-6">
+    <section className="max-w-[1160px] mx-auto px-6 md:px-12 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-[72px]">
+      {/* Left — Info */}
       <div>
-        <div className="flex">
-          <FeatureIconContainer className="flex justify-center items-center overflow-hidden">
-            <IconMailFilled className="h-6 w-6 text-cyan-500" />
-          </FeatureIconContainer>
+        <div className="font-mono text-xs tracking-[0.08em] text-accent-indigo mb-4">
+          {t.eyebrow}
         </div>
-        <Heading className="text-left">{text.heading}</Heading>
-        <Subheading className="text-left text-neutral-400">
-      {text.subheading}
-        </Subheading>
+        <h1 className="text-[32px] md:text-[42px] font-bold tracking-[-0.02em] leading-[1.15] mb-5">
+          {t.heading}
+        </h1>
+        <p className="text-base text-text-secondary leading-[1.65] mb-10">
+          {t.subheading}
+        </p>
 
-        <div className="text-sm mt-10">
-          <p className="text-sm text-neutral-200">Email</p>
-          <p className="text-sm text-neutral-400">
-            argonautedigital.tim@gmail.com
-          </p>
-        </div>
-        <div className="text-sm mt-4">
-          <p className="text-sm text-neutral-200">{text.phone}</p>
-          <p className="text-sm text-neutral-400">+216 58 900 309</p>
+        <div
+          className="flex flex-col gap-6 pt-6"
+          style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
+        >
+          <div>
+            <div className="text-xs text-text-tertiary mb-1.5">{t.emailLabel}</div>
+            <div className="text-[15px]">{t.emailValue}</div>
+          </div>
+          <div>
+            <div className="text-xs text-text-tertiary mb-1.5">{t.locationLabel}</div>
+            <div className="text-[15px]">{t.locationValue}</div>
+          </div>
+          <div>
+            <div className="text-xs text-text-tertiary mb-1.5">{t.responseLabel}</div>
+            <div className="text-[15px]">{t.responseValue}</div>
+          </div>
         </div>
       </div>
-      <form
-        action="https://formspree.io/f/mgveanvn"
-        method="POST"
-        className="flex flex-col items-start gap-4 max-w-2xl w-full mx-auto bg-gradient-to-b from-neutral-900 to-neutral-950 p-10 rounded-3xl relative overflow-hidden"
-      >
-        <Grid size={20} />
-        <div className="mb-4 w-full relative z-20">
-          <label
-            className="text-neutral-300 text-sm font-medium mb-2 inline-block"
-            htmlFor="name"
+
+      {/* Right — Form */}
+      <div>
+        {!submitted ? (
+          <form
+            action="https://formspree.io/f/mgveanvn"
+            method="POST"
+            onSubmit={(e) => {
+              e.preventDefault();
+              const form = e.currentTarget;
+              fetch(form.action, {
+                method: "POST",
+                body: new FormData(form),
+                headers: { Accept: "application/json" },
+              }).then((res) => {
+                if (res.ok) setSubmitted(true);
+              });
+            }}
+            className="rounded-2xl p-8 md:p-10 flex flex-col gap-5"
+            style={{
+              border: "1px solid rgba(255,255,255,0.1)",
+              background: "#111113",
+            }}
           >
-            {text.name}
-          </label>
-          <input
-            id="name"
-            type="text"
-            name="name"
-            placeholder={text.namePlaceholder}
-            required
-            className="h-10 pl-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800"
-          />
-        </div>
-        <div className="mb-4 w-full relative z-20">
-          <label
-            className="text-neutral-300 text-sm font-medium mb-2 inline-block"
-            htmlFor="email"
+            {/* Name + Email row */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-[13px] text-text-secondary mb-2">
+                  {t.formName}
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder={t.formNamePlaceholder}
+                  className="w-full rounded-[9px] px-[14px] py-3 text-[14.5px] text-text-primary transition-[border-color] duration-150"
+                  style={{
+                    background: "#0a0a0b",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                  }}
+                />
+              </div>
+              <div>
+                <label className="block text-[13px] text-text-secondary mb-2">
+                  {t.formEmail}
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder={t.formEmailPlaceholder}
+                  className="w-full rounded-[9px] px-[14px] py-3 text-[14.5px] text-text-primary transition-[border-color] duration-150"
+                  style={{
+                    background: "#0a0a0b",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Company */}
+            <div>
+              <label className="block text-[13px] text-text-secondary mb-2">
+                {t.formCompany}
+              </label>
+              <input
+                type="text"
+                name="company"
+                placeholder={t.formCompanyPlaceholder}
+                className="w-full rounded-[9px] px-[14px] py-3 text-[14.5px] text-text-primary transition-[border-color] duration-150"
+                style={{
+                  background: "#0a0a0b",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                }}
+              />
+            </div>
+
+            {/* Engagement type */}
+            <div>
+              <label className="block text-[13px] text-text-secondary mb-2">
+                {t.formType}
+              </label>
+              <select
+                name="type"
+                className="w-full rounded-[9px] px-[14px] py-3 text-[14.5px] text-text-primary"
+                style={{
+                  background: "#0a0a0b",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                }}
+              >
+                {t.formTypeOptions.map((opt: any) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Project details */}
+            <div>
+              <label className="block text-[13px] text-text-secondary mb-2">
+                {t.formMessage}
+              </label>
+              <textarea
+                name="message"
+                required
+                rows={5}
+                placeholder={t.formMessagePlaceholder}
+                className="w-full rounded-[9px] px-[14px] py-3 text-[14.5px] text-text-primary resize-y font-[inherit] transition-[border-color] duration-150"
+                style={{
+                  background: "#0a0a0b",
+                  border: "1px solid rgba(255,255,255,0.12)",
+                }}
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="btn-primary text-[15px] font-semibold px-6 py-[14px] rounded-[9px] border-none cursor-pointer mt-1"
+              style={{ background: "#f2f2f1", color: "#0a0a0b" }}
+            >
+              {t.formSubmit}
+            </button>
+
+            <p className="text-[12.5px] text-text-tertiary text-center m-0">
+              {t.formDisclaimer}
+            </p>
+          </form>
+        ) : (
+          <div
+            className="rounded-2xl px-10 py-14 text-center"
+            style={{
+              border: "1px solid rgba(110,231,167,0.25)",
+              background: "#111113",
+            }}
           >
-            {text.email}
-          </label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            placeholder={text.emailPlaceholder}
-            required
-            className="h-10 pl-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800"
-          />
-        </div>
-        <div className="mb-4 w-full relative z-20">
-          <label
-            className="text-neutral-300 text-sm font-medium mb-2 inline-block"
-            htmlFor="company"
-          >
-            {text.company}
-          </label>
-          <input
-            id="company"
-            type="text"
-            name="company"
-            placeholder={text.companyPlaceholder}
-            className="h-10 pl-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800"
-          />
-        </div>
-        <div className="mb-4 w-full relative z-20">
-          <label
-            className="text-neutral-300 text-sm font-medium mb-2 inline-block"
-            htmlFor="message"
-          >
-           {text.message}
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            rows={5}
-            placeholder={text.messagePlaceholder}
-            required
-            className="pl-4 pt-4 w-full rounded-md text-sm bg-charcoal border border-neutral-800 text-white placeholder-neutral-500 outline-none focus:ring-2 focus:ring-neutral-800"
-          />
-        </div>
-        <Button type="submit" variant="muted">
-        {text.button}
-        </Button>
-      </form>
-    </Container>
+            <div
+              className="w-11 h-11 rounded-full flex items-center justify-center mx-auto mb-5 text-[20px] text-accent-green"
+              style={{ background: "rgba(110,231,167,0.15)" }}
+            >
+              ✓
+            </div>
+            <div className="text-[20px] font-semibold mb-[10px]">{t.successTitle}</div>
+            <p className="text-[14.5px] text-text-secondary m-0">{t.successBody}</p>
+          </div>
+        )}
+      </div>
+    </section>
   );
 };

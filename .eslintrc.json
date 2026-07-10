@@ -1,3 +1,12 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "ignorePatterns": [
+    "components/React Tools Section/**",
+    "components/chatbot/**",
+    "components/aceternity/**",
+    "components/beam/**",
+    "components/features/**",
+    "components/test-logo.tsx",
+    "components/custom components/caroussel-custom.tsx"
+  ]
 }

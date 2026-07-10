@@ -8,11 +8,11 @@ import { Tools } from "@/components/tools";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Features | Argonaute Digital",
+  title: "Our Workflow | Argonaute Digital",
   description:
-    "Argonaute Digital offers comprehensive digital solutions, including API integration, custom software, and SaaS for seamless business operations.",
+    "How I work: a clear, senior-led engineering process from discovery and architecture through delivery and long-term support. No handoffs to juniors.",
   openGraph: {
-    images: ["https://argonaute-digital.vercel.app/banner.png"],
+    images: ["/banner.png"],
   },
 };
 

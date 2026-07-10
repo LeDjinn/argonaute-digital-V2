@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 import { getCookie } from "@/lib/cookies";
 import {

@@ -1,76 +1,278 @@
 {
-    "hero": {
-        "headline": "Experts en Node et NextJS ",
-        "subContent": "De l’architecture à la mise en production, en Node JS, des interfaces React modernes et des fonctionnalités IA.",
-        "button": "Planifier un appel"
+  "nav": {
+    "services": "Services",
+    "caseStudies": "Études de cas",
+    "process": "Processus",
+    "contact": "Contact",
+    "bookCall": "Réserver un appel"
+  },
+  "hero": {
+    "badge": "CAPACITÉ DE CONSULTING LIMITÉE",
+    "headline": "Des logiciels prêts pour la production, pour les équipes qui ne peuvent pas se permettre l'erreur.",
+    "subheadline": "J'aide les agences, les fondateurs et les équipes produit à transformer leurs projets complexes Next.js, TypeScript et IA en systèmes de production fiables — de l'audit et l'architecture au lancement et au support à long terme.",
+    "byline": "Dirigé par",
+    "bylineName": "Timour Spiridonov",
+    "bylineDesc": ", ingénieur full-stack senior avec plus de 8 ans d'expérience dans la construction de systèmes de production pour des équipes internationales.",
+    "ctaPrimary": "Réserver un appel découverte",
+    "ctaSecondary": "Voir les études de cas →",
+    "codeComment1": "// stack actuelle",
+    "codeComment2": "// état du déploiement",
+    "codeStatus": "production",
+    "codeStatusLabel": "— opérationnel"
+  },
+  "audiences": [
+    { "label": "POUR LES AGENCES", "copy": "Livraison senior Next.js / TypeScript en marque blanche." },
+    { "label": "POUR LES FONDATEURS", "copy": "Transformez vos MVP générés par IA en apps prêtes pour la production." },
+    { "label": "POUR LES ÉQUIPES PRODUIT", "copy": "Outils internes, workflows CMS, cloud et intégrations." }
+  ],
+  "stats": [
+    { "value": "8+ ans", "label": "de développement logiciel en production" },
+    { "value": "600+ pages", "label": "migrées et maintenues" },
+    { "value": "3 continents", "label": "d'expérience projet" },
+    { "value": "Direct", "label": "livraison senior — sans délégation à des juniors" }
+  ],
+  "problems": {
+    "eyebrow": "PROBLÈMES QUE JE RÉSOUS",
+    "heading": "Si l'une de ces situations vous parle, parlons-en.",
+    "items": [
+      "Votre MVP généré par IA fonctionne, mais n'est pas prêt pour la production.",
+      "Votre agence a besoin de capacité senior sans recruter.",
+      "Votre app Next.js est lente, fragile ou difficile à maintenir.",
+      "Vos outils internes sont coincés dans des tableurs et des workflows manuels.",
+      "Votre équipe a besoin de maîtrise cloud, auth, base de données et déploiement.",
+      "Votre CMS ou workflow de contenu est devenu ingérable."
+    ]
+  },
+  "midCta": {
+    "heading": "Vous reconnaissez votre situation ?",
+    "body": "Si votre produit, prototype ou projet client devient trop risqué à livrer, je peux vous aider à clarifier ce qui est sûr, ce qui doit être reconstruit et ce qui peut passer en production.",
+    "button": "Réserver un diagnostic technique"
+  },
+  "offers": {
+    "eyebrow": "COMMENT ON TRAVAILLE ENSEMBLE",
+    "heading": "Trois façons de bénéficier d'un ingénieur senior à vos côtés.",
+    "subheading": "Cadré, senior et tarifé pour la clarté — pas un contrat ouvert sans résultat défini.",
+    "items": [
+      {
+        "title": "Audit de Production",
+        "price": "Sur devis",
+        "desc": "Pour les fondateurs ou équipes qui ne savent pas si leur app est prête à être lancée.",
+        "includes": ["Revue du code", "Revue de l'architecture", "Revue du déploiement", "Risques base de données et API", "Bases de sécurité", "Feuille de route technique sur 30 jours"],
+        "cta": "Réserver un audit"
+      },
+      {
+        "title": "Du Prototype à la Production",
+        "price": "Sur devis",
+        "desc": "Pour les fondateurs utilisant Cursor, Lovable, Bolt, Replit, des outils no-code ou du code MVP qui doit devenir un logiciel fiable.",
+        "includes": ["Nettoyage du code", "Authentification", "Structure de base de données", "Déploiement", "Gestion des erreurs", "Performance", "Renforcement production"],
+        "cta": "Rendre mon prototype prêt au lancement"
+      },
+      {
+        "title": "Partenaire Technique Agence",
+        "price": "Sur devis",
+        "desc": "Pour les agences ayant besoin de support senior TypeScript / Next.js sans recruter à temps plein.",
+        "includes": ["Livraison de projets clients", "Développement en marque blanche", "Sauvetage technique", "Intégrations", "Support cloud", "Maintenance continue"],
+        "cta": "Discuter d'un partenariat agence"
+      }
+    ]
+  },
+  "caseStudiesSection": {
+    "eyebrow": "ÉTUDES DE CAS",
+    "heading": "Des preuves issues de systèmes de production complexes.",
+    "subheading": "Travaux sélectionnés à travers des plateformes de contenu, outils internes, workflows CMS et automatisation assistée par IA — anonymisés si nécessaire.",
+    "viewAll": "Voir tout →"
+  },
+  "caseStudies": [
+    {
+      "slug": "novaline-dashboard",
+      "tag": "SAAS · NEXT.JS",
+      "impact": "↓ 68% temps de chargement",
+      "title": "Refonte d'un tableau de bord legacy pour la scalabilité",
+      "summary": "Migration d'un panneau admin monolithique vers une architecture Next.js modulaire, réduisant les temps de chargement et d'intégration des développeurs.",
+      "stack": ["Next.js", "TypeScript", "PostgreSQL", "Vercel"],
+      "client": "Novaline Systems",
+      "role": "Ingénieur principal",
+      "timeline": "10 semaines",
+      "challenge": "Le tableau de bord admin du client avait grandi organiquement pendant quatre ans en une application React monolithique sans frontières de modules claires. Chaque nouvelle fonctionnalité risquait des régressions, les déploiements prenaient plus de 20 minutes, et l'intégration d'un nouvel ingénieur nécessitait un mois avant de pouvoir livrer en toute sécurité.",
+      "solution": "J'ai mené une migration progressive vers une architecture Next.js modulaire avec des frontières de domaine claires, en réécrivant d'abord les modules à fort trafic tout en maintenant l'app legacy en production. L'accès aux données a été consolidé derrière une couche API typée avec PostgreSQL, et le pipeline de déploiement a été migré vers Vercel avec des environnements de preview pour chaque PR.",
+      "outcomes": [
+        { "value": "↓ 68%", "label": "temps de chargement" },
+        { "value": "4 min", "label": "temps de déploiement moyen" },
+        { "value": "1 semaine", "label": "intégration nouveau développeur" }
+      ],
+      "closingParagraph": "L'équipe du client déploie maintenant plusieurs fois par jour en toute confiance, et la structure modulaire a supporté trois lancements majeurs de fonctionnalités depuis la livraison sans refonte architecturale."
     },
-    "tools": {
-        "heading": "Des solutions intelligentes pour chaque besoin.",
-        "subheading": "Argonaute Digital propose des outils conçus pour s’adapter à vos besoins et optimiser votre productivité."
+    {
+      "slug": "meridian-cms",
+      "tag": "AGENCE · CMS",
+      "impact": "3x vitesse de publication",
+      "title": "CMS sur mesure pour un éditeur multi-marques",
+      "summary": "Remplacement d'une configuration WordPress fragile par un CMS headless conçu pour la rapidité éditoriale et la flexibilité multi-marques.",
+      "stack": ["Node.js", "React", "PostgreSQL", "GCP"],
+      "client": "Meridian Creative Agency",
+      "role": "Architecte technique",
+      "timeline": "12 semaines",
+      "challenge": "Meridian Creative Agency gérait du contenu éditorial pour trois marques distinctes, chacune sur une instance WordPress séparée. La duplication de contenu, les conflits de plugins et les temps de chargement lents faisaient perdre des heures à l'équipe éditoriale chaque semaine.",
+      "solution": "J'ai conçu et construit un CMS headless avec un modèle de contenu unifié supportant la publication multi-marques. Chaque marque dispose de sa propre couche visuelle tout en partageant un même backend de contenu structuré. Le nouveau système tourne sur Google Cloud avec PostgreSQL, servant le contenu via une API typée vers des frontends Next.js spécifiques à chaque marque.",
+      "outcomes": [
+        { "value": "3×", "label": "vitesse de publication" },
+        { "value": "1", "label": "CMS unifié pour 3 marques" },
+        { "value": "↓ 60%", "label": "duplication de contenu" }
+      ],
+      "closingParagraph": "L'équipe éditoriale publie maintenant sur les trois marques depuis une interface unique, avec la publication croisée automatisée et le formatage spécifique à chaque marque gérés par le système."
     },
-    "faq": {
-        "heading": "Questions Fréquemment Posées"
+    {
+      "slug": "helios-case-management",
+      "tag": "ONG · IA",
+      "impact": "↓ 40% heures manuelles",
+      "title": "Système de gestion de cas assisté par IA",
+      "summary": "Conception et livraison d'un outil de workflow augmenté par IA qui a réduit le tri manuel des cas pour une équipe d'opérations terrain.",
+      "stack": ["TypeScript", "Next.js", "Intégration IA"],
+      "client": "Helios Field Operations",
+      "role": "Ingénieur full-stack",
+      "timeline": "8 semaines",
+      "challenge": "Helios Field Operations traitait des centaines de rapports de cas par semaine via un tri manuel par email et un suivi sur tableur. La priorisation des cas était incohérente et les cas critiques attendaient parfois des jours avant d'être assignés.",
+      "solution": "J'ai construit une plateforme de gestion de cas avec un tri alimenté par IA qui classifie automatiquement les rapports entrants, suggère des niveaux de priorité et route les cas vers les bons membres de l'équipe. Le système s'intègre avec leur workflow email existant et fournit un tableau de bord en temps réel pour les superviseurs.",
+      "outcomes": [
+        { "value": "↓ 40%", "label": "heures de tri manuel" },
+        { "value": "< 2h", "label": "temps de réponse cas critiques" },
+        { "value": "95%", "label": "précision de classification" }
+      ],
+      "closingParagraph": "L'équipe terrain traite maintenant les cas en temps réel avec une priorisation assistée par IA, libérant les coordinateurs pour se concentrer sur les cas nécessitant un jugement humain."
     },
-    "lampDemo": {
-    "firstWOrd": "Concevoir des logiciels",
-    "secondWord": "avec excellence."
-},"marqueeTestimonial": {
-    "heading": "Applications et Sites Web Que Nous Avons Créés",
-    "subheading": "Découvrez les applications et sites web personnalisés que nous avons développés pour des entreprises et des équipes."
-}
-,
-"testimonials": {
-    "heading": "Notre Expertise",
-    "subheading": "Découvrez comment nos solutions digitales ont aidé les entreprises à atteindre leurs objectifs."
-},
-
-    "cta": {
-        "heading": "Argonaute Digital pour des solutions digitales sur mesure",
-        "subheading": "Découvrez une suite d'outils personnalisés conçus pour propulser votre entreprise. Rejoignez ceux qui ont transformé leurs flux de travail digitales avec nous.",
-        "button": "Contactez-nous"
-    },
-    "contact": {
-        "heading": "Contactez-nous",
-        "subheading": "Nous cherchons toujours à améliorer nos produits et services. Contactez-nous et faites-nous savoir comment nous pouvons vous aider.",
-        "phone": "Téléphone",
-        "name": "Nom Complet",
-        "namePlaceholder": "Entrez votre nom complet",
-        "email": "Adresse Email",
-        "emailPlaceholder": "Entrez votre adresse email",
-        "company": "Entreprise",
-        "companyPlaceholder": "Entrez le nom de votre entreprise",
-        "message": "Message",
-        "messagePlaceholder": "Entrez votre message",
-        "button": "Envoyer le Message"
-    },
-    "customTimeline": {
-        "heading": "Notre Processus de Travail",
-        "subheading": "Découvrez comment nous abordons les projets, des discussions initiales à la livraison finale, en garantissant des résultats exceptionnels à chaque étape."
-    },
-    "features": {
-        "heading": "Sites Web, Applications et Outils pour Votre Entreprise",
-        "subheading": "Des sites web aux applications internes, nous livrons ce dont votre équipe a besoin.",
-        "cards": [
-            {
-                "title": "Connecter Vos Outils",
-                "description": "Réduisez le travail manuel avec des intégrations intelligentes adaptées à vos besoins."
-            },
-            {
-                "title": "Softwares Internes",
-                "description": "Des outils digitaux pour fluidifier vos échanges et maximiser l’efficacité de votre équipe."
-            },
-            {
-                "title": "Intégrations API",
-                "description": "Optimisez votre travail en connectant Webflow, Slack et GPT pour limiter les actions répétitives."
-            },
-            {
-                "title": "Sites Web et Pages de Destination Personnalisés",
-                "description": "Des solutions web sur mesure, alliant performance, fluidité et expérience utilisateur optimale."
-            },
-            {
-                "title": "Boutiques en Ligne Optimisées",
-                "description": "Conception de plateforme e-commerce performante, intuitive et conçue pour maximiser vos ventes."
-            }
-        ]
+    {
+      "slug": "arterra-operations",
+      "tag": "PME · OUTILS INTERNES",
+      "impact": "↓ 5h/semaine admin",
+      "title": "Plateforme d'opérations remplaçant les tableurs",
+      "summary": "Construction d'un outil interne consolidant inventaire, commandes et reporting dans un système fiable unique.",
+      "stack": ["React", "Node.js", "PostgreSQL"],
+      "client": "Arterra Boutique",
+      "role": "Développeur solo",
+      "timeline": "6 semaines",
+      "challenge": "Arterra Boutique gérait l'ensemble de ses opérations à travers sept Google Sheets, trois fils d'emails et un groupe WhatsApp. Le suivi des commandes était peu fiable, les comptages d'inventaire divergeaient de la réalité, et le reporting mensuel prenait une journée entière de compilation manuelle.",
+      "solution": "J'ai construit une plateforme d'opérations unifiée avec un suivi d'inventaire en temps réel, un traitement automatisé des commandes et un reporting en un clic. Le système a remplacé leurs workflows tableur par une application web unique accessible à toute l'équipe, avec des permissions basées sur les rôles et des notifications automatisées.",
+      "outcomes": [
+        { "value": "↓ 5h", "label": "temps admin hebdomadaire" },
+        { "value": "0", "label": "écarts d'inventaire" },
+        { "value": "1 clic", "label": "rapports mensuels" }
+      ],
+      "closingParagraph": "Le propriétaire a maintenant une visibilité en temps réel sur les opérations et l'équipe consacre son temps au travail client plutôt qu'à la maintenance de tableurs."
     }
+  ],
+  "caseStudiesPage": {
+    "eyebrow": "ÉTUDES DE CAS",
+    "heading": "Des problèmes réels, des décisions d'architecture réelles, des résultats réels.",
+    "subheading": "Un aperçu de la façon dont les missions sont cadrées, construites et livrées — défi, solution et impact, sans le bruit d'une galerie de captures d'écran.",
+    "backHome": "← Retour à l'accueil"
+  },
+  "caseStudyDetail": {
+    "backLink": "← Toutes les études de cas",
+    "clientLabel": "CLIENT",
+    "roleLabel": "RÔLE",
+    "timelineLabel": "DÉLAI",
+    "challengeLabel": "DÉFI",
+    "solutionLabel": "SOLUTION",
+    "outcomeLabel": "RÉSULTAT",
+    "closingCtaHeading": "Un problème d'architecture similaire ?",
+    "closingCtaBody": "Parlons de ce à quoi ressemblerait une refonte ou un audit pour votre produit.",
+    "closingCtaButton": "Réserver un appel découverte",
+    "backFooter": "← Toutes les études de cas"
+  },
+  "whyArgonaute": {
+    "eyebrow": "POURQUOI ARGONAUTE",
+    "heading": "Pas un développeur de plus. Un partenaire technique responsable des résultats.",
+    "items": [
+      {
+        "title": "Des systèmes, pas des scripts",
+        "body": "Je ne livre pas juste des fonctionnalités isolées. Je conçois des systèmes qui restent maintenables après le lancement : architecture, données, déploiement, permissions et propriété à long terme."
+      },
+      {
+        "title": "IA native, pas IA plaquée",
+        "body": "L'IA est intégrée là où elle crée de la valeur business : workflows de contenu, outils internes, automatisation et aide à la décision — pas des widgets chatbot aléatoires."
+      },
+      {
+        "title": "Jugement senior, vitesse senior",
+        "body": "Vous bénéficiez de décisions de compromis senior dès le premier jour : quoi construire, quoi simplifier, quoi éviter, et ce qui est suffisamment sûr pour être livré."
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "PROCESSUS",
+    "heading": "Un chemin prévisible du problème à la production.",
+    "steps": [
+      { "n": "01", "title": "Découverte", "desc": "Comprendre le problème, les contraintes et les objectifs business avant d'écrire une ligne de code." },
+      { "n": "02", "title": "Architecture", "desc": "Définir l'approche technique, la stack et le plan de livraison — validé avec vous avant le début de la construction." },
+      { "n": "03", "title": "Construction", "desc": "Développement itératif avec des points réguliers, des environnements de staging et des progrès visibles." },
+      { "n": "04", "title": "Livraison & Support", "desc": "Lancement en production, monitoring et un partenariat continu pour la suite." }
+    ]
+  },
+  "fit": {
+    "eyebrow": "ADÉQUATION",
+    "heading": "Meilleur fit quand le travail nécessite une maîtrise senior.",
+    "goodLabel": "C'EST POUR VOUS",
+    "badLabel": "CE N'EST PAS POUR VOUS",
+    "good": [
+      "Agences ayant besoin de capacité technique senior",
+      "Fondateurs avec des prototypes qui doivent devenir production-ready",
+      "Équipes produit avec des outils internes complexes",
+      "Équipes ayant besoin de maîtrise cloud, base de données et déploiement",
+      "Entreprises qui valorisent la livraison senior directe"
+    ],
+    "bad": [
+      "Landing pages bon marché",
+      "Corrections ponctuelles à petit budget",
+      "Idées vagues sans porteur de projet",
+      "Équipes cherchant le développeur le moins cher",
+      "Projets sans décideur clair"
+    ]
+  },
+  "finalCta": {
+    "heading": "Besoin d'une maîtrise technique senior avant votre prochain lancement ?",
+    "body": "Si vous construisez avec Next.js, TypeScript, infrastructure cloud ou des workflows assistés par IA, je peux vous aider à passer du prototype ou de l'incertitude technique à un système de production fiable.",
+    "ctaPrimary": "Réserver un appel découverte",
+    "ctaSecondary": "Voir les études de cas →"
+  },
+  "footer": {
+    "description": "Ingénierie full-stack senior et architecture cloud pour les équipes internationales. Basé en Tunisie, travaillant dans le monde entier.",
+    "navigateLabel": "NAVIGUER",
+    "servicesLabel": "SERVICES",
+    "contactLabel": "CONTACT",
+    "services": ["Audit de Production", "Du Prototype à la Production", "Partenaire Technique Agence"],
+    "email": "hello@argonaute.digital",
+    "location": "Tunis, Tunisie — Remote",
+    "copyright": "© 2026 Argonaute Digital. Tous droits réservés.",
+    "availability": "Disponible pour des missions dans le monde entier"
+  },
+  "contact": {
+    "eyebrow": "CONTACT",
+    "heading": "Parlons de ce que vous construisez.",
+    "subheading": "Dites-moi tout sur le problème ou le projet — architecture, délais, budget, ce que vous avez. Je lis chaque message personnellement et je réponds sous un jour ouvré.",
+    "emailLabel": "EMAIL",
+    "emailValue": "hello@argonaute.digital",
+    "locationLabel": "LOCALISATION",
+    "locationValue": "Tunis, Tunisie — GMT+1, remote mondial",
+    "responseLabel": "TEMPS DE RÉPONSE",
+    "responseValue": "Sous 1 jour ouvré",
+    "formName": "Nom",
+    "formNamePlaceholder": "Jean Dupont",
+    "formEmail": "Email professionnel",
+    "formEmailPlaceholder": "jean@entreprise.com",
+    "formCompany": "Entreprise",
+    "formCompanyPlaceholder": "Nom de l'entreprise ou du projet",
+    "formType": "Type de mission",
+    "formTypeOptions": [
+      { "value": "fractional", "label": "Ingénierie fractionnelle" },
+      { "value": "audit", "label": "Audit technique" },
+      { "value": "project", "label": "Nouveau projet / livraison produit" },
+      { "value": "ai", "label": "Intégration workflow IA" },
+      { "value": "other", "label": "Autre" }
+    ],
+    "formMessage": "Détails du projet",
+    "formMessagePlaceholder": "Que construisez-vous, et quel est le problème principal ?",
+    "formSubmit": "Envoyer le message",
+    "formDisclaimer": "Pas de spam, pas de newsletters — juste une réponse directe.",
+    "successTitle": "Message reçu.",
+    "successBody": "Merci — je vous répondrai sous un jour ouvré."
+  }
 }

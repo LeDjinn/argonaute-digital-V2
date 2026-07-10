@@ -1,24 +1,22 @@
-import { AmbientColor } from "@/components/ambient-color";
 import { ContactForm } from "@/components/contact-form";
-import { CTA } from "@/components/cta";
-import { Features } from "@/components/features";
-import { Testimonials } from "@/components/testimonials";
-import { Tools } from "@/components/tools";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact | Proactiv | Aceternity Templates",
+  title: "Contact | Argonaute Digital",
   description:
-    "Proactiv is an all in on marketing automation platform that handles emails, tasks tracking, social media management and everything in between.",
+    "Let's talk about what you're building. Tell me about your project and I'll reply within one business day.",
   openGraph: {
-    images: ["https://proactiv-aceternity.vercel.app/banner.png"],
+    images: ["/banner.png"],
   },
 };
 
-export default function ContactPage({params}:{params:{locale:string}}) {
+export default function ContactPage({
+  params,
+}: {
+  params: { locale: string };
+}) {
   return (
-    <div className="relative overflow-hidden">
-      <AmbientColor />
+    <div className="relative">
       <ContactForm locale={params.locale} />
     </div>
   );

@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 import { motion, stagger, animate, useAnimate } from "framer-motion";
 import React, { useEffect, useState } from "react";

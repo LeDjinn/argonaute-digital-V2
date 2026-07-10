@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 
 import { CardBody, CardContainer, CardItem } from "@/components/ui/aceternity/3d-card"

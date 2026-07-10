@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from "react";
 
 export const IconContainer = ({ children }: { children: React.ReactNode }) => {

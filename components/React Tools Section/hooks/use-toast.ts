@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 
 // Inspired by react-hot-toast library

@@ -12,11 +12,11 @@ import { truncate } from "@/lib/utils";
 import { format } from "date-fns";
 
 export const metadata: Metadata = {
-  title: "Blog | Proactiv | Aceternity Templates",
+  title: "Blog | Argonaute Digital",
   description:
-    "Everything AI is a platform that provides a wide range of AI tools and services to help you stay on top of your business. Generate images, text and everything else that you need to get your business off the ground.",
+    "Technical insights on Next.js, TypeScript, cloud architecture, and production engineering. Written by a senior full-stack engineer with 8+ years of experience.",
   openGraph: {
-    images: ["https://ai-saas-template-aceternity.vercel.app/banner.png"],
+    images: ["/banner.png"],
   },
 };
 

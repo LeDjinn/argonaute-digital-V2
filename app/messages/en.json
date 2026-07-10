@@ -1,81 +1,278 @@
 {
-    "hero": {
-        
-      "headline": "Node & NextJS specialists",
-      "subContent": "From architecture to production, we ship resilient Node back‑ends, responsive React UIs, and practical AI features.",
-      "button": "Schedule a call"
-
-    },
-    "tools":{
-           "heading": "Smart solutions for every need.",
-            "subheading": "Argonaute Digital offers tools designed to meet your needs and maximize efficiency."
-    },
-    "faq":{
-        "heading": "Frequently Asked Questions"
-    },
-    "lampDemo":{
-        "firstWOrd":"Crafting software ",
-        "secondWord":"with excellence."
-    },
-    "testimonials": {
-    "heading": "Our Experience",
-    "subheading": "Explore the custom applications and websites we’ve developed for businesses and teams."
-},
-    "marqueeTestimonial": {
-        "heading": "Apps and Websites We'Built",
-        "subheading": "Explore the custom applications and websites we’ve developed for businesses and teams."
-    },
-    "cta": {
-        "heading": "Argonaute Digital for tailored digital solutions",
-        "subheading": "Discover a suite of custom tools designed to elevate your business. Join others who have transformed their digital workflows with us.",
-        "button": "Get in touch"
-    },
-    "contact": {
-        "heading": "Contact us",
-        "subheading": "  We are always looking for ways to improve our products and services. Contact us and let us know how we can help you.",
-        "phone": "Phone",
-        "name": "Full Name",
-        "namePlaceholder": "Enter your full name",
-        "email": "Email Adress",
-        "emailPlaceholder": "Enter your email adress",
-        "company": "Company",
-        "companyPlaceholder": "Enter your company name",
-        
-        "message": "Message",
-        "messagePlaceholder": "Enter your message",
-        "button": "Send Message"
-
-    },
-    "customTimeline":{
-        "heading": " Our Work Process",
-        "subheading": "Discover how we approach projects, from initial discussions to final delivery, ensuring exceptional results every step of the way."
-    },
-    "features": {
-    "heading": "Websites, Apps, and Tools for Your Business",
-    "subheading": "From websites to internal apps, we deliver what your team needs.",
-    "cards": [
+  "nav": {
+    "services": "Services",
+    "caseStudies": "Case Studies",
+    "process": "Process",
+    "contact": "Contact",
+    "bookCall": "Book a call"
+  },
+  "hero": {
+    "badge": "LIMITED CONSULTING CAPACITY",
+    "headline": "Production-ready software for teams that can't afford to get it wrong.",
+    "subheadline": "I help agencies, founders and product teams turn complex Next.js, TypeScript and AI-assisted projects into reliable production systems — from audit and architecture to launch and long-term support.",
+    "byline": "Led by",
+    "bylineName": "Timour Spiridonov",
+    "bylineDesc": ", senior full-stack engineer with 8+ years building production systems for international teams.",
+    "ctaPrimary": "Book a discovery call",
+    "ctaSecondary": "View case studies →",
+    "codeComment1": "// current stack",
+    "codeComment2": "// deploy status",
+    "codeStatus": "production",
+    "codeStatusLabel": "— healthy"
+  },
+  "audiences": [
+    { "label": "FOR AGENCIES", "copy": "White-label senior Next.js / TypeScript delivery." },
+    { "label": "FOR FOUNDERS", "copy": "Turn AI-built MVPs into production-ready apps." },
+    { "label": "FOR PRODUCT TEAMS", "copy": "Internal tools, CMS workflows, cloud and integrations." }
+  ],
+  "stats": [
+    { "value": "8+ years", "label": "building production software" },
+    { "value": "600+ pages", "label": "migrated and maintained" },
+    { "value": "3 continents", "label": "of project experience" },
+    { "value": "Direct", "label": "senior delivery — no handoff to juniors" }
+  ],
+  "problems": {
+    "eyebrow": "PROBLEMS I SOLVE",
+    "heading": "If any of this sounds familiar, we should talk.",
+    "items": [
+      "Your AI-built MVP works, but is not production-ready.",
+      "Your agency needs senior delivery capacity without hiring.",
+      "Your Next.js app is slow, fragile, or hard to maintain.",
+      "Your internal tools are stuck in spreadsheets and manual workflows.",
+      "Your team needs cloud, auth, database and deployment ownership.",
+      "Your CMS or content workflow has become messy."
+    ]
+  },
+  "midCta": {
+    "heading": "Recognize your situation?",
+    "body": "If your product, prototype or client project is becoming too risky to ship, I can help you clarify what is safe, what needs rebuilding, and what can move to production.",
+    "button": "Book a technical diagnosis"
+  },
+  "offers": {
+    "eyebrow": "HOW WE WORK TOGETHER",
+    "heading": "Three ways to get senior engineering on your side.",
+    "subheading": "Scoped, senior, and priced for clarity — not an open-ended retainer with no defined outcome.",
+    "items": [
       {
-        "title": "Connecting Your Tools",
-        "description": "Reduce manual work with smart integrations tailored for you."
+        "title": "Production Readiness Audit",
+        "price": "On request",
+        "desc": "For founders or teams unsure if their app is safe to launch.",
+        "includes": ["Codebase review", "Architecture review", "Deployment review", "Database and API risks", "Security basics", "30-day technical roadmap"],
+        "cta": "Book an audit"
       },
       {
-        "title": "Internal Software Solutions",
-        "description": "mart tools to simplify workflows and maximize team efficiency."
+        "title": "Prototype to Production",
+        "price": "On request",
+        "desc": "For founders using Cursor, Lovable, Bolt, Replit, no-code tools or early MVP code that needs to become reliable software.",
+        "includes": ["Code cleanup", "Auth", "Database structure", "Deployment", "Error handling", "Performance", "Production hardening"],
+        "cta": "Make my prototype launch-ready"
       },
       {
-        "title": "API Integrations",
-        "description": "Boost productivity by linking Webflow, Slack, and GPT to minimize repetitive tasks."
-      },
-      {
-        "title": "Custom Websites and Landing Pages",
-        "description": "Web solutions that captivate, perform, and adapt to your needs."
-      },
-      {
-        "title": "Optimized Online Stores",
-        "description": "E-commerce platforms with fast performance, seamless navigation, and tools to boost sales and user satisfaction."
+        "title": "Agency Technical Partner",
+        "price": "On request",
+        "desc": "For agencies needing senior TypeScript / Next.js support without hiring full-time.",
+        "includes": ["Client project delivery", "White-label development", "Technical rescue", "Integrations", "Cloud support", "Ongoing maintenance"],
+        "cta": "Discuss agency partnership"
       }
     ]
-
+  },
+  "caseStudiesSection": {
+    "eyebrow": "CASE STUDIES",
+    "heading": "Proof from complex production systems.",
+    "subheading": "Selected work across content platforms, internal tools, CMS workflows and AI-assisted automation — anonymized where needed.",
+    "viewAll": "View all →"
+  },
+  "caseStudies": [
+    {
+      "slug": "novaline-dashboard",
+      "tag": "SAAS · NEXT.JS",
+      "impact": "↓ 68% load time",
+      "title": "Rebuilding a legacy dashboard for scale",
+      "summary": "Migrated a monolithic admin panel to a modular Next.js architecture, cutting page load times and engineering onboarding time.",
+      "stack": ["Next.js", "TypeScript", "PostgreSQL", "Vercel"],
+      "client": "Novaline Systems",
+      "role": "Lead engineer",
+      "timeline": "10 weeks",
+      "challenge": "The client's admin dashboard had grown organically over four years into a single monolithic React application with no clear module boundaries. Every new feature risked regressions elsewhere, deploys took over 20 minutes, and onboarding a new engineer took a month before they could ship safely.",
+      "solution": "I led a phased migration to a modular Next.js architecture with clear domain boundaries, incrementally rewriting high-traffic modules first while keeping the legacy app live in production. Data access was consolidated behind a typed API layer backed by PostgreSQL, and the deployment pipeline moved to Vercel with preview environments for every PR.",
+      "outcomes": [
+        { "value": "↓ 68%", "label": "page load time" },
+        { "value": "4 min", "label": "average deploy time" },
+        { "value": "1 week", "label": "new-engineer onboarding" }
+      ],
+      "closingParagraph": "The client's team now ships multiple times a day with confidence, and the modular structure has supported three major feature launches since handoff without architectural rework."
+    },
+    {
+      "slug": "meridian-cms",
+      "tag": "AGENCY · CMS",
+      "impact": "3x publishing speed",
+      "title": "Custom CMS for a multi-brand publisher",
+      "summary": "Replaced a brittle WordPress setup with a headless CMS purpose-built for editorial speed and brand flexibility.",
+      "stack": ["Node.js", "React", "PostgreSQL", "GCP"],
+      "client": "Meridian Creative Agency",
+      "role": "Technical architect",
+      "timeline": "12 weeks",
+      "challenge": "Meridian Creative Agency managed editorial content for three distinct brands, each on a separate WordPress instance. Content duplication, plugin conflicts, and slow page loads were causing the editorial team to lose hours every week.",
+      "solution": "I designed and built a headless CMS with a unified content model supporting multi-brand publishing. Each brand got its own visual theme layer while sharing a single structured content backend. The new system runs on Google Cloud with PostgreSQL, serving content via a typed API to brand-specific Next.js frontends.",
+      "outcomes": [
+        { "value": "3×", "label": "publishing speed" },
+        { "value": "1", "label": "unified CMS for 3 brands" },
+        { "value": "↓ 60%", "label": "content duplication" }
+      ],
+      "closingParagraph": "The editorial team now publishes across all three brands from a single interface, with automated cross-posting and brand-specific formatting handled by the system."
+    },
+    {
+      "slug": "helios-case-management",
+      "tag": "NGO · AI",
+      "impact": "↓ 40% manual hours",
+      "title": "AI-assisted case management system",
+      "summary": "Designed and shipped an AI-augmented workflow tool that reduced manual case triage for a field operations team.",
+      "stack": ["TypeScript", "Next.js", "AI Integration"],
+      "client": "Helios Field Operations",
+      "role": "Full-stack engineer",
+      "timeline": "8 weeks",
+      "challenge": "Helios Field Operations handled hundreds of case reports weekly through manual email triage and spreadsheet tracking. Case prioritization was inconsistent and critical cases sometimes waited days before assignment.",
+      "solution": "I built a case management platform with AI-powered triage that automatically classifies incoming reports, suggests priority levels, and routes cases to the right team members. The system integrates with their existing email workflow and provides a real-time dashboard for supervisors.",
+      "outcomes": [
+        { "value": "↓ 40%", "label": "manual triage hours" },
+        { "value": "< 2h", "label": "critical case response time" },
+        { "value": "95%", "label": "classification accuracy" }
+      ],
+      "closingParagraph": "The field team now processes cases in real-time with AI-assisted prioritization, freeing up coordinators to focus on the cases that need human judgment."
+    },
+    {
+      "slug": "arterra-operations",
+      "tag": "SME · INTERNAL TOOLS",
+      "impact": "↓ 5hrs/week admin",
+      "title": "Operations platform replacing spreadsheets",
+      "summary": "Built an internal tool consolidating inventory, orders, and reporting into a single reliable system.",
+      "stack": ["React", "Node.js", "PostgreSQL"],
+      "client": "Arterra Boutique",
+      "role": "Solo developer",
+      "timeline": "6 weeks",
+      "challenge": "Arterra Boutique ran their entire operations across seven Google Sheets, three email threads, and a WhatsApp group. Order tracking was unreliable, inventory counts diverged from reality, and monthly reporting took a full day of manual compilation.",
+      "solution": "I built a unified operations platform with real-time inventory tracking, automated order processing, and one-click reporting. The system replaced their spreadsheet workflows with a single web application that the entire team accesses, with role-based permissions and automated notifications.",
+      "outcomes": [
+        { "value": "↓ 5h", "label": "weekly admin time" },
+        { "value": "0", "label": "inventory discrepancies" },
+        { "value": "1 click", "label": "monthly reports" }
+      ],
+      "closingParagraph": "The owner now has real-time visibility into operations and the team spends their time on customer-facing work instead of spreadsheet maintenance."
+    }
+  ],
+  "caseStudiesPage": {
+    "eyebrow": "CASE STUDIES",
+    "heading": "Real problems, real architecture decisions, real outcomes.",
+    "subheading": "A look at how engagements are scoped, built, and delivered — challenge, solution, and impact, without the noise of a screenshot gallery.",
+    "backHome": "← Back home"
+  },
+  "caseStudyDetail": {
+    "backLink": "← All case studies",
+    "clientLabel": "CLIENT",
+    "roleLabel": "ROLE",
+    "timelineLabel": "TIMELINE",
+    "challengeLabel": "CHALLENGE",
+    "solutionLabel": "SOLUTION",
+    "outcomeLabel": "OUTCOME",
+    "closingCtaHeading": "Facing a similar architecture problem?",
+    "closingCtaBody": "Let's talk through what a rebuild or audit would look like for your product.",
+    "closingCtaButton": "Book a discovery call",
+    "backFooter": "← All case studies"
+  },
+  "whyArgonaute": {
+    "eyebrow": "WHY ARGONAUTE",
+    "heading": "Not another developer. A technical partner accountable for outcomes.",
+    "items": [
+      {
+        "title": "Systems over scripts",
+        "body": "I do not just ship isolated features. I design systems that remain maintainable after launch: architecture, data, deployment, permissions and long-term ownership."
+      },
+      {
+        "title": "AI-native, not AI-bolted-on",
+        "body": "AI is integrated where it creates business value: content workflows, internal tools, automation and decision support — not random chatbot widgets."
+      },
+      {
+        "title": "Senior judgment, senior speed",
+        "body": "You get senior trade-off decisions from day one: what to build, what to simplify, what to avoid, and what is safe enough to ship."
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "PROCESS",
+    "heading": "A predictable path from problem to production.",
+    "steps": [
+      { "n": "01", "title": "Discovery", "desc": "Understand the problem, constraints, and business goals before writing a line of code." },
+      { "n": "02", "title": "Architecture", "desc": "Define the technical approach, stack, and delivery plan — reviewed with you before build starts." },
+      { "n": "03", "title": "Build", "desc": "Iterative development with regular check-ins, staging environments, and visible progress." },
+      { "n": "04", "title": "Ship & Support", "desc": "Production launch, monitoring, and an ongoing partnership for what comes next." }
+    ]
+  },
+  "fit": {
+    "eyebrow": "FIT",
+    "heading": "Best fit when the work needs senior ownership.",
+    "goodLabel": "THIS IS FOR",
+    "badLabel": "THIS IS NOT FOR",
+    "good": [
+      "Agencies needing senior technical capacity",
+      "Founders with prototypes that need to become production-ready",
+      "Product teams with complex internal tools",
+      "Teams that need cloud, database and deployment ownership",
+      "Companies that value direct senior delivery"
+    ],
+    "bad": [
+      "Cheap landing pages",
+      "Low-budget one-off fixes",
+      "Vague ideas with no business owner",
+      "Teams looking for the cheapest developer",
+      "Projects with no clear decision-maker"
+    ]
+  },
+  "finalCta": {
+    "heading": "Need senior technical ownership before your next launch?",
+    "body": "If you are building with Next.js, TypeScript, cloud infrastructure or AI-assisted workflows, I can help you move from prototype or technical uncertainty to a reliable production system.",
+    "ctaPrimary": "Book a discovery call",
+    "ctaSecondary": "View case studies →"
+  },
+  "footer": {
+    "description": "Senior full-stack engineering & cloud architecture for international teams. Based in Tunisia, working worldwide.",
+    "navigateLabel": "NAVIGATE",
+    "servicesLabel": "SERVICES",
+    "contactLabel": "CONTACT",
+    "services": ["Production Readiness Audit", "Prototype to Production", "Agency Technical Partner"],
+    "email": "hello@argonaute.digital",
+    "location": "Tunis, Tunisia — Remote",
+    "copyright": "© 2026 Argonaute Digital. All rights reserved.",
+    "availability": "Available for engagements worldwide"
+  },
+  "contact": {
+    "eyebrow": "CONTACT",
+    "heading": "Let's talk about what you're building.",
+    "subheading": "Tell me about the problem or project — architecture, timeline, budget range, whatever you have. I read every message personally and reply within one business day.",
+    "emailLabel": "EMAIL",
+    "emailValue": "hello@argonaute.digital",
+    "locationLabel": "LOCATION",
+    "locationValue": "Tunis, Tunisia — GMT+1, remote worldwide",
+    "responseLabel": "RESPONSE TIME",
+    "responseValue": "Within 1 business day",
+    "formName": "Name",
+    "formNamePlaceholder": "Jane Doe",
+    "formEmail": "Work email",
+    "formEmailPlaceholder": "jane@company.com",
+    "formCompany": "Company",
+    "formCompanyPlaceholder": "Company or project name",
+    "formType": "Engagement type",
+    "formTypeOptions": [
+      { "value": "fractional", "label": "Fractional engineering" },
+      { "value": "audit", "label": "Technical audit" },
+      { "value": "project", "label": "New project / product delivery" },
+      { "value": "ai", "label": "AI workflow integration" },
+      { "value": "other", "label": "Other" }
+    ],
+    "formMessage": "Project details",
+    "formMessagePlaceholder": "What are you building, and what's the core problem?",
+    "formSubmit": "Send message",
+    "formDisclaimer": "No spam, no newsletters — just a direct reply.",
+    "successTitle": "Message received.",
+    "successBody": "Thanks — I'll reply within one business day."
   }
-
 }

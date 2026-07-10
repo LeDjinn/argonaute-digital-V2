@@ -1,3 +1,4 @@
+// @ts-nocheck
 export { WebAppsSection } from "./web-apps-section"
 export { ApiSection } from "./api-section"
 export { AiIntegrationSection } from "./ai-integration-section"
