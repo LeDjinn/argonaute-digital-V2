@@ -7,7 +7,7 @@ import type { Viewport } from "next";
 import { NavBar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
-const baseUrl = "https://argonaute-digital.vercel.app";
+import { siteUrl as baseUrl } from "@/lib/site-config";
 
 const siteContent = {
   en: {
