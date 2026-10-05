@@ -2,10 +2,13 @@
 import React, { useState } from "react";
 import enText from "@/app/messages/en.json";
 import frText from "@/app/messages/fr.json";
+import { submitContact } from "@/lib/contact-submit.mjs";
 
 export const ContactForm = ({ locale }: { locale: string }) => {
   const t = locale === "fr" ? frText.contact : enText.contact;
   const [submitted, setSubmitted] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
 
   return (
     <section className="max-w-[1160px] mx-auto px-6 md:px-12 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-[72px]">
@@ -27,7 +30,7 @@ export const ContactForm = ({ locale }: { locale: string }) => {
         >
           <div>
             <div className="text-xs text-text-tertiary mb-1.5">{t.emailLabel}</div>
-            <div className="text-[15px]">{t.emailValue}</div>
+            <a href={`mailto:${t.emailValue}`} className="text-[15px] hover:text-accent-indigo underline">{t.emailValue}</a>
           </div>
           <div>
             <div className="text-xs text-text-tertiary mb-1.5">{t.locationLabel}</div>
@@ -46,16 +49,16 @@ export const ContactForm = ({ locale }: { locale: string }) => {
           <form
             action="https://formspree.io/f/mgveanvn"
             method="POST"
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              const form = e.currentTarget;
-              fetch(form.action, {
-                method: "POST",
-                body: new FormData(form),
-                headers: { Accept: "application/json" },
-              }).then((res) => {
-                if (res.ok) setSubmitted(true);
-              });
+              if (pending) return;
+              const data = new FormData(e.currentTarget);
+              setPending(true);
+              setError("");
+              const sent = await submitContact(data);
+              setPending(false);
+              if (sent) setSubmitted(true);
+              else setError(locale === "fr" ? "L’envoi a échoué. Votre message est conservé : réessayez ou utilisez le lien e-mail." : "Your message could not be sent. Your details are preserved: try again or use the email link.");
             }}
             className="rounded-2xl p-8 md:p-10 flex flex-col gap-5"
             style={{
@@ -155,12 +158,15 @@ export const ContactForm = ({ locale }: { locale: string }) => {
               />
             </div>
 
+            {error && <p role="alert" className="text-sm text-red-300">{error}</p>}
             <button
               type="submit"
+              disabled={pending}
+              aria-busy={pending}
               className="btn-primary text-[15px] font-semibold px-6 py-[14px] rounded-[9px] border-none cursor-pointer mt-1"
               style={{ background: "#f2f2f1", color: "#0a0a0b" }}
             >
-              {t.formSubmit}
+              {pending ? (locale === "fr" ? "Envoi…" : "Sending…") : t.formSubmit}
             </button>
 
             <p className="text-[12.5px] text-text-tertiary text-center m-0">
