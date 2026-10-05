@@ -12,6 +12,10 @@ const nextConfig = {
     ],
   },
   pageExtensions: ["ts", "tsx", "mdx"],
+  // Filesystem discovery needs these source directories in serverless packages.
+  outputFileTracingIncludes: {
+    "/*": ["./app/**/blog/*/page.mdx"],
+  },
 };
 
 const withMDX = nextMDX({
