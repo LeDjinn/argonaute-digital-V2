@@ -1,7 +1,12 @@
+import { generateBlogMetadata } from "@/lib/blog";
 import { BlogLayout } from "@/components/blog-layout";
 import Thumbnail from "./thumbnail.jpeg";
 
 export const blog = {
+  slug: "cool-things-to-do-with-ai",
+  tags: [],
+  draft: true,
+  readingTime: 1,
   author: { name: "Argonaute Digital", src: "/tim.png" },
   date: "2023-07-14",
   title: "Revolutionizing Digital Workflows with Custom Solutions",
@@ -11,13 +16,7 @@ export const blog = {
     "https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=3542&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 };
 
-export const metadata = {
-  title: blog.title,
-  description: blog.description,
-  openGraph: {
-    images: [blog.image],
-  },
-};
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
 export default (props) => <BlogLayout blog={blog} {...props} />;
 
 ## Streamlined API Integrations

@@ -1,7 +1,10 @@
 import { MetadataRoute } from "next";
+import { getAllBlogs } from "@/lib/blog";
+import { discoveryEntries } from "@/lib/blog-core.mjs";
+import enText from "@/app/messages/en.json";
 import { siteUrl as baseUrl } from "@/lib/site-config";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const locales = ["en", "fr"];
   const staticPages = [
     { path: "", priority: 1.0, changeFrequency: "weekly" as const },
@@ -24,5 +27,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  return entries;
+  return [...entries, ...discoveryEntries(await getAllBlogs(), enText.caseStudies.map(study => study.slug), baseUrl)] as MetadataRoute.Sitemap;
 }

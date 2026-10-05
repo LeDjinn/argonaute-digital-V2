@@ -10,6 +10,8 @@ const navItemsEN = [
   { title: "Services", link: "/#offers" },
   { title: "Case Studies", link: "/case-studies" },
   { title: "Process", link: "/#process" },
+  { title: "Blog", link: "/blog" },
+  { title: "RSS", link: "/feed.xml" },
   { title: "Contact", link: "/contact" },
 ];
 
@@ -17,11 +19,13 @@ const navItemsFR = [
   { title: "Services", link: "/#offers" },
   { title: "Études de cas", link: "/case-studies" },
   { title: "Processus", link: "/#process" },
+  { title: "Blog", link: "/blog" },
+  { title: "RSS", link: "/feed.xml" },
   { title: "Contact", link: "/contact" },
 ];
 
 export function NavBar({ locale }: { locale: string }) {
-  const navItems = locale === "fr" ? navItemsFR : navItemsEN;
+  const navItems = (locale === "fr" ? navItemsFR : navItemsEN).map(item => ({...item, link:item.link === "/feed.xml" ? item.link : `/${locale === "fr" ? "fr" : "en"}${item.link}`}));
   const [open, setOpen] = useState(false);
 
   return (

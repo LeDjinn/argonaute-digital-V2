@@ -1,0 +1,93 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "nextjs-upgrades-without-production-surprises",
+  "title": "Next.js Upgrades Without Production Surprises",
+  "description": "A practical Next.js upgrade workflow: separate security patches from feature adoption, test application contracts, and release with a rollback plan.",
+  "author": {
+    "name": "Timour Spiridonov",
+    "src": "/tim.png"
+  },
+  "date": "2026-10-05",
+  "tags": [
+    "software-development",
+    "nextjs",
+    "typescript",
+    "testing",
+    "gcp"
+  ],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://nextjs.org/blog/next-16-3",
+    "https://nextjs.org/blog/september-2026-security-release"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A framework upgrade should have a smaller blast radius than the product change it supports. My rule for a TypeScript, React, Next.js, Node.js and PostgreSQL application is simple: patch security issues promptly, adopt useful capabilities deliberately, and never confuse a successful build with a successful release.
+
+Two recent Next.js announcements make that distinction concrete. The August 3, 2026 release of Next.js 16.3 introduced version-matched documentation for coding agents and opt-in Instant Navigations.[1] The September 30 security release then identified fixes available in 16.3.8 and 15.5.27.[2] One announcement invites experimentation; the other calls for dependency maintenance. They belong in different release decisions.
+
+## Start with exposure, not excitement
+
+Read the advisory against your application, not against a generic checklist. The September release describes a cache-key problem in nested `use cache` functions that read root parameters, where content for one parameter value can appear under another.[2] It also describes a separate cache-poisoning issue affecting self-hosted Pages Router applications using SSG or ISR; Vercel deployments are excluded from that particular issue.[2]
+
+That distinction matters for a team deploying Next.js on GCP. I would document the router, build system, hosting path, cache settings and preview behavior before choosing regression tests. Do not turn a specific hosting exception into a blanket security exemption.
+
+Treat the versions in the advisory as its stated patch targets, not timeless claims about the latest release. Check the applicable supported branch and current advisories when you execute the upgrade. Then record the selected dependency versions and the reasoning in the pull request.
+
+Keep the security patch separate from optional caching changes. Reviewers should not have to disentangle a vulnerability fix from a new rendering strategy.
+
+## Make the application contract visible
+
+Before changing dependencies, write down the behavior you refuse to break. For an authenticated dashboard, my starting contract would include:
+
+- An anonymous visitor cannot retrieve account data through a direct request.
+- Switching organizations never shows the previous organization's records.
+- A repeated submission does not create duplicate work.
+- An editor's preview remains separate from public content.
+- A failed database request produces a useful recovery path.
+
+These are proposed acceptance criteria, not claims that a framework supplies those guarantees. Give each one a reproducible test with seeded PostgreSQL data. Use at least two users with deliberately different records. A single happy-path account cannot demonstrate isolation.
+
+For Node.js endpoints, include malformed input and permission failures. For React screens, test the empty, loading and error states alongside the completed view. Keep fixtures small enough that a reviewer can understand why a test passes.
+
+## Adopt navigation features one route at a time
+
+Next.js 16.3 provides an `instant()` Playwright helper for asserting what is visible immediately during navigation.[1] My recommendation is to use that capability to protect a specific interaction, not to declare the whole application fast.
+
+Choose one frequently used route. Define the shell that should appear immediately, the data that may arrive later, and the action that must remain unavailable until authorization succeeds. Compare the same interaction before and after the change, using a production build and a deliberately constrained connection.
+
+Set acceptance budgets before collecting results: an acceptable navigation delay, request count and server-resource envelope. The numbers should come from your product's requirements and measured baseline, not a vendor headline.
+
+Do not combine this work with an ORM replacement, a schema redesign or a cloud migration. A useful experiment has a clear hypothesis and a clean way back.
+
+## Give agents context, not release authority
+
+The 16.3 announcement says running `next dev` maintains an `AGENTS.md` block pointing agents to documentation bundled with the installed framework version.[1] That is a useful starting point. My preference is to add project-specific constraints: authorization rules, migration policy, commands for verification and files that require human review.
+
+Ask an agent for a narrow change and a rationale. Review the diff yourself. Require tests that would fail against the old behavior rather than accepting additional green checks with no demonstrated purpose.
+
+For the wider skill set behind this workflow, read [Full-Stack Skills Worth Proving in 2026](/en/blog/full-stack-skills-worth-proving-2026). If generated code will execute outside development, the boundaries in [AI Sandboxes: Separate Execution from Authority](/en/blog/ai-sandboxes-execution-without-authority) become relevant too.
+
+## Release with a way back
+
+On GCP, my release checklist would require a staged deployment, checks against the deployed revision, monitoring tied to the changed behavior, and a documented rollback decision. Keep database changes compatible with the previous application revision whenever possible; rolling back code should not require improvising a data recovery procedure.
+
+A boring upgrade is a good outcome. The value is a maintained application whose behavior remains understandable, not the number of release-note features enabled.
+
+Need a second opinion on an upgrade plan or a Next.js application? [Contact Argonaute Digital](/en/contact) with the current stack, deployment target and failure modes you want to eliminate.
+
+## Sources
+
+- [Next.js 16.3][1]
+
+[1]: https://nextjs.org/blog/next-16-3
+- [September 2026 Security Release][2]
+
+[2]: https://nextjs.org/blog/september-2026-security-release

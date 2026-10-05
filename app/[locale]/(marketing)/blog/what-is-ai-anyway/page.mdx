@@ -1,7 +1,12 @@
+import { generateBlogMetadata } from "@/lib/blog";
 import { BlogLayout } from "@/components/blog-layout";
 import Thumbnail from "./thumbnail.jpeg";
 
 export const blog = {
+  slug: "what-is-ai-anyway",
+  tags: [],
+  draft: true,
+  readingTime: 1,
   author: { name: "Tyler Durden", src: "/avatar.jpeg" },
   date: "2020-07-14",
   title: "What is AI Anyway?",
@@ -11,13 +16,7 @@ export const blog = {
     "https://images.unsplash.com/photo-1697577418970-95d99b5a55cf?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 };
 
-export const metadata = {
-  title: blog.title,
-  description: blog.description,
-  openGraph: {
-    images: [blog.image],
-  },
-};
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
 
 export default (props) => <BlogLayout blog={blog} {...props} />;
 

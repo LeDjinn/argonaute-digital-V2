@@ -1,0 +1,87 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "full-stack-skills-worth-proving-2026",
+  "title": "Full-Stack Skills Worth Proving in 2026",
+  "description": "What 2026 skills signals actually show, and how to prove full-stack delivery through data integrity, AI judgment, testing and deployment.",
+  "author": {
+    "name": "Timour Spiridonov",
+    "src": "/tim.png"
+  },
+  "date": "2026-10-05",
+  "tags": [
+    "tech-careers",
+    "full-stack-development",
+    "ai-skills",
+    "postgresql",
+    "gcp"
+  ],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://support.hackerrank.com/articles/8142080826-july-2026-release-notes",
+    "https://www.globenewswire.com/news-release/2026/02/04/3232122/0/en/Upwork-s-In-Demand-Skills-2026-Demand-for-Top-AI-Skills-More-Than-Doubles-as-AI-Is-Embedded-Into-Everyday-Work.html"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A skills list is easy to copy. Evidence that you can deliver a useful, maintainable application is harder to produce. My advice for a developer choosing what to learn next is to build around a coherent delivery path, then prove the difficult parts of it.
+
+That is not a prediction that one framework will dominate hiring. It is a practical reading of current signals, with an explicit distinction between freelance demand and hiring-tool changes.
+
+## Read demand with the denominator attached
+
+Before acting on a demand report, ask what it measures. A platform's completed projects, an employer's open positions and a national employment projection answer different questions. My preference is to use a report to identify a learning hypothesis, then compare it with actual roles or client briefs in the market you want to serve. Do not treat any aggregate as a personal hiring guarantee.
+
+Upwork's February 2026 report puts full-stack development first in its most-in-demand Coding & Web Development list and AI integration first in that category's fastest-growing list.[8] Its methodology uses completed marketplace jobs with U.S.-originating demand, comparing freelancer earnings in 2025 with 2024 for year-over-year growth.[8] That is evidence about a particular freelance marketplace, not every employer or country.
+
+Together, those sources suggest a useful direction to me: retain end-to-end delivery skills, and learn to integrate AI into actual workflows. They do not establish that TypeScript, React, Next.js, Node.js, PostgreSQL or GCP are individually the most requested technologies. That stack is my proposed vehicle for demonstrating competence, not a ranking extracted from the reports.
+
+## Prove a vertical slice
+
+Choose a small application with a real decision at its center: approving an expense, assigning a support case or reviewing an uploaded document. Avoid building five unrelated demos that each stop at a landing page.
+
+My suggested slice includes a React interface, a typed Node.js boundary, a PostgreSQL data model and a deployed application. Add authentication, a permission rule and one operation that changes persisted data. Then make the failure states explicit.
+
+Explain the choices in the repository. Why does this operation belong on the server? Which input is validated? What prevents a user from reading another organization's record? How can an operator tell that a request failed?
+
+A reviewer should be able to run the project, understand those answers and inspect the tests without needing your narration. That is the portfolio standard I would set.
+
+## Make database competence visible
+
+My priority after a basic vertical slice would be SQL and data modeling. Show a constraint that protects a business rule, a migration with a considered rollout order and a query whose performance you have actually inspected.
+
+Do not claim that a project is scalable because it uses PostgreSQL. Describe the workload you tested, the dataset used and the limitation you have not solved. If the application can create duplicate records under concurrent requests, write a regression test and explain the fix.
+
+For a senior candidate, I would rather discuss a modest system with a clear consistency model than an impressive diagram with no executable behavior behind it. That is a hiring preference, not a universal employer requirement.
+
+## Learn AI collaboration without outsourcing judgment
+
+HackerRank's July 2026 release notes say its AI Fluency evaluation now uses IDE activity rather than only AI chat interactions.[4] That is one concrete hiring-tool development; it does not prove that every company evaluates candidates this way.
+
+My takeaway is to practice explaining your process. When an assistant proposes a change, identify the assumption, inspect the diff, run the relevant checks and challenge the result. Preserve a short example of an incorrect suggestion you caught, but only if it actually happened. Do not manufacture a debugging story for a portfolio.
+
+A useful exercise is to ask an assistant for an implementation before writing your own acceptance tests, then evaluate it against those tests. Keep a record of what passed, what failed and what you changed. The goal is accountable use, not prompt theatrics.
+
+## Finish with operational evidence
+
+Deploy the project to GCP and document the configuration required to reproduce it. My checklist would include a restricted runtime identity, secret handling, request logs, a health check and a rollback procedure. State which checks you ran; leave unfinished items visibly unfinished.
+
+For a manageable learning plan, spend the first week on the vertical slice, the second on permissions and data integrity, the third on deployment and failure handling, and the fourth on tests and documentation. Adjust that schedule to your available time; it is a proposed exercise, not a promise of job readiness.
+
+The same habits apply to [Next.js Upgrades Without Production Surprises](/en/blog/nextjs-upgrades-without-production-surprises). For the emerging execution model behind AI integrations, read [AI Sandboxes: Separate Execution from Authority](/en/blog/ai-sandboxes-execution-without-authority).
+
+A strong portfolio reduces the distance between saying you know a technology and showing what you can deliver with it. If your business needs that delivery capability rather than another skills checklist, [contact Argonaute Digital](/en/contact) to discuss the application and its constraints.
+
+## Sources
+
+- [HackerRank July 2026 Release Notes][4]
+
+[4]: https://support.hackerrank.com/articles/8142080826-july-2026-release-notes
+- [Upwork’s In-Demand Skills 2026 — company press release][8]
+
+[8]: https://www.globenewswire.com/news-release/2026/02/04/3232122/0/en/Upwork-s-In-Demand-Skills-2026-Demand-for-Top-AI-Skills-More-Than-Doubles-as-AI-Is-Embedded-Into-Everyday-Work.html

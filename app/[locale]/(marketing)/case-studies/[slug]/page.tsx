@@ -7,10 +7,11 @@ import { Metadata } from "next";
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string; slug: string };
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const t = params.locale === "fr" ? frText : enText;
-  const cs = t.caseStudies.find((c: any) => c.slug === params.slug);
+  const resolvedParams = await params;
+  const t = resolvedParams.locale === "fr" ? frText : enText;
+  const cs = t.caseStudies.find((c: any) => c.slug === resolvedParams.slug);
   return {
     title: cs ? `${cs.title} | Argonaute Digital` : "Case Study | Argonaute Digital",
     description: cs?.summary ?? "",
@@ -21,14 +22,15 @@ export function generateStaticParams() {
   return enText.caseStudies.map((c: any) => ({ slug: c.slug }));
 }
 
-export default function CaseStudyDetailPage({
+export default async function CaseStudyDetailPage({
   params,
 }: {
-  params: { locale: string; slug: string };
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const t = params.locale === "fr" ? frText : enText;
+  const resolvedParams = await params;
+  const t = resolvedParams.locale === "fr" ? frText : enText;
   const detail = t.caseStudyDetail;
-  const cs = t.caseStudies.find((c: any) => c.slug === params.slug);
+  const cs = t.caseStudies.find((c: any) => c.slug === resolvedParams.slug);
 
   if (!cs) {
     notFound();

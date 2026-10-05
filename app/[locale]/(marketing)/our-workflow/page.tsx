@@ -16,17 +16,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PricingPage({
+export default async function PricingPage({
   params,
 }: {
-  params: { topic: string; slug: string; locale: string };
+  params: Promise<{ topic: string; slug: string; locale: string }>;
 }) {
+  const resolvedParams = await params;
   return (
     <div className="relative overflow-hidden">
       <AmbientColor />
-      <CustomTimeline locale={params.locale}/>
+      <CustomTimeline locale={resolvedParams.locale}/>
 
-      <FeaturesGrid locale ={params.locale}/>
+      <FeaturesGrid locale ={resolvedParams.locale}/>
 
       <div className="pb-40">
         <Testimonials />

@@ -1,14 +1,23 @@
-"use client";
 import Link from "next/link";
+import type { Metadata } from "next";
+import {siteUrl} from "@/lib/site-config";
+import type {BlogParams} from "@/lib/blog";
+export async function generateMetadata({params}:{params:BlogParams}):Promise<Metadata> {
+  const {locale}=await params;
+  const t=locale === "fr" ? frText : enText;
+  const url=new URL(`/${locale === "fr" ? "fr" : "en"}`,siteUrl).href;
+  return {alternates:{canonical:url,languages:{en:new URL("/en",siteUrl).href,fr:new URL("/fr",siteUrl).href,"x-default":new URL("/en",siteUrl).href}},openGraph:{title:t.hero.headline,description:t.hero.subheadline,url,type:"website",images:["/banner.png"]}};
+}
 import enText from "@/app/messages/en.json";
 import frText from "@/app/messages/fr.json";
 
-export default function Home({
+export default async function Home({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const t = params.locale === "fr" ? frText : enText;
+  const resolvedParams = await params;
+  const t = resolvedParams.locale === "fr" ? frText : enText;
 
   return (
     <div className="relative">

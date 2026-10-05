@@ -25,27 +25,18 @@ const siteContent = {
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const locale = params.locale as "en" | "fr";
+  const locale = (await params).locale as "en" | "fr";
   const content = siteContent[locale] ?? siteContent.en;
 
   return {
     metadataBase: new URL(baseUrl),
     title: content.title,
     description: content.description,
-    alternates: {
-      canonical: `${baseUrl}/${locale}`,
-      languages: {
-        en: `${baseUrl}/en`,
-        fr: `${baseUrl}/fr`,
-        "x-default": `${baseUrl}/en`,
-      },
-    },
     openGraph: {
       title: content.title,
       description: content.description,
-      url: `${baseUrl}/${locale}`,
       siteName: "Argonaute Digital",
       locale: locale === "fr" ? "fr_FR" : "en_US",
       type: "website",
@@ -91,16 +82,17 @@ const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
   return (
     <ViewTransitions>
-      <html lang={params.locale}>
+      <html lang={locale}>
         <body
           className={cn(
             inter.variable,
@@ -108,9 +100,9 @@ export default function RootLayout({
             "font-sans bg-base text-text-primary antialiased min-h-screen"
           )}
         >
-          <NavBar locale={params.locale} />
+          <NavBar locale={locale} />
           {children}
-          <Footer locale={params.locale} />
+          <Footer locale={locale} />
         </body>
       </html>
     </ViewTransitions>

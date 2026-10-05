@@ -8,7 +8,8 @@ export async function middleware(request: NextRequest) {
   const response = i18nRouter(request, i18nConfig);
 
   // Check if the request is for the protected price-offers routes
-  if (request.nextUrl.pathname.startsWith('/price-offers')) {
+  const localeIndependentPath = request.nextUrl.pathname.replace(/^\/(?:en|fr)(?=\/|$)/, '');
+  if (/^\/price-offers(?:\/|$)/.test(localeIndependentPath)) {
     // Get the user's token from NextAuth
     const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
 

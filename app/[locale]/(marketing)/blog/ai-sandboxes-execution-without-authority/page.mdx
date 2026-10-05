@@ -1,0 +1,100 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "ai-sandboxes-execution-without-authority",
+  "title": "AI Sandboxes: Separate Execution from Authority",
+  "description": "A practical architecture for AI-generated code: separate planning, authorization and execution, limit capabilities, and verify results independently.",
+  "author": {
+    "name": "Timour Spiridonov",
+    "src": "/tim.png"
+  },
+  "date": "2026-10-05",
+  "tags": [
+    "new-technology",
+    "ai-agents",
+    "security",
+    "cloud-run",
+    "architecture"
+  ],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://cloud.google.com/blog/topics/developers-practitioners/google-cloud-run-sandboxes-are-in-public-preview",
+    "https://www.anthropic.com/engineering/managed-agents",
+    "https://www.anthropic.com/engineering/harness-design-long-running-apps"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+The interesting question about an AI-generated script is not whether it can run. It is what that script is allowed to read, change and contact when it does.
+
+My view is that execution boundaries deserve more attention than another model comparison. For a full-stack application, generated code should not quietly inherit the authority of the Node.js service that requested it. A useful integration starts with a threat model, not a terminal command.
+
+## A new runtime is not a complete trust model
+
+Google's July 2026 announcement introduced Cloud Run sandboxes in public preview as isolated execution boundaries inside existing Cloud Run service instances.[5] The announcement describes three protections: no access to the service's environment variables or the Google Cloud metadata server, deny-by-default outbound networking, and a read-only container filesystem with temporary isolated writes.[5]
+
+Those are concrete runtime properties, not permission to stop reviewing the surrounding application. A read-only view still deserves scrutiny for sensitive files. An isolated process also does not decide which customer's dataset it should receive. My recommendation is to keep authorization and data selection outside the generated program.
+
+The announcement's preview status is its status at publication, not a claim about today's availability in every region. Before adopting it, check current documentation, lifecycle status and deployment constraints. I would begin with a noncritical experiment using disposable inputs.
+
+## Separate the planner, executor and record
+
+Anthropic's April 2026 Managed Agents engineering article describes separating the model and harness from the sandboxes and tools that perform actions, and from the session event log.[6] I find that separation useful as an architectural lens, independently of whether a team uses that service.
+
+For a TypeScript application, my proposed responsibilities are:
+
+- **Planner:** produces a bounded task proposal from authorized context.
+- **Policy layer:** validates the proposal against permissions and budgets.
+- **Executor:** runs approved work with only the required inputs.
+- **Record:** stores enough information to inspect the decision and result.
+
+The planner should not grant itself additional capabilities. Nor should a successful execution automatically approve a downstream database write. Keep that decision in ordinary application code with explicit rules.
+
+## Start with an export, not a production mutation
+
+Consider an application that lets a customer request a chart from business data. I would have the Node.js service authorize the request and select a limited export from PostgreSQL. The sandbox would receive that export, execute the generated transformation and return an artifact.
+
+The service would then validate the output format, size and ownership before making it available through the React interface. It would not pass a production database password into the generated program or execute returned SQL simply because the model presented it confidently.
+
+This is a proposed design, not a report of a deployed Argonaute Digital system. Its deliberate limitation is useful: begin with read-and-transform work whose failure can be contained. Add write capabilities only when you can describe exactly who approves them and how errors are recovered.
+
+## Budget every execution
+
+My starting limits would cover runtime, memory, input size, output size and the number of attempts. A retry should have a reason, not become a hidden loop that consumes resources until something looks plausible.
+
+Keep network access closed for tasks that do not need it. If a task does need an external service, prefer an approved tool in the host application over unrestricted outbound access from generated code. Log the permission decision as well as the process outcome.
+
+Treat imported archives and generated files as untrusted inputs too. Validate the artifact you will serve or persist; a process exit code is not the same thing as a correct result.
+
+## Evaluate the result outside its own explanation
+
+Anthropic's March 2026 harness-design article describes separating frontend generation from grading to create an improvement feedback loop.[7] That is a vendor engineering account, not independent proof that a particular evaluator will catch every defect. My practical interpretation is narrower: do not let the generator's explanation be the only evidence of success.
+
+For a data transformation, use known fixtures and expected aggregates. For a generated interface, test the specified interaction and permissions. For a proposed database change, require a reviewed migration and a recovery plan. Reserve human approval for consequential changes until the boundary is demonstrably adequate.
+
+The maintainable delivery habits in [Next.js Upgrades Without Production Surprises](/en/blog/nextjs-upgrades-without-production-surprises) apply here too. The portfolio implications are covered in [Full-Stack Skills Worth Proving in 2026](/en/blog/full-stack-skills-worth-proving-2026).
+
+## Put authority on the architecture diagram
+
+My preferred first milestone is a narrow feature with measurable acceptance criteria, no production write authority and a visible execution record. Expand the scope only after reviewing actual failures from that experiment.
+
+New infrastructure is useful when it makes boundaries easier to enforce. It does not remove the need to define them.
+
+Planning an AI feature on a TypeScript and GCP stack? [Contact Argonaute Digital](/en/contact) with the workflow, data sensitivity and actions the system would be allowed to take.
+
+## Sources
+
+- [Safely run AI-generated code in Cloud Run sandboxes][5]
+
+[5]: https://cloud.google.com/blog/topics/developers-practitioners/google-cloud-run-sandboxes-are-in-public-preview
+- [Scaling Managed Agents: Decoupling the brain from the hands][6]
+
+[6]: https://www.anthropic.com/engineering/managed-agents
+- [Harness design for long-running application development][7]
+
+[7]: https://www.anthropic.com/engineering/harness-design-long-running-apps

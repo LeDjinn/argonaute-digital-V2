@@ -12,12 +12,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CaseStudiesPage({
+export default async function CaseStudiesPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const t = params.locale === "fr" ? frText : enText;
+  const resolvedParams = await params;
+  const t = resolvedParams.locale === "fr" ? frText : enText;
   const page = t.caseStudiesPage;
   const cases = t.caseStudies;
 

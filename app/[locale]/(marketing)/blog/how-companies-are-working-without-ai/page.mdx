@@ -1,7 +1,12 @@
+import { generateBlogMetadata } from "@/lib/blog";
 import { BlogLayout } from "@/components/blog-layout";
 import Thumbnail from "./thumbnail.jpeg";
 
 export const blog = {
+  slug: "how-companies-are-working-without-ai",
+  tags: [],
+  draft: true,
+  readingTime: 1,
   author: { name: "Argonaute Digital", src: "/avatar.jpeg" },
   date: "2022-07-14",
   title: "How Companies Thrive Without AI",
@@ -9,13 +14,7 @@ export const blog = {
     "Discover how companies are optimizing their workflows, enhancing connectivity, and driving efficiency without relying on AI-driven tools.",
   image: Thumbnail,
 };
-export const metadata = {
-  title: blog.title,
-  description: blog.description,
-  openGraph: {
-    images: [blog.image],
-  },
-};
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
 
 export default (props) => <BlogLayout blog={blog} {...props} />;
 

@@ -1,6 +1,11 @@
+import { generateBlogMetadata } from "@/lib/blog";
 import { BlogLayout } from "@/components/blog-layout";
 
 export const blog = {
+  slug: "changelog-for-2024",
+  tags: [],
+  draft: true,
+  readingTime: 1,
   author: { name: "Argonaute Digital", src: "/tim.png" },
   date: "2024-07-14",
   title: "Innovations in Digital Integration for 2024",
@@ -10,13 +15,7 @@ export const blog = {
     "https://images.unsplash.com/photo-1696429175928-793a1cdef1d3?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 };
 
-export const metadata = {
-  title: blog.title,
-  description: blog.description,
-  openGraph: {
-    images: [blog.image],
-  },
-};
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
 
 export default (props) => <BlogLayout blog={blog} {...props} />;
 

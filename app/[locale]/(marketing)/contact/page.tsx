@@ -10,14 +10,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ContactPage({
+export default async function ContactPage({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const resolvedParams = await params;
   return (
     <div className="relative">
-      <ContactForm locale={params.locale} />
+      <ContactForm locale={resolvedParams.locale} />
     </div>
   );
 }
