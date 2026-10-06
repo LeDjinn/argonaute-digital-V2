@@ -1,0 +1,78 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "postgresql-migrations-without-release-traps",
+  "title": "PostgreSQL Migrations Without Release Traps",
+  "description": "A practical expand-and-contract migration workflow for PostgreSQL-backed applications: control lock waits, separate backfills, and preserve application rollback.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-10-06",
+  "tags": ["software-development", "postgresql", "database-migrations", "nodejs", "architecture"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://www.postgresql.org/docs/18/sql-createindex.html",
+    "https://www.postgresql.org/docs/18/sql-altertable.html",
+    "https://www.postgresql.org/docs/18/runtime-config-client.html"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A database migration deserves its own release plan, not a hopeful command attached to application startup. My recommendation for a TypeScript, Next.js and Node.js service is to separate schema expansion, data movement and destructive cleanup. Make each step observable, restartable and compatible with an explicit set of application revisions.
+
+Consider a proposed change from an order's free-text delivery address to structured address fields. The interesting question is not whether the ORM can generate SQL. It is whether the previous application can still run after the first deployment, and whether a half-completed backfill leaves orders understandable.
+
+## Expand before switching readers
+
+I would begin with additive fields and keep the original address. Deploy code that understands both representations, then establish a deliberate write policy: maintain both during the transition, or nominate one authoritative representation and derive the other. Record how conflicts are resolved rather than leaving that decision inside scattered request handlers.
+
+My suggested acceptance test uses old and new application revisions against the expanded schema. Both must create and read orders without losing address information. Include missing fields, partial addresses and concurrent edits. Treat ambiguous historical data as a product decision; do not invent a postcode merely to satisfy a new type.
+
+This is the database counterpart to the release contracts in [Next.js Upgrades Without Production Surprises](/en/blog/nextjs-upgrades-without-production-surprises). Put compatibility evidence beside the migration, not just in the frontend pull request.
+
+## Budget the lock wait separately
+
+PostgreSQL 18 documents that `ALTER TABLE` normally takes an `ACCESS EXCLUSIVE` lock unless the selected subcommand states otherwise.[2] That is reason enough to inspect the exact generated statement before approving it.
+
+I would give the migration session a short, explicit lock-wait budget and a separate execution budget, chosen from production requirements. PostgreSQL's `lock_timeout` applies to each lock acquisition attempt; `statement_timeout` limits statement duration, so the two controls are not interchangeable.[3] Setting the lock timeout at or above a nonzero statement timeout defeats its intended distinction.[3]
+
+Do not interpret a timeout as permission to retry indefinitely. My runbook would require checking blocking sessions, confirming ownership of any intervention, and rescheduling if necessary. Prefer a controlled failed release over an automated loop with no escalation path.
+
+## Backfill as a resumable job
+
+My preference is a separate worker with bounded batches, a durable progress marker and an explicit pause control. Keep the schema migration small; make data transformation a process you can observe independently.
+
+For the address example, define which records are eligible, what counts as converted, and how the worker detects an address edited after it was read. Recheck that condition when writing. Avoid a blanket update that replaces a user's newer edit with the worker's stale interpretation.
+
+Before rollout, test interruption midway through a batch, restart after a committed batch, and a deliberately malformed address. Track remaining eligible rows and unresolved exceptions separately. A shrinking queue is useful evidence; it is not proof that every conversion is correct.
+
+## Separate index creation and constraint validation
+
+For an ordinary table, PostgreSQL's concurrent index build avoids locks that block inserts, updates and deletes, but it does more work and can wait for existing transactions.[1] It also cannot run inside a transaction block.[1] Check whether the migration runner automatically wraps SQL before selecting this route.
+
+A failed concurrent build can leave an invalid index that is ignored by queries yet still adds update overhead.[1] My recovery checklist would inspect index validity and definition before attempting another build. Do not treat the mere presence of its name as success.
+
+For foreign-key and check constraints, `NOT VALID` skips the initial historical-row scan while still enforcing the constraint on subsequent inserts and updates.[2] PostgreSQL provides `VALIDATE CONSTRAINT` to check the existing data later.[2] I would use those as separate reviewed operations, with cleanup evidence between them, rather than describing the entire migration as nonblocking.
+
+## Contract only after the rollback window
+
+Do not remove the original address in the same release that changes readers. My proposed cleanup gate requires completed backfill checks, no remaining dependency on the old fields, and an agreed end to support for the previous application revision.
+
+Write down the rollback boundary: before cleanup, revert application code while preserving the expanded schema; after cleanup, recovery needs a different plan. Rehearse that distinction in staging. A deployment button should not be your only recovery documentation.
+
+For the broader engineering judgment behind this work, see [Full-Stack Skills Worth Proving in 2026](/en/blog/full-stack-skills-worth-proving-2026). Need help reviewing a PostgreSQL migration or release sequence? [Contact Argonaute Digital](/en/contact) with the schema change, deployment model and downtime constraints.
+
+## Sources
+
+- [PostgreSQL documentation][1]
+
+[1]: https://www.postgresql.org/docs/18/sql-createindex.html
+- [PostgreSQL documentation][2]
+
+[2]: https://www.postgresql.org/docs/18/sql-altertable.html
+- [PostgreSQL documentation][3]
+
+[3]: https://www.postgresql.org/docs/18/runtime-config-client.html
