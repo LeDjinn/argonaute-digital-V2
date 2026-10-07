@@ -1,0 +1,70 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "ai-agent-evals-test-state-not-story",
+  "title": "AI Agent Evals: Test the State, Not the Story",
+  "description": "A practical evaluation plan for tool-using AI agents: verify persisted outcomes, protect permissions, inspect traces and compare releases honestly.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-10-07",
+  "tags": ["new-technology", "ai-agents", "evaluation", "testing", "full-stack-development"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": ["https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents", "https://google.github.io/adk-docs/evaluate"]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+Before giving an AI agent permission to change business records, I would ask a blunt question: what evidence would make us reject its next release? A convincing demo is not an answer. My preferred starting point is a small evaluation suite organized around observable business outcomes, not how confident the assistant sounds.
+
+Anthropic's January 2026 evaluation guidance distinguishes an agent's transcript from the final state of its environment.[1] Google's ADK documentation likewise separates assessment of tool-use trajectories from assessment of the final response.[2] Those distinctions are useful even if your application uses neither vendor's agent framework.
+
+## Start with a business operation
+
+Consider a proposed support assistant that can approve a refund through a Node.js service backed by PostgreSQL. This is an illustrative design, not a report of an implemented system.
+
+For each evaluation case, define the starting database fixture, the user's request, the permitted actions and the expected persisted result. For an eligible refund, I would check the amount, account ownership, refund status and audit entry. For an ineligible request, I would require unchanged financial records and an explanation of the limitation.
+
+Treat the final message as a separate assertion. If the assistant says it completed a refund while the database remains unchanged, fail the case. If it writes the correct amount to the wrong customer's account, fail it regardless of prose quality. A fluent explanation should never compensate for a forbidden write.
+
+## Keep hard rules out of subjective scoring
+
+Anthropic describes code-based, model-based and human graders, noting that model-based grading requires calibration against human judgment.[1] My recommendation is to reserve executable checks for requirements with an unambiguous answer: which tenant changed, whether approval was present and whether a retry produced a duplicate.
+
+Use a rubric for the softer part: did the response explain the outcome clearly, avoid unsupported promises and identify the next step? Keep that score separate from the safety checks. I would not accept an average that lets excellent tone cancel an authorization failure.
+
+For a React or Next.js interface, add a browser-level check that the displayed status agrees with the server's read-back result. That is an application acceptance criterion, not something to delegate to a language-model judge.
+
+## Inspect the route without prescribing every turn
+
+ADK's evaluation guidance explicitly includes tool selection and the sequence of actions in its assessment of an agent's trajectory.[2] I would use that idea narrowly: enforce essential ordering constraints, but avoid demanding one exact transcript where several safe approaches are acceptable.
+
+In the refund example, require identity and eligibility checks before a write. Flag attempts to bypass approval. Do not fail a case simply because the agent performed an additional harmless read or worded a clarification differently.
+
+Record tool names, redacted arguments, response statuses and timing. Keep sensitive customer content out of ordinary evaluation artifacts. Give every failure a case identifier so an engineer can inspect the relevant trace without searching a wall of chat text.
+
+## Repeat cases and report the denominator
+
+Anthropic recommends multiple trials because model outputs vary between runs.[1] My proposed first suite would cover a normal refund, an ambiguous account, an unauthorized tenant, a timeout after submission and a repeated request. These are suggested scenarios, not a claim of measured coverage.
+
+Run each scenario repeatedly against the current and proposed configurations. Record the model identifier, prompt version, tool schema, fixture revision and grading rules. Do not change the rubric halfway through a comparison and call the result an improvement.
+
+Report successes out of attempts for each scenario alongside latency and observed failures. Keep infrastructure errors visible rather than quietly removing them. A small suite is a release aid, not proof that every production interaction is safe.
+
+## Make the suite a release artifact
+
+For a TypeScript application deployed on GCP, I would run deterministic service tests on every change and schedule the more expensive agent trials before promoting a release. Use isolated fixtures and restricted credentials; evaluation should not move real money.
+
+Keep the previously acceptable cases as regression coverage, and add a case whenever a real incident reveals a missing requirement. Pair this with the authority boundaries in [AI Sandboxes: Separate Execution from Authority](/en/blog/ai-sandboxes-execution-without-authority) and the rollout discipline in [PostgreSQL Migrations Without Release Traps](/en/blog/postgresql-migrations-without-release-traps).
+
+My release rule is simple: evidence first, explanation second. If you need help turning an AI prototype into an accountable full-stack workflow, [contact Argonaute Digital](/en/contact) to discuss the actions it can take and the checks it must pass.
+
+## Sources
+
+- [Demystifying evals for AI agents][1]
+- [ADK: Why evaluate agents][2]
+
+[1]: https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents
+[2]: https://google.github.io/adk-docs/evaluate
