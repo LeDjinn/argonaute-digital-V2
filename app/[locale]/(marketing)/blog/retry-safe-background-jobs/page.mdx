@@ -1,0 +1,70 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "retry-safe-background-jobs",
+  "title": "Background Jobs: Make Retries Safe Before Making Them Fast",
+  "description": "A practical Node.js, PostgreSQL and GCP design for retry-safe background jobs: stable operation IDs, transactional writes and explicit recovery paths.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-10-08",
+  "tags": ["software-development", "nodejs", "postgresql", "gcp", "architecture"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": ["https://docs.cloud.google.com/tasks/docs/dual-overview", "https://www.postgresql.org/docs/17/sql-insert.html", "https://docs.stripe.com/api/idempotent_requests"]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A background job is not finished just because its handler reached the last line. Before optimizing throughput, I would ask what happens when the same operation arrives twice, or when the worker disappears after changing state but before acknowledging completion. Those are design questions, not reasons to add another retry loop.
+
+Google documents Cloud Tasks as an at-least-once delivery service and explicitly warns that a task can execute more than once.[1] My recommendation for a Node.js worker on Cloud Run is therefore straightforward: define what repeated execution means before choosing concurrency settings.
+
+## Give the operation a durable identity
+
+Consider an illustrative invoice-generation workflow, not a system I am claiming to have built. A Next.js application accepts a request, records an operation and schedules a worker. The React interface displays the operation's persisted status rather than interpreting a queue submission as a completed invoice.
+
+I would assign the operation ID when the application accepts the business intent. Carry that same ID through queue payloads, worker logs and database records. Do not generate a fresh business identity inside each attempt. Two deliveries of one operation should remain distinguishable from two deliberately requested invoices.
+
+Scope the identity to the tenant and operation type, and store a fingerprint of the relevant input. My proposed contract rejects reuse of the same ID with a different invoice amount or customer. A key is an identity check, not permission to overwrite an earlier request.
+
+## Make the database boundary explicit
+
+For database-only work, I would use a unique constraint on the operation identity and perform the business write and completion record in one transaction. PostgreSQL provides `ON CONFLICT DO NOTHING` to skip an insert that conflicts with the selected constraint or index.[2] Use that capability deliberately, not as a blanket instruction to ignore every error.
+
+In this proposed design, the winning transaction creates the invoice and records its ID. A subsequent attempt reads the completed operation and returns the recorded outcome. If the transaction rolls back, the invoice and its completion marker should both remain absent. I would test that invariant rather than infer it from a successful HTTP response.
+
+Keep the duplicate path explicit. An operation found in progress is not necessarily complete; an operation with mismatched input is not a harmless duplicate. Define separate handling for completed, retryable and unresolved states, with bounded recovery for work abandoned by a dead worker.
+
+## Do not stretch a transaction across an external call
+
+For this architecture, I would not treat a local completion row as proof that an external service accepted a request. Instead, record an outbound intent with the business change in the same database transaction, then let a dispatcher process that durable intent. This is my proposed outbox boundary, not a feature supplied automatically by Cloud Tasks.
+
+Where a provider supports idempotency, reuse a stable provider key across attempts. Stripe, for example, documents returning the saved status and body for repeated requests with the same key, including saved server errors.[3] That is a provider-specific contract, not a universal retry guarantee.
+
+Stripe also documents key pruning after at least twenty-four hours and checking parameters when keys are reused.[3] I would keep local operation records according to the business recovery window, and avoid blindly replaying an old unresolved request after the provider's protection may have expired. Reconcile against provider state or route the case for review.
+
+## Acknowledge outcomes, not intentions
+
+Cloud Tasks expects a successful HTTP response from an HTTP worker; a different response or no response causes another attempt.[1] In my proposed handler, a completed duplicate can return success because its durable outcome already exists. A failed transaction should not receive a success acknowledgement simply to clear the queue.
+
+Avoid leaving the application commit and queue submission as an undocumented gap. I would record scheduling intent transactionally and retry dispatch separately. Monitor unfinished operations and the age of undispatched intents, not just how many handlers returned successfully.
+
+## Test the uncomfortable boundaries
+
+My minimum suite would include concurrent duplicate deliveries, a crash before commit, a lost acknowledgement after commit, changed input under the same key and an ambiguous external timeout. These are suggested acceptance cases, not measured results. Inspect persisted invoice counts and recorded outcomes after each case.
+
+Pair that coverage with [PostgreSQL Migrations Without Release Traps](/en/blog/postgresql-migrations-without-release-traps) when introducing constraints, and [Next.js Upgrades Without Production Surprises](/en/blog/nextjs-upgrades-without-production-surprises) when changing the application runtime.
+
+My release rule: retries should repeat delivery, not multiply business effects. If your background workflow needs clearer ownership and recovery boundaries, [contact Argonaute Digital](/en/contact) to review the operation contract before tuning performance.
+
+## Sources
+
+- [Understand Cloud Tasks][1]
+- [PostgreSQL 17: INSERT][2]
+- [Stripe: Idempotent requests][3]
+
+[1]: https://docs.cloud.google.com/tasks/docs/dual-overview
+[2]: https://www.postgresql.org/docs/17/sql-insert.html
+[3]: https://docs.stripe.com/api/idempotent_requests
