@@ -1,0 +1,72 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "incident-writeups-engineering-judgment",
+  "title": "Show Your Engineering Judgment with an Incident Write-Up",
+  "description": "A practical career artifact for full-stack developers: explain an incident with evidence, bounded uncertainty and verifiable follow-up instead of a heroic debugging story.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-10-09",
+  "tags": ["tech-careers", "engineering-skills", "incident-response", "observability", "full-stack-development"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": ["https://sre.google/workbook/postmortem-culture", "https://dora.dev/capabilities/learning-culture", "https://dora.dev/capabilities/monitoring-and-observability"]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A portfolio can show that you built a React interface. I would also want it to show how you reason when the interface says success but the underlying operation has failed. My recommendation for developers preparing a technical interview: write one compact incident analysis, not another list of technologies you know.
+
+This is not a promise of better hiring outcomes. It is a proposed way to make your judgment inspectable: what you observed, which explanations you rejected, why you chose a mitigation and how you checked the result.
+
+## Choose an honest incident boundary
+
+Use a real incident only when you have permission to discuss it. Remove customer identifiers, credentials, private architecture details and sensitive logs. Anonymization is not permission to publish someone else's operational history.
+
+If you lack a shareable incident, create a deliberately broken practice application. Label it a simulation at the top. For example, make a Next.js endpoint return success before a PostgreSQL write completes, then introduce a controlled database failure. Describe the setup and record what actually happens. Never turn the exercise into an invented production rescue.
+
+Keep the scope narrow: one user journey, one failure boundary and one recovery decision. A reader should be able to understand the contract without first learning your entire application.
+
+## Separate observations from explanations
+
+I would structure the write-up around four questions: what stopped working, what evidence was available, what restored the user journey and what remained unresolved. Include a short timeline with timestamps from the exercise or authorized incident, not reconstructed precision.
+
+DORA distinguishes monitoring based on predefined metrics or logs from observability used to explore properties that were not defined in advance.[3] For this artifact, I would demonstrate both: the signal that exposed the problem and the investigation that narrowed its explanation.
+
+In the proposed application, a successful HTTP response is one observation; an absent database row is another. Neither establishes the cause by itself. Record the request identifier, relevant database outcome and application error, while keeping sensitive values out. Explain which evidence connects the events and which link is still an assumption.
+
+## Make the mitigation decision reviewable
+
+Do not jump from an error message to the final patch. Explain the alternatives you considered: disable the feature, roll back the release, reject new requests or keep serving a reduced workflow. My preferred write-up names the user cost of each option and the condition that would make it unacceptable.
+
+For the simulated endpoint, I would compare returning an explicit failure with continuing to accept requests whose completion cannot be confirmed. Then test the chosen behavior through the React interface, API and persisted state. Mark the test results as observations from your exercise, not general guarantees about Next.js or PostgreSQL.
+
+Include a rejected hypothesis if you genuinely investigated one. Do not manufacture a dramatic debugging detour. A short analysis that admits missing evidence is more useful than a confident story assembled after the fact.
+
+## Turn the lesson into a bounded change
+
+Google's SRE workbook recommends a single postmortem owner with collaborators and criticizes vague action items that lack priorities or tracking.[1] I would apply that discipline even to a personal project: specify the change, its owner, the acceptance test and when you will review it.
+
+DORA's learning-culture guidance recommends treating failures as learning opportunities and using blameless postmortems to improve systems and processes.[2] My interpretation is that the artifact should explain the conditions that allowed the failure, rather than congratulate one developer or blame another.
+
+For example, propose a test that forces a database write failure and asserts that the UI never reports completion. Pair it with a separate test for the successful path. Avoid ending with “add monitoring” unless you can name the signal, the decision it supports and the person responsible for responding.
+
+## Package it for a technical conversation
+
+My suggested deliverable is a readable page, a small reproduction and a follow-up checklist. Keep raw evidence separate from the narrative. State what you changed, what you verified and what the experiment does not cover. Let the reviewer challenge your reasoning rather than admire a polished screenshot.
+
+Use [Full-Stack Skills Worth Proving in 2026](/en/blog/full-stack-skills-worth-proving-2026) to connect this artifact to broader skills, and [Background Jobs: Make Retries Safe Before Making Them Fast](/en/blog/retry-safe-background-jobs) when the failure crosses an asynchronous boundary.
+
+If your team needs clearer incident evidence and recovery decisions, [contact Argonaute Digital](/en/contact) to review a real workflow. The goal is an explanation another engineer can test, not a heroic story nobody can verify.
+
+## Sources
+
+- [Google SRE: Postmortem culture][1]
+- [DORA: Learning culture][2]
+- [DORA: Monitoring and observability][3]
+
+[1]: https://sre.google/workbook/postmortem-culture
+[2]: https://dora.dev/capabilities/learning-culture
+[3]: https://dora.dev/capabilities/monitoring-and-observability
