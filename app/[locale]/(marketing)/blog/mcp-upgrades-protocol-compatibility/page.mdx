@@ -1,0 +1,68 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "mcp-upgrades-protocol-compatibility",
+  "title": "MCP Upgrades: Test Protocol Compatibility, Not Just Tools",
+  "description": "A practical MCP upgrade checklist: separate protocol revisions from SDK versions, test legacy clients, validate tool results and preserve a rollback path.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-10-12",
+  "tags": ["new-technology", "mcp", "typescript", "testing", "architecture"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": ["https://modelcontextprotocol.io/specification/2026-07-28/server/tools", "https://modelcontextprotocol.io/specification/2026-07-28/basic/versioning", "https://ts.sdk.modelcontextprotocol.io/v2/protocol-versions"]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+An MCP server upgrade deserves a compatibility review, not just a successful tool demo. My release question would be: can every supported client still discover the server, call the right operation and interpret its result? A passing handler test answers only the middle part.
+
+The July 28, 2026 MCP revision makes that distinction concrete. It uses protocol-version metadata on each request rather than an initialization handshake; the specification distinguishes this modern behavior from legacy revisions through November 25, 2025.[2] Treat that boundary as a deployment concern, not something a package update will automatically resolve.
+
+## Write down three separate versions
+
+I would record the SDK package version, the supported protocol revisions and the application tool contract separately. These are three release coordinates, not three spellings of the same thing.
+
+The TypeScript SDK v2 documentation says its default client mode retains the legacy initialization exchange. Automatic mode probes for the server's era, while pinning a modern revision prevents fallback.[3] Therefore, my checklist would require explicit client configuration and an observed connection result, rather than assuming that a newer SDK means newer wire behavior.
+
+For a Node.js service, keep this information beside the deployment configuration. In a Next.js administration interface, show the active integration configuration without exposing credentials. A support engineer should be able to distinguish a protocol mismatch from a business operation that was correctly rejected.
+
+## Build a compatibility matrix before rollout
+
+Start with the clients you actually promise to support: a managed internal host, an external customer integration and a command-line workflow, for example. This is an illustrative inventory, not a claim about an existing deployment.
+
+For each client, record transport, protocol era, authentication setup and expected fallback policy. Exercise discovery, listing and one harmless tool call against both the current server and the candidate. Add a deliberately unsupported version to confirm that the failure is understandable.
+
+The specification permits dual-era implementations, but a legacy client cannot automatically move forward to a modern-only server.[2] My recommendation is to preserve legacy support until the client inventory proves it can be removed. The tradeoff is more compatibility code and a wider test matrix; the benefit is a migration you control instead of a simultaneous upgrade imposed on customers.
+
+Avoid treating every connection error as permission to downgrade. The SDK documentation distinguishes authentication failures from evidence about the server's era.[3] In release tests, include expired credentials and insufficient scope alongside version mismatches. Require different diagnostics for those failures.
+
+## Validate the result, not just the connection
+
+MCP tools can declare an output schema. When one is supplied, the specification requires the server's structured result to conform and recommends client-side validation.[1] I would make that validation a release gate for application-owned integrations, even where a general-purpose host does not enforce it.
+
+Imagine a tool that returns an order summary from PostgreSQL. Define identifiers, currency, status and optional fields deliberately. Test missing fields, unknown enum values and nulls. Keep money representation explicit rather than leaving the caller to infer whether a number means euros or cents.
+
+Compare the old and new schemas mechanically, then review meaning separately. Adding a field may be acceptable to a permissive consumer; changing a status label or currency unit can break business logic without changing the JSON type. For intentionally incompatible behavior, I would introduce a distinct tool contract and document its retirement plan.
+
+Keep these deterministic checks separate from model evaluation. [AI Agent Evals: Test the State, Not the Story](/en/blog/ai-agent-evals-test-state-not-story) covers whether an agent achieved the intended outcome. Here, the narrower question is whether the integration still speaks an agreed language.
+
+## Make rollback a configuration change
+
+My preferred first rollout would use restricted fixtures and a small client cohort. Record the selected protocol era, tool-contract revision, validation failures and request timing, with sensitive arguments redacted. Do not log customer payloads just to make debugging convenient.
+
+Retain a known-compatible server revision and client configuration. Rehearse restoring both: reverting the server alone is not enough if the host now pins an unsupported protocol. Use the same staged-release discipline described in [Next.js Upgrades Without Production Surprises](/en/blog/nextjs-upgrades-without-production-surprises).
+
+I would ship when the supported matrix passes and the rollback path is exercised, not when the newest demo works. If you need help reviewing an MCP integration in a TypeScript full-stack application, [contact Argonaute Digital](/en/contact) to define its compatibility boundaries and release checks.
+
+## Sources
+
+- [MCP 2026-07-28: Tools][1]
+- [MCP 2026-07-28: Versioning and Compatibility][2]
+- [MCP TypeScript SDK: Protocol versions][3]
+
+[1]: https://modelcontextprotocol.io/specification/2026-07-28/server/tools
+[2]: https://modelcontextprotocol.io/specification/2026-07-28/basic/versioning
+[3]: https://ts.sdk.modelcontextprotocol.io/v2/protocol-versions
