@@ -1,0 +1,66 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "cloud-run-postgresql-connection-budget",
+  "title": "Cloud Run and PostgreSQL: Budget Connections Before Scaling",
+  "description": "A practical connection-budget review for Node.js and PostgreSQL on Cloud Run: pool ownership, concurrency, rollout headroom and overload tests.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-10-13",
+  "tags": ["software-development", "postgresql", "cloud-run", "nodejs", "performance"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": ["https://docs.cloud.google.com/run/docs/configuring/max-instances", "https://node-postgres.com/apis/pool", "https://docs.cloud.google.com/run/docs/about-concurrency"]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+Autoscaling is not a database capacity plan. For a Next.js or Node.js service backed by PostgreSQL, I would review the connection budget before increasing the instance limit. The question is not simply whether another container can start. It is whether every workload sharing the database still has room to operate when the web service grows.
+
+Cloud Run documents maximum instances as a way to limit connections to backing services, but warns that the configured maximum can be briefly exceeded.[1] Treat that setting as a useful control, not a mathematically strict database firewall.
+
+## Start with an inventory, not a pool default
+
+My proposed capacity worksheet has one row per database consumer: web service, background worker, administrative scripts and migration runner. Record each consumer's instance envelope, processes per instance and pools per process. Include separate services that share the same database, rather than allocating the entire budget to the busiest application.
+
+For each row, estimate potential connections as instances multiplied by processes, pools and each pool's maximum clients. This is a planning envelope, not a claim that every connection opens immediately. The node-postgres pool starts empty, creates clients lazily and defaults to a maximum of ten clients.[2] A familiar default is still a capacity decision once replicated across containers.
+
+I would reserve headroom for operational access and deployment overlap, then document who owns that reserve. Do not present a worksheet total as measured database capacity. Compare it with the actual database configuration and a workload test before using it as a release gate.
+
+## Own one pool deliberately
+
+For this proposed Node.js architecture, I would create a long-lived pool at the process boundary and pass it into request handlers. Avoid constructing a pool inside each request or creating hidden pools in multiple feature modules. Review the deployed process model too: one exported singleton does not mean one pool across every operating-system process.
+
+The node-postgres API queues acquisition requests when all clients are checked out and the pool is full.[2] My recommendation is to measure acquisition delay separately from query duration. A slow endpoint needs different treatment when it is waiting for a client than when its SQL is actually running.
+
+For explicitly acquired clients, use a release path that runs on both success and failure. The documentation warns that unreleased clients exhaust the pool.[2] I would add a failure-path test around transaction rollback and release, rather than relying only on successful requests to demonstrate pool hygiene.
+
+## Tune concurrency and database demand together
+
+Cloud Run explains that higher request concurrency can let fewer instances handle the same volume, while lower concurrency can require more instances.[3] Neither direction is automatically a PostgreSQL optimization. My proposed review asks how many requests need database access simultaneously and how long each request holds its client.
+
+I would not make request concurrency equal to pool size by reflex. Some routes barely touch the database; others occupy a client through a transaction. Keep external API calls outside that holding window where the business contract permits. A pool increase should follow evidence of available database capacity, not merely a growing application-side queue.
+
+There is a real tradeoff in my design recommendation: a smaller pool makes waiting visible earlier, while a larger one allocates more potential connections to that process. Decide where overload should be handled and what the caller sees. Define bounded acquisition waiting, request deadlines and an explicit failure response; do not let an indefinite wait become your admission policy.
+
+## Test the rollout, not just steady traffic
+
+My acceptance plan would cover a traffic burst, deliberately slower queries, overlapping application versions and background workers running alongside the web service. These are suggested tests, not reported production results. Observe checked-out clients, acquisition wait, query latency, database activity and endpoint errors together.
+
+The pool exposes `totalCount`, `idleCount` and `waitingCount` for inspecting its state.[2] I would correlate those signals with instance counts, rather than interpreting one quiet pool as proof that the whole service has spare capacity. Record the deployment configuration with the results so the next release can repeat the comparison.
+
+Pair this review with [PostgreSQL Migrations Without Release Traps](/en/blog/postgresql-migrations-without-release-traps) for schema rollout planning, and [Background Jobs: Make Retries Safe Before Making Them Fast](/en/blog/retry-safe-background-jobs) for worker recovery boundaries.
+
+My release rule is simple: scaling permission and database capacity must be reviewed together. If your service needs a clearer connection budget and overload contract, [contact Argonaute Digital](/en/contact) before raising the next limit.
+
+## Sources
+
+- [Cloud Run: maximum instances][1]
+- [node-postgres: Pool API][2]
+- [Cloud Run: request concurrency][3]
+
+[1]: https://docs.cloud.google.com/run/docs/configuring/max-instances
+[2]: https://node-postgres.com/apis/pool
+[3]: https://docs.cloud.google.com/run/docs/about-concurrency
