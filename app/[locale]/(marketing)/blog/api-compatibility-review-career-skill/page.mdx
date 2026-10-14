@@ -1,0 +1,66 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "api-compatibility-review-career-skill",
+  "title": "Show Your API Judgment with a Compatibility Review",
+  "description": "A practical career exercise for full-stack developers: review an API change through old clients, semantic behavior and rollout tradeoffs, not just a schema diff.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-10-14",
+  "tags": ["tech-careers", "engineering-skills", "api-design", "typescript", "testing"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": ["https://google.aip.dev/180", "https://google.aip.dev/158", "https://spec.openapis.org/oas/v3.1.1.html"]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A working endpoint demonstrates implementation. A compatibility review demonstrates a different skill: deciding whether that implementation can change without surprising its consumers. For a developer preparing a technical interview or moving toward broader ownership, I would build one small review around a proposed API change.
+
+This is a recommended learning artifact, not evidence of hiring demand or a promise of an offer. Its value is that another engineer can challenge your assumptions, run your checks and inspect the tradeoff you chose. Keep it narrower than a complete portfolio application.
+
+## Start with a consumer you do not upgrade
+
+Imagine a practice project with a Node API, PostgreSQL storage and a React client that lists invoices. The original list endpoint returns every matching invoice. You propose pagination to limit response size. Label this as an exercise; do not describe it as a production migration unless that actually happened and you can share it.
+
+Freeze the old client before changing the server. Write down its assumptions: one request retrieves the entire collection, an empty array means no invoices, and existing filters retain their meaning. Then describe the proposed response and which assumptions it invalidates. A test against only the new client would avoid the question this exercise is meant to answer.
+
+Google's AIP-180 separates compatibility into source, wire and semantic dimensions: client code, communication formats and expected behavior.[1] I would use those categories as review prompts, not claim that Google's guidance is a universal specification for every HTTP service.
+
+## Make the subtle break visible
+
+The pagination example is useful because the endpoint can still return successful JSON while an old consumer silently sees an incomplete collection. AIP-158 identifies adding pagination to an existing RPC as a backwards-incompatible change.[2] Your review should explain the corresponding risk in your practice HTTP API, rather than merely repeat that conclusion.
+
+Propose a fixture larger than the new page limit. Have the frozen client calculate the number of invoices it received, then compare that result with the fixture's known contents. Separately test the updated client following pages. These are suggested checks, not reported results: record actual outcomes only after running them.
+
+I would also include an empty collection, a final partial page and a filter that matches records beyond the first page. Keep the dataset deterministic. Avoid introducing concurrency, authentication and performance benchmarking at once; each adds another explanation for a failing check.
+
+## Use a schema without outsourcing judgment
+
+OpenAPI describes HTTP API interfaces in a language-independent format.[3] For this exercise, document the old and proposed operations using a supported OpenAPI version, including parameters, response shapes and errors. Pin that version in the artifact instead of assuming a moving specification target.
+
+My recommendation is to treat a schema comparison as one input. Next to it, write a behavior note: what happens when the client omits pagination parameters, how completion is signaled, and which ordering assumptions the exercise makes. Ask the reviewer to evaluate that note alongside the executable checks.
+
+AIP-180 explicitly cautions that compatibility guidance is indicative rather than exhaustive, and that APIs with tightly controlled consumers may have different requirements.[1] State your boundary: can server and client be released together, or must independently deployed consumers keep working? The answer changes the acceptable rollout.
+
+## Defend a rollout, not just a patch
+
+I would compare three options: preserve the original endpoint and add a paginated one; introduce an explicitly versioned contract; or coordinate an update when every consumer is genuinely controlled. Name the cost of each. Maintaining two contracts adds work. Versioning requires migration. Coordinated deployment depends on knowing which clients still exist.
+
+Choose one option for the exercise and define a removal condition for temporary compatibility code. Include what evidence would make you reverse the decision. Do not call a rollout safe because its implementation is short or its new TypeScript types compile.
+
+Package the deliverable as a one-page review, two contract descriptions and reproducible checks. Connect it to [Full-Stack Skills Worth Proving in 2026](/en/blog/full-stack-skills-worth-proving-2026); use [PostgreSQL Migrations Without Release Traps](/en/blog/postgresql-migrations-without-release-traps) when the API transition also changes stored data.
+
+For a team facing independently deployed clients, [contact Argonaute Digital](/en/contact) to review the contract and rollout boundary. The useful skill is not remembering a list of breaking changes. It is making a change reviewable before someone else's workflow depends on it.
+
+## Sources
+
+- [Google AIP-180: Backwards compatibility][1]
+- [Google AIP-158: Pagination][2]
+- [OpenAPI Specification 3.1.1][3]
+
+[1]: https://google.aip.dev/180
+[2]: https://google.aip.dev/158
+[3]: https://spec.openapis.org/oas/v3.1.1.html
