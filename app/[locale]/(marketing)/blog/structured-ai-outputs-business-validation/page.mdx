@@ -1,0 +1,66 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "structured-ai-outputs-business-validation",
+  "title": "Structured AI Outputs Are Not Business Validation",
+  "description": "Use structured AI outputs without trusting every field: separate schema checks, domain validation and database writes in a TypeScript application.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-10-15",
+  "tags": ["new-technology", "ai-integration", "typescript", "validation", "architecture"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": ["https://developers.openai.com/api/docs/guides/structured-outputs", "https://json-schema.org/understanding-json-schema/reference/object"]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A model returning tidy JSON is a useful integration milestone, not permission to write that JSON into PostgreSQL. My preferred boundary is simple: the model proposes data, application code checks its meaning, and a separate command performs the change. Each stage should be visible in the code review.
+
+OpenAI's Structured Outputs guide explicitly warns that schema-conforming outputs can still contain mistakes.[1] That is the distinction worth designing around. A well-shaped customer identifier can identify the wrong customer; a valid date can describe the wrong event. Neither problem is solved by a more confident interface.
+
+## Make the proposal deliberately small
+
+Consider an illustrative support workflow that extracts a requested subscription change from a customer message. I would ask for a proposed plan, an effective date and the supporting passage, rather than a ready-to-save subscription record. Keep ownership, tenant identity and permission decisions outside the model's response.
+
+Use an explicit wire schema, not a TypeScript assertion pasted onto parsed JSON. General JSON Schema does not require declared properties by default, and it allows additional properties unless constrained.[2] Review both choices deliberately instead of assuming that listing fields makes an object closed and complete.
+
+Provider constraints need a separate review. OpenAI documents support for a subset of JSON Schema and recommends native SDK schema helpers to reduce divergence between schemas and application types.[1] I would keep one reviewed definition for the extraction boundary, test it against the selected provider configuration, and version changes alongside the prompt. Do not assume every application validator can be transmitted unchanged.
+
+A smaller proposal sacrifices flexibility. That is usually a good trade when the next step changes customer data. Add fields only when a consumer has a clear validation rule for them.
+
+## Validate meaning against trusted state
+
+After parsing, construct an application-owned candidate. In this example, load the subscription using the authenticated customer's context, check that the proposed plan is available, and check the effective date against the actual change policy. Never accept an extracted tenant identifier as authorization.
+
+I would represent the result as three explicit outcomes: accepted candidate, needs review, or rejected proposal. Attach stable reason codes such as unavailable plan or ambiguous date. Those are product decisions, not attempts to persuade the model to sound more certain.
+
+Keep the supporting passage for review where appropriate, but check it against the submitted message. A model-provided explanation should help someone inspect a decision; it should not become the evidence that the decision is correct. Prefer a manual review path over silently filling gaps with plausible defaults.
+
+For a Node service backed by PostgreSQL, I would recheck mutable business conditions inside the write transaction. A candidate approved earlier may no longer be valid when another request changes the subscription. Keep extraction and the transaction separate rather than holding database resources while waiting for a model response.
+
+## Treat non-results as first-class outcomes
+
+A schema is not the entire response protocol. OpenAI documents refusals that need not follow the supplied schema, and incomplete responses can occur when output limits are reached.[1] Handle those branches before consuming the proposed business object.
+
+In a Next.js interface, distinguish processing failure from a proposal awaiting confirmation. Preserve the user's original input and provide a retry or review action. Do not render an empty successful state because there was nothing parseable to display.
+
+I would also keep model retries separate from command retries. Retrying extraction must not accidentally replay a previously accepted subscription change. [Background Jobs: Make Retries Safe Before Making Them Fast](/en/blog/retry-safe-background-jobs) covers the write-side discipline; the extraction result should remain an input to that boundary, not a shortcut around it.
+
+## Test the valid-but-wrong cases
+
+My release fixtures would include a perfectly shaped proposal for an unavailable plan, a date outside policy, conflicting instructions, an unsupported customer reference and an empty message. Add refusal and incomplete-response fixtures separately. Assert both the displayed outcome and the absence of unintended writes.
+
+Track schema failures, domain rejections, review requests and completed commands separately, with sensitive content excluded from routine logs. Combining them into one success rate hides which boundary needs attention. For broader workflow checks, use the outcome-focused approach in [AI Agent Evals: Test the State, Not the Story](/en/blog/ai-agent-evals-test-state-not-story).
+
+I would ship structured extraction when a wrong but valid object is contained, not merely when the happy path parses. If you are adding AI features to a TypeScript application, [contact Argonaute Digital](/en/contact) to define the validation and write boundaries before connecting the model to production data.
+
+## Sources
+
+- [OpenAI: Structured model outputs][1]
+- [JSON Schema: Objects][2]
+
+[1]: https://developers.openai.com/api/docs/guides/structured-outputs
+[2]: https://json-schema.org/understanding-json-schema/reference/object
