@@ -1,0 +1,72 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "postgresql-rls-tenant-isolation-review",
+  "title": "PostgreSQL Row-Level Security: Review the Tenant Boundary",
+  "description": "A practical tenant-isolation review for Node.js and PostgreSQL: runtime roles, trusted tenant context, transaction scope and adversarial acceptance tests.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-10-16",
+  "tags": ["software-development", "postgresql", "security", "nodejs", "architecture"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": ["https://www.postgresql.org/docs/18/ddl-rowsecurity.html", "https://node-postgres.com/features/transactions", "https://www.postgresql.org/docs/18/functions-admin.html"]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A tenant filter in a repository method is a convention. I would review tenant isolation as a boundary that must survive a forgotten filter, an unexpected caller and a reused connection. PostgreSQL row-level security belongs in that discussion, but enabling it is not the whole design. The important questions are who executes the query, where tenant identity comes from and what happens when that identity is absent.
+
+This is a proposed review checklist for a Node.js service sharing tables across tenants, not a claim that one policy makes an application secure.
+
+## Review the runtime role before the policy
+
+PostgreSQL documents that superusers and roles marked `BYPASSRLS` bypass row security. Table owners normally bypass it too; `FORCE ROW LEVEL SECURITY` can subject the owner to policies.[1] I would therefore separate migration ownership from the application's runtime role before treating policy tests as meaningful.
+
+Write down the actual connection identity used by the deployed service, workers and support tooling. My acceptance criterion is that ordinary request execution has neither ownership nor bypass authority. Review inherited privileges as part of that inventory rather than checking only a role's name.
+
+Enabling row security without a policy produces default denial for normal row access.[1] Test that baseline using the runtime credentials. A successful query from an administrator's console is not the evidence this review needs.
+
+## Tenant context is an authorization decision
+
+My recommended request flow authenticates the caller, verifies membership in the requested tenant and only then constructs trusted database context. A tenant identifier from a URL or header is a requested destination, not permission to enter it. Keep that distinction visible in the service interface.
+
+For a design using a custom database setting, I would pass the verified identifier as a bound value to a fixed `set_config` call. PostgreSQL documents that its third argument, `is_local`, limits a setting to the current transaction when true; false gives it session scope.[3] I would choose transaction scope and prohibit session-scoped tenant initialization in ordinary request code.
+
+This design still trusts the application to establish the right context. I would not describe it as protection against arbitrary SQL execution under that same application's authority. Keep parameterized queries, role restrictions and authorization checks; the policy is an additional enforcement layer, not permission to weaken the others.
+
+## Make the transaction boundary explicit
+
+The node-postgres documentation requires every statement in a transaction to use the same client instance and warns against using `pool.query` for transactions.[2] My proposed service wrapper acquires a client, begins a transaction, sets verified context, executes the operation and commits. Its failure path rolls back, and its cleanup releases the client.
+
+I would pass a transaction-scoped database interface into repositories rather than letting them reach for a global pool. Make escaping that interface conspicuous in code review. Also reject missing tenant context before business queries and define how malformed or empty settings behave in the policy.
+
+The tradeoff is additional transaction discipline and connection occupancy. Keep remote HTTP calls outside this boundary wherever the business operation permits. Use the [Cloud Run and PostgreSQL connection-budget review](/en/blog/cloud-run-postgresql-connection-budget) to assess that cost instead of assuming an isolation improvement is operationally free.
+
+## Test attempts to cross the boundary
+
+I would prepare two tenants with deliberately similar records and run the following acceptance cases with the real runtime role:
+
+- Read another tenant's known record identifier, not just a list endpoint.
+- Insert a row carrying the other tenant's identifier.
+- Update an owned row so it would move into another tenant.
+- Run with missing context, then reuse the connection for a different tenant.
+- Trigger rollback and repeat the reuse check after the failure.
+
+PostgreSQL distinguishes visibility conditions from checks on rows being written.[1] Review both, then assert stored state after rejected writes. Do not let an empty result alone stand in for proof that every modification path is constrained.
+
+These are suggested tests, not reported results. Repeat them for workers and administrative exceptions, with each exception named and owned. Pair policy changes with the rollout discipline in [PostgreSQL Migrations Without Release Traps](/en/blog/postgresql-migrations-without-release-traps).
+
+My release rule: tenant isolation needs evidence from the deployed role and the reused connection, not a reassuring policy name. For a review of your application's database authority and failure paths, [contact Argonaute Digital](/en/contact).
+
+## Sources
+
+- [PostgreSQL 18: Row Security Policies][1]
+- [node-postgres: Transactions][2]
+- [PostgreSQL 18: Configuration Settings Functions][3]
+
+[1]: https://www.postgresql.org/docs/18/ddl-rowsecurity.html
+[2]: https://node-postgres.com/features/transactions
+[3]: https://www.postgresql.org/docs/18/functions-admin.html
