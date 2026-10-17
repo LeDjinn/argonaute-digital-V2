@@ -39,6 +39,9 @@ export const Footer = ({ locale = "en" }: { locale?: string }) => {
             <Link href="/contact" className="navlink-hover text-sm text-text-secondary">
               {nav.contact}
             </Link>
+            <Link href={`/${locale === "fr" ? "fr" : "en"}/privacy-policy`} className="navlink-hover text-sm text-text-secondary">
+              {locale === "fr" ? "Confidentialité" : "Privacy Policy"}
+            </Link>
           </div>
         </div>
 

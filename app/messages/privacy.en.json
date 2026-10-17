@@ -1,0 +1,76 @@
+{
+  "eyebrow": "PRIVACY & DATA",
+  "title": "Privacy Policy",
+  "description": "How Argonaute Digital handles website enquiries, analytics, cookies and data used by its private Google reporting application.",
+  "updated": "Last updated: 17 October 2026",
+  "intro": "This policy explains information handling on the Argonaute Digital website and in the private Argonaute Digital Reporting application. It describes the current implementation; it is not a certification of compliance with any particular privacy law.",
+  "contentsLabel": "On this page",
+  "contactLabel": "Privacy questions or deletion requests",
+  "contactEmail": "hello@argonaute.digital",
+  "resourcesTitle": "Provider information and controls",
+  "sections": [
+    {
+      "id": "operator",
+      "title": "1. Who operates this website",
+      "paragraphs": ["Argonaute Digital is operated by Timour Spiridonov, based in Tunis, Tunisia. For questions about this policy or information relating to you, contact hello@argonaute.digital. This notice does not assert a registered legal entity name or postal address that has not been confirmed."]
+    },
+    {
+      "id": "contact-requests",
+      "title": "2. Enquiries and correspondence",
+      "paragraphs": ["The contact form asks for your name, email address and project message. It also provides fields for your company and the type of engagement you are interested in. The submitted fields are sent to Formspree, which processes form submissions. Please do not include passwords, payment information, sensitive personal data or confidential client material.", "This information is used to understand and respond to your enquiry, discuss potential work and manage the resulting correspondence. The current form is not a newsletter subscription. If you contact us by email, the message and associated email headers are processed by the email services involved in that exchange."]
+    },
+    {
+      "id": "technical-data",
+      "title": "3. Website delivery, analytics and restricted sign-in",
+      "paragraphs": ["The website is hosted on Vercel. Delivering and securing a website involves processing request information, which may include an IP address, browser or device information, the requested URL, referrer and request time. Hosting and authentication logs may contain technical information and account identifiers.", "The production website loads the Google Analytics 4 tag. It sends page-view and technical measurement data to Google. Analytics reports can include users, sessions, page visits, engagement, referral sources, campaign parameters and approximate geography. These reports are used to understand site performance and improve content and services. This does not mean we can identify the person behind each visit or search query.", "Restricted offer pages use an email-and-password sign-in implementation backed by a database. If you use that sign-in, account identifiers, authentication credentials and session information are processed for access control. This website sign-in is separate from the private reporting application's Google authorization."]
+    },
+    {
+      "id": "cookies",
+      "title": "4. Cookies and your choices",
+      "paragraphs": ["Google Analytics can use cookies and similar identifiers for measurement. The language-switching implementation uses a NEXT_LOCALE preference cookie. Restricted sign-in uses authentication and security cookies. Their purposes differ; not every cookie is an analytics cookie.", "In the current implementation, the production Google tag loads automatically. There is no website cookie-consent banner or in-site analytics opt-out control. This policy is a notice, not a consent mechanism. You can manage cookies in your browser and use Google's Analytics opt-out browser add-on where supported. Blocking cookies may affect language or sign-in features, and deleting cookies does not necessarily stop all network requests or erase previously collected data."]
+    },
+    {
+      "id": "providers",
+      "title": "5. Service providers and external links",
+      "paragraphs": ["The implemented website uses Vercel for hosting, Formspree for contact submissions and Google for Analytics. The private reporting workflow also uses the operator's configured AI service when reports are analysed, as explained below. Email correspondence uses the email services involved; this notice does not invent an unverified mailbox provider or database-hosting provider.", "Provider processing is subject to the relevant service configuration and provider terms. Links to provider information are listed below. If you follow an external link, including a LinkedIn sharing link, the destination service handles your subsequent interaction under its own policies."]
+    },
+    {
+      "id": "google-reporting",
+      "title": "6. Private Google reporting application",
+      "paragraphs": ["Argonaute Digital Reporting is a private, operator-authorized reporting tool, not a public Google sign-in service for website visitors. Its authorized Google permissions are analytics.readonly and webmasters.readonly. It reads the operator's Argonaute Digital GA4 and Search Console properties; it does not request Gmail, Drive, contact-list or Google account-management access.", "The tool retrieves website-performance information such as users, sessions, page views, engagement, landing pages, referral sources and LinkedIn referrals, together with search queries, clicks, impressions, click-through rate, average search position and page performance available from Search Console. Empty responses and unavailable tracking are not treated as measured zero activity.", "Data is used for internal performance reports, SEO recommendations and marketing drafts. The reporting tool does not change Google property settings, publish social posts or contain a data-sale or advertising-serving feature. Reports are saved as local JSON and Markdown files on the operator's computer. OAuth credentials are held separately from those reports with restrictive local file permissions.", "Local storage does not mean that all analysis is on-device. When Hermes analyses selected report content, that content is sent to its configured AI provider; the current assistant session uses OpenAI. Provider-side retention, model-training settings and any subsequent processing depend on the applicable account and service terms and are not certified by this policy. The reporting application itself does not train a general-purpose AI model.", "The authorizing operator can remove the application's access through Google Account third-party connections. Revocation prevents future access under that authorization; it does not automatically delete reports already saved locally or copies previously processed by another service. Contact hello@argonaute.digital to request review or deletion of retained information. Some aggregate analytics and search records cannot be reliably associated with a named individual."]
+    },
+    {
+      "id": "retention",
+      "title": "7. Retention and deletion",
+      "paragraphs": ["Google Analytics, Formspree, hosting and email services retain information according to their settings and applicable terms. Local reporting files remain until removed by the operator; the reporting script has no automatic deletion schedule. No fixed universal retention period is stated here for enquiries, logs or reports because those operational schedules have not yet been confirmed.", "You can ask what information is retained about you and request its deletion using the contact details above. A request may require checks to locate the relevant records and assess applicable obligations, technical limits and records held by providers. Removing cookies, revoking Google access and deleting stored information are separate actions."]
+    },
+    {
+      "id": "security",
+      "title": "8. Security",
+      "paragraphs": ["The website and the implemented Formspree and Google endpoints use HTTPS. Local reporting credentials are stored separately from reports with restricted filesystem permissions. These measures are not a guarantee of absolute security, encryption of every stored record or a completed security audit. Please do not send secrets or unnecessary sensitive information through the contact form."]
+    },
+    {
+      "id": "international",
+      "title": "9. International processing",
+      "paragraphs": ["Argonaute Digital operates from Tunisia. Google, Formspree, Vercel, email services and the configured AI service may process information in other countries, including the United States. Local reports are held on the operator's computer; this does not determine where provider copies or AI processing take place.", "Processing regions and contractual transfer arrangements depend on the provider and account configuration. This notice does not claim that a particular regional hosting choice, contractual safeguard or transfer assessment has been verified for every service. Contact us for questions about processing affecting your information."]
+    },
+    {
+      "id": "rights",
+      "title": "10. Privacy requests and rights",
+      "paragraphs": ["You can contact hello@argonaute.digital to ask about information relating to you, request a copy, correct inaccurate information or request deletion. Please describe the interaction or record concerned and do not include passwords. Proportionate identity checks may be needed before information is disclosed or changed.", "Depending on the law applicable to your situation, additional rights may include restricting or objecting to processing, data portability, withdrawing consent where processing relies on consent and raising a complaint with a relevant supervisory authority. Rights and exceptions depend on the circumstances; this notice does not promise that every right applies to every record or visitor."]
+    },
+    {
+      "id": "updates",
+      "title": "11. Policy updates and contact",
+      "paragraphs": ["The date above identifies the latest revision of this notice. Changes to the services or reporting workflow may require updated disclosures and, where appropriate, renewed authorization before a new use of Google data. For privacy questions, deletion requests or clarification of an unconfirmed operational detail, contact hello@argonaute.digital."]
+    }
+  ],
+  "resources": [
+    { "label": "Google Analytics privacy information", "href": "https://support.google.com/analytics/answer/12017362?hl=en" },
+    { "label": "Google Analytics opt-out browser add-on", "href": "https://tools.google.com/dlpage/gaoptout" },
+    { "label": "Manage third-party Google Account connections", "href": "https://support.google.com/accounts/answer/13533235?hl=en" },
+    { "label": "Google API Services User Data Policy", "href": "https://developers.google.com/terms/api-services-user-data-policy" },
+    { "label": "Formspree Privacy Policy", "href": "https://formspree.io/legal/privacy-policy" },
+    { "label": "Vercel Privacy Notice", "href": "https://vercel.com/legal/privacy-notice" }
+  ]
+}
