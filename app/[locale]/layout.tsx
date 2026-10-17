@@ -6,6 +6,7 @@ import { ViewTransitions } from "next-view-transitions";
 import type { Viewport } from "next";
 import { NavBar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import GoogleAnalytics from "@/components/google-analytics";
 
 import { siteUrl as baseUrl } from "@/lib/site-config";
 
@@ -103,6 +104,7 @@ export default async function RootLayout({
           <NavBar locale={locale} />
           {children}
           <Footer locale={locale} />
+          <GoogleAnalytics />
         </body>
       </html>
     </ViewTransitions>

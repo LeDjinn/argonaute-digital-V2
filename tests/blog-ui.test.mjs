@@ -84,6 +84,17 @@ test('Next 15 route params are awaited while preserving French rendering', async
   }
 });
 
+test('shared locale layout mounts one analytics component across both languages', async () => {
+  const layout = require('../app/[locale]/layout.tsx').default;
+  const analytics = require('../components/google-analytics.tsx').default;
+  for (const locale of ['en', 'fr']) {
+    const tree = await layout({ params: Promise.resolve({ locale }), children: 'Content' });
+    const body = tree.props.children.props.children;
+    const mounted = React.Children.toArray(body.props.children).filter(child => child.type === analytics);
+    assert.equal(mounted.length, 1, `${locale} has exactly one shared analytics instance`);
+  }
+});
+
 test('shared locale layout does not force homepage canonical onto every route', async () => {
   const layout=require('../app/[locale]/layout.tsx');
   const metadata=await layout.generateMetadata({params:{locale:'fr'}});
