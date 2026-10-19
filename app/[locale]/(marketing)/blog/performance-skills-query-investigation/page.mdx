@@ -1,0 +1,68 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "performance-skills-query-investigation",
+  "title": "Prove Your Performance Skills with a Query Investigation",
+  "description": "Build a reviewable performance exercise: investigate one PostgreSQL query, separate database evidence from request latency, and defend what you would change.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-10-19",
+  "tags": ["tech-careers", "engineering-skills", "postgresql", "performance", "full-stack-development"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": ["https://www.postgresql.org/docs/18/sql-explain.html", "https://www.postgresql.org/docs/18/using-explain.html"]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A portfolio application can show that you know how to build a screen. I would add a smaller artifact to demonstrate performance reasoning: one query investigation that another developer can reproduce and challenge. The deliverable is not a screenshot with a dramatic speedup. It is a documented decision about where time goes and whether a proposed change deserves to ship.
+
+Treat this as a learning exercise, not evidence of hiring demand or a guaranteed interview advantage. A useful investigation can end with “do not add this index.” What matters is whether your evidence supports that conclusion.
+
+## Define the question before collecting numbers
+
+Choose a practice endpoint: a Node service returning a customer's recent orders to a React interface. Write down the filter, ordering, result limit and response fields. Define the behavior that must stay identical after optimization, including ordering ties and empty results.
+
+Create deterministic fixtures with both small and large customers. Record the database version, schema, indexes, row counts and data-generation instructions. I would include uneven customer sizes deliberately, then explain that choice instead of calling synthetic data representative of a real business.
+
+State one hypothesis: for example, the database is doing unnecessary work to retrieve the requested order page. Do not start by assuming a missing index. Keep a separate list of alternatives you have not investigated, such as connection acquisition, application processing and response delivery.
+
+## Learn what the plan actually says
+
+PostgreSQL's EXPLAIN describes the plan chosen for a statement; adding ANALYZE executes it and reports observed execution statistics.[1] Use a disposable local database for this exercise and start with a read-only query. Do not run unfamiliar statements against production merely to obtain realistic-looking numbers.
+
+Planner costs use arbitrary cost units, not milliseconds. Estimated rows describe a node's output, rather than every row it examines.[2] Annotate those distinctions directly beside your saved plan. Otherwise, a reviewer cannot tell whether you understand the output or just recognize an expensive-looking number.
+
+I would save an `EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)` plan alongside the exact SQL and parameters. PostgreSQL supports JSON output and buffer-usage reporting; EXPLAIN ANALYZE also introduces profiling overhead.[1] Keep instrumented plan evidence separate from ordinary request measurements rather than treating them as interchangeable timings.
+
+## Change one thing and try to disprove it
+
+Propose one candidate index or one query rewrite. Before measuring, predict what should change in the plan and what should remain identical in the results. Run the same correctness checks against both versions. A faster endpoint that silently changes which orders it returns has failed the exercise.
+
+Repeat measurements under documented conditions. Label warm-up runs, preserve individual observations and avoid selecting only the fastest run. I would alternate the original and candidate versions where practical, while recording any setup differences. Report local measurements as local measurements, not a production capacity claim.
+
+Read the resulting plan instead of scoring it by whether an index appears. PostgreSQL's documentation demonstrates that sequential and index-based access can be appropriate for different selectivities.[2] Compare the small and large customer fixtures. If the candidate helps only one, make that limitation part of the recommendation.
+
+## Keep the request boundary visible
+
+EXPLAIN does not transmit query results to the client, so it cannot investigate network transmission costs.[1] My recommendation is to measure the API request separately and label both boundaries explicitly. A database-plan improvement is not, by itself, proof of a faster user interaction.
+
+For a full-stack exercise, sketch the path from browser request to connection acquisition, query execution, response construction and browser rendering. Mark which spans you measured and which remain unknown. Prefer an honest gap over an invented breakdown. If connection waiting is your next hypothesis, use [Cloud Run and PostgreSQL: Budget Connections Before Scaling](/en/blog/cloud-run-postgresql-connection-budget) to frame the follow-up investigation.
+
+## Package a decision someone can review
+
+Finish with setup instructions, fixtures, original and candidate SQL, saved plans, raw observations and a short decision note. Include the tradeoff you would investigate before rollout: index maintenance, storage, deployment procedure or query complexity. Define what new evidence would make you reject your recommendation.
+
+Connect this artifact to [Full-Stack Skills Worth Proving in 2026](/en/blog/full-stack-skills-worth-proving-2026), rather than expanding it into another unfinished application. The skill worth practicing is explaining why a change helps, where that explanation stops, and how someone else can check it.
+
+For a team with an unclear performance bottleneck, [contact Argonaute Digital](/en/contact) to scope a focused investigation before committing to a rewrite.
+
+## Sources
+
+- [PostgreSQL 18: EXPLAIN][1]
+- [PostgreSQL 18: Using EXPLAIN][2]
+
+[1]: https://www.postgresql.org/docs/18/sql-explain.html
+[2]: https://www.postgresql.org/docs/18/using-explain.html
