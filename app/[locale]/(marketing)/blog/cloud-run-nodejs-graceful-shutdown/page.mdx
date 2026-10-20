@@ -1,0 +1,66 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "cloud-run-nodejs-graceful-shutdown",
+  "title": "Cloud Run Shutdown: Give Node Requests a Bounded Exit",
+  "description": "Design a bounded shutdown for a Node.js HTTP service on Cloud Run: drain requests, preserve dependencies, and test interrupted writes without promising zero loss.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-10-20",
+  "tags": ["software-development", "nodejs", "cloud-run", "reliability", "architecture"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": ["https://docs.cloud.google.com/run/docs/container-contract", "https://nodejs.org/docs/latest-v24.x/api/http.html"]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A shutdown handler deserves the same review as a request handler. My standard for a Node service is not “it logs goodbye.” It is a bounded exit procedure with an explicit answer to three questions: which work may finish, which dependencies must remain available, and what happens when time runs out?
+
+For a TypeScript API behind a React interface, I would write that procedure before adding cleanup callbacks. Start with ordinary HTTP requests; give streaming connections and background consumers separate policies rather than pretending one callback covers every workload.
+
+## Treat the platform deadline as a ceiling
+
+Cloud Run normally lets in-flight requests complete when shutting down a busy service instance, but its contract also allows exceptional shutdown while requests are still processing.[1] That exception is the reason to design for interruption, not a claim that every deployment interrupts requests.
+
+Before shutdown, Cloud Run sends SIGTERM and provides a ten-second period before SIGKILL.[1] I would choose an application deadline shorter than that ceiling, leaving room for final cleanup. An eight-second budget is an example policy, not a Google recommendation or a guarantee that all requests will finish.
+
+Write the budget as one shared deadline. Do not give request draining eight seconds, database cleanup another eight, and telemetry another eight. Reviewers should be able to see which phase owns the remaining time and what gets abandoned first.
+
+## Drain traffic before closing its dependencies
+
+For a directly owned Node HTTP server, `server.close()` stops accepting new connections and closes connections that are not sending a request or awaiting a response.[2] Use that as part of the drain procedure, not as shorthand for “all application work is finished.”
+
+My preferred sequence is to enter a draining state, stop starting optional work, initiate server closure, and wait for tracked requests within the remaining budget. Only then close the PostgreSQL pool and outbound clients those requests need. Closing the pool first would contradict the goal of allowing active database work to finish.
+
+Make the shutdown coordinator idempotent: a second signal should not launch a competing cleanup sequence. Give cleanup failures explicit logs and an exit policy. Avoid an immediate process exit at the beginning of the handler; it defeats the very waiting procedure you are trying to implement.
+
+This ordering complements [Cloud Run and PostgreSQL: Budget Connections Before Scaling](/en/blog/cloud-run-postgresql-connection-budget). Connection capacity and connection lifetime are different review questions, but both belong in the service's operational contract.
+
+## Name the forceful path honestly
+
+Node's `server.closeAllConnections()` closes active HTTP connections as well as idle ones; it does not destroy sockets upgraded to protocols such as WebSocket or HTTP/2.[2] Calling it immediately is therefore not my default definition of graceful shutdown.
+
+I would reserve forceful closure for the deadline path and define separate handling for upgraded connections. Node recommends calling this method after `server.close()` when combining them, to avoid a race with newly accepted connections.[2] Keep runtime-specific behavior visible in the implementation review; a framework-owned server needs its documented lifecycle hooks, not blindly copied standalone-server code.
+
+The deadline path should report unfinished work without logging request bodies or credentials. Record a shutdown identifier, phase, elapsed time and remaining request count. Distinguish a deliberately forced exit from a clean drain so monitoring does not turn both into the same reassuring message.
+
+## Test the uncertain outcome, not just the signal
+
+My minimum local test matrix includes an idle server, a short request, a request longer than the drain budget, an idle keep-alive connection, and repeated shutdown signals. Run these against the actual container entrypoint. Verify that the application receives the signal and that the process exits within the chosen bound; a unit test of the coordinator alone cannot prove that wiring.
+
+For a write endpoint, add a controlled pause around transaction completion and interrupt the response path. Inspect the durable database state and what the client observed separately. Treat “the client did not receive success” as an uncertain outcome to investigate, not automatic permission to repeat the mutation.
+
+Use [Background Jobs: Make Retries Safe Before Making Them Fast](/en/blog/retry-safe-background-jobs) to review duplicate handling where a retry is possible. A bounded shutdown is a reliability mechanism, not a substitute for an operation's recovery design.
+
+Finish with a short runbook: budget, dependency order, deadline behavior, test commands and known gaps. For an API whose deploys or scale-downs leave unclear outcomes, [contact Argonaute Digital](/en/contact) to scope a lifecycle review before adding more retry logic.
+
+## Sources
+
+- [Cloud Run container runtime contract][1]
+- [Node.js 24 HTTP documentation][2]
+
+[1]: https://docs.cloud.google.com/run/docs/container-contract
+[2]: https://nodejs.org/docs/latest-v24.x/api/http.html
