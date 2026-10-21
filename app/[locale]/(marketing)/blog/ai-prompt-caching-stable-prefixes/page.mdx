@@ -1,0 +1,62 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "ai-prompt-caching-stable-prefixes",
+  "title": "AI Prompt Caching: Design the Prefix Before Chasing Hits",
+  "description": "Make AI prompt caching measurable: separate stable context from changing input, choose cache boundaries deliberately, and test cost without weakening validation.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-10-21",
+  "tags": ["new-technology", "ai-integration", "performance", "typescript", "architecture"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": ["https://developers.openai.com/api/docs/guides/prompt-caching", "https://platform.claude.com/docs/en/build-with-claude/prompt-caching"]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A support assistant may send the same instructions and reference material on every request, then add one changing customer question. That is where I would investigate prompt caching: repeated input work, not repeated answers. Before adding configuration, draw a line between the content that stays identical and the content that changes.
+
+OpenAI describes prompt caching as reuse of the intermediate model state for an unchanged prompt prefix. The model still generates a new response; identical requests do not guarantee identical outputs.[1] Treat this as an input-processing optimization, not an application response cache or a correctness feature.
+
+## Build a stable prefix deliberately
+
+For an illustrative TypeScript service, I would split prompt construction into a versioned static section and a request-specific section. Put the reviewed instructions, fixed examples and shared reference material in the first. Keep the customer question, request identifier and current timestamp in the second. Do not insert a fresh timestamp into the first sentence merely because a logging helper supplies one.
+
+Both providers document matching constraints: OpenAI requires the rendered prefix to match, while Anthropic requires identical segments through the cache-control boundary.[1] [2] My recommendation is to snapshot the serialized provider request in tests, with sensitive values redacted, rather than comparing only the application's friendly prompt template.
+
+Keep tool definitions in a deterministic order. Record a prompt version alongside the model and provider configuration. When someone edits the instructions, make that a reviewed behavior change with a new fixture, not an invisible performance tweak. I would rather accept a deliberate cold start than preserve an obsolete instruction to protect a dashboard metric.
+
+## Put the boundary before the changing suffix
+
+A stable beginning is not sufficient evidence of a usable cache entry. Anthropic explains that writes occur at marked breakpoints; its backward lookup searches entries previously written, not arbitrary stable text.[2] Marking a changing final block can therefore defeat the intended reuse. OpenAI also documents eligible lookup boundaries and model-dependent caching modes.[1] Check the actual model contract instead of copying a configuration from another provider or an older integration.
+
+For the support example, my first candidate boundary would be after the shared handbook, before the customer question. I would test that candidate with several different questions against the same handbook version. A second experiment would change one handbook paragraph. The goal is to observe the intended boundary, not to claim that two semantically similar prompts must share work.
+
+Avoid padding a small prompt purely to qualify for caching. I would first remove unnecessary context, then compare the smaller uncached request with the useful cached alternative. More reusable text is not automatically a better application.
+
+## Measure writes as well as reads
+
+Anthropic exposes separate cache-creation and cache-read token counts. OpenAI documents cached-token and cache-write usage fields, with behavior and pricing depending on the selected model.[1] [2] Do not turn one provider's counters into a supposedly universal cost formula.
+
+My rollout worksheet would record ordinary input, cache writes, cache reads, output, end-to-end latency and actual billed cost. Group results by prompt version and model. Include cold requests, repeated requests, a changed prefix and a gap between requests. Keep workload and output limits comparable; label the results as measurements of that experiment, not guaranteed savings.
+
+I would reject an optimization that improves the read percentage while increasing total cost or making the user wait longer. For a lightly used feature, a short straightforward prompt may be the better trade. For repeated long context, explicit cache-boundary work deserves a controlled trial before a wider rollout.
+
+## Keep correctness outside the optimization
+
+Do not preserve stale customer state just to preserve a prefix. My preference is to load current permissions and business data for each operation, with authorization enforced by application code. Keep private content out of shared reference fixtures and routine logs. Review provider retention settings separately from performance settings before sending sensitive material.
+
+The output should pass the same domain checks whether the request is cold or warm. [Structured AI Outputs Are Not Business Validation](/en/blog/structured-ai-outputs-business-validation) explains that boundary. Use the outcome assertions in [AI Agent Evals: Test the State, Not the Story](/en/blog/ai-agent-evals-test-state-not-story) to verify that prompt restructuring has not changed permitted actions or failure behavior.
+
+Ship the simpler prompt first, then keep caching only when the measured workload justifies it. If you need to review an AI integration's performance and validation boundaries, [contact Argonaute Digital](/en/contact) before optimizing a hit rate in isolation.
+
+## Sources
+
+- [OpenAI: Prompt caching][1]
+- [Anthropic: Prompt caching][2]
+
+[1]: https://developers.openai.com/api/docs/guides/prompt-caching
+[2]: https://platform.claude.com/docs/en/build-with-claude/prompt-caching
