@@ -1,0 +1,70 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "accessibility-skills-keyboard-review",
+  "title": "Prove Your Accessibility Skills with a Keyboard Review",
+  "description": "Turn one React dialog into a reviewable accessibility exercise: trace focus, test failure states, and explain the limits of your evidence.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-10-22",
+  "tags": ["tech-careers", "engineering-skills", "accessibility", "react", "testing"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": ["https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal", "https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum", "https://www.w3.org/WAI/WCAG22/Techniques/html/H102"]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A polished React demo proves little about what happens when someone puts the mouse aside. For a focused skills exercise, I would review one complete keyboard interaction rather than add another component to a portfolio. Choose an edit-profile dialog, document its behavior, fix a specific failure, and leave enough evidence for another developer to repeat the review.
+
+This is a recommendation for practicing engineering judgment, not a claim about hiring demand or a promise of interview success. The valuable artifact is a defensible decision, not an accessibility badge.
+
+## Make the interaction small enough to inspect
+
+Use a practice application with an explicit trigger, a dialog containing a short form, a save action and a cancel action. Write down the intended workflow before changing the implementation. Include the browser, operating system, viewport and keyboard-navigation settings in your notes so that a reviewer can reproduce your environment.
+
+Start with a plain-language contract: opening the editor gives the user a sensible starting point; navigating stays within the active task; closing leads somewhere useful. The WAI-ARIA modal dialog pattern specifies moving focus inside on opening, containing Tab and Shift+Tab navigation, and closing with Escape.[1] Translate that guidance into observable checks rather than merely copying attributes.
+
+I would deliberately exclude nested dialogs from the first exercise. A smaller scope lets you explain every transition instead of collecting a long list of unexplored edge cases.
+
+## Test the transitions, not just the open state
+
+Record the focused element before opening, immediately after opening, after moving forward and backward through controls, and after closing. Test cancellation separately from successful submission. Preserve a short sequence of actions and observations, with expected behavior beside actual behavior.
+
+Initial focus deserves a decision. The APG recommends considering the content and task: a long dialog may need focus on a static element near its beginning, while an irreversible action may warrant starting with the least destructive choice.[1] For this short editing exercise, explain your chosen target and what a user encounters next. Do not make the destructive button the default merely because it appears first visually.
+
+Add one awkward state: saving removes the trigger from the page. The APG allows a logical alternative focus destination when the invoking element no longer exists.[1] Specify that destination in advance. A passing close-button check does not establish that your application's success path is coherent.
+
+## Prefer a smaller implementation burden
+
+My default for a new, isolated exercise would be to evaluate the native HTML `dialog` element before writing a custom focus trap. W3C technique H102 describes browser-provided modal behavior including focus movement, background inertness, Escape dismissal and focus restoration when the invoking element remains present.[3] Its example opens a modal with `showModal()`, distinguishing that operation from non-modal `show()`.[3]
+
+In an existing React application, I would first inspect the established dialog primitive rather than introduce a second system. Document which behavior the platform or library owns and which behavior your application still decides. Keep the React state transition, save response and close action understandable together.
+
+Neither choice excuses testing. Treat native behavior as a reason to maintain less custom machinery, not as proof that your labels, content and workflow are correct.
+
+## Look beyond the dialog boundary
+
+Repeat the review on a narrow viewport with the page's sticky header or footer present. WCAG 2.2's Focus Not Obscured (Minimum) criterion concerns a focused component not being entirely hidden by author-created content, with qualifications described in its guidance.[2] W3C identifies sticky interface elements as potential sources of this obstruction.[2]
+
+For this exercise, aim higher than barely visible: I would require the active control and its focus indication to be clearly locatable. Record screenshots at the troublesome transitions, not just an attractive initial state. If you change scroll spacing or positioning, repeat the sequence in both directions.
+
+## Deliver evidence with an honest boundary
+
+Package setup instructions, the interaction contract, observations before and after the fix, a scoped diff and a repeatable regression check. Label any automated assertions separately from manual observations. State which browser combinations and assistive technologies you have not tested. A keyboard review is not a complete accessibility assessment.
+
+Use [Full-Stack Skills Worth Proving in 2026](/en/blog/full-stack-skills-worth-proving-2026) to place this artifact within a broader learning plan. Pair it with [Show Your API Judgment with a Compatibility Review](/en/blog/api-compatibility-review-career-skill) if you want to demonstrate the same discipline at the service boundary: explicit expectations, reproducible checks and visible limitations.
+
+For a product team unsure where an interaction breaks down, [contact Argonaute Digital](/en/contact) to scope a focused interface review before committing to a redesign.
+
+## Sources
+
+- [W3C: dialog-modal][1]
+- [W3C: focus-not-obscured-minimum][2]
+- [W3C: H102][3]
+
+[1]: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal
+[2]: https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum
+[3]: https://www.w3.org/WAI/WCAG22/Techniques/html/H102
