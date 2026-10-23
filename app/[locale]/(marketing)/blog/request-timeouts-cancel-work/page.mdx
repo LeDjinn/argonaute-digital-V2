@@ -1,0 +1,70 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "request-timeouts-cancel-work",
+  "title": "Request Timeouts: Cancel the Work, Not Just the Wait",
+  "description": "Design request deadlines across Node.js, outbound calls and PostgreSQL so a timed-out response does not leave expensive work running without an owner.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-10-23",
+  "tags": ["software-development", "nodejs", "postgresql", "reliability", "architecture"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": ["https://docs.cloud.google.com/run/docs/configuring/request-timeout", "https://nodejs.org/docs/latest-v24.x/api/globals.html", "https://www.postgresql.org/docs/18/runtime-config-client.html", "https://www.postgresql.org/docs/18/sql-set.html"]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A timeout should answer two different questions: when does the caller stop waiting, and when does the service stop working? I would not approve a reliability change that answers only the first. A neat error response is not evidence that the query, upstream request or write behind it has stopped.
+
+Cloud Run makes that distinction explicit: when its request deadline expires, it returns HTTP 504 and closes the connection, but does not terminate the container instance. The application may continue processing that request.[1] Treat the platform timeout as an outer boundary, not your cancellation implementation.
+
+## Give the request one deadline
+
+My preferred design starts with one application deadline, shorter than the external response limit. Compute remaining time before each expensive phase. Reserve part of that budget for cleanup and returning an error rather than allocating every remaining moment to useful work.
+
+For example, a team might choose a three-second application budget for an interactive endpoint. Those three seconds must cover pool checkout, database work, an outbound call and response preparation together. This is an illustrative policy, not a suitable default for every service. An export job needs a different product contract.
+
+Do not restart the full budget at each layer. In a TypeScript service, I would pass a request context containing the deadline and cancellation signal through explicitly owned functions. Keep the meaning visible in function signatures instead of hiding it in an unrelated global timer.
+
+## Carry cancellation to an API that supports it
+
+Node provides `AbortSignal.timeout(delay)` for a signal that aborts after a delay, and `AbortSignal.any(signals)` to compose signals so any input can trigger cancellation.[2] These primitives are useful for combining an application deadline with another cancellation source.
+
+I would connect that signal to each operation through its documented cancellation option, then test the actual adapter. A signal existing in the request context proves nothing about a library that never receives it. Nor would I treat racing an operation against a timer as proof that the losing operation stopped.
+
+Keep disconnect detection framework-specific. Review how the deployed HTTP stack exposes an abandoned response rather than copying an event handler from an unrelated server example. Decide whether a disconnect should cancel this operation at all: a read and an accepted durable workflow need different ownership rules.
+
+For instance lifecycle handling, see [Cloud Run Shutdown: Give Node Requests a Bounded Exit](/en/blog/cloud-run-nodejs-graceful-shutdown). Shutdown and request expiry should share an understandable cleanup policy, not competing timers with independent assumptions.
+
+## Put a bound inside PostgreSQL too
+
+PostgreSQL's `statement_timeout` aborts statements exceeding its configured duration, measured from command arrival at the server to completion. It is not a budget covering the entire application request.[3] Pool checkout and other application phases need their own bounds in your design.
+
+For a transaction-owned operation, I would set a transaction-local statement limit based on the remaining request budget and keep all statements on the same checked-out connection. `SET LOCAL` settings last until that transaction ends, whether committed or rolled back.[4] Make rollback and connection release explicit on the error path; do not return a connection with unfinished transaction state to the pool.
+
+Choose limits deliberately. `lock_timeout` bounds lock acquisition waits, applies separately to each acquisition attempt, and is distinct from the statement limit.[3] For interactive work, I would consider a shorter lock-wait limit so contention fails early, leaving time to report a meaningful error. Do not apply an arbitrary interactive limit to maintenance work just for configuration consistency.
+
+## Verify stopped work and uncertain writes separately
+
+My minimum review uses controlled slow dependencies. Test a delayed upstream response, a database statement that exceeds its limit, a lock wait, and cancellation while waiting for a pool connection. Check both the caller's elapsed time and evidence from the dependency. A timeout assertion alone is incomplete.
+
+For writes, add interruption around transaction completion. Inspect durable state separately from the response the client received. My rule is to classify a missing success response as an uncertain outcome until reconciliation establishes what happened, rather than immediately retrying the mutation.
+
+[Background Jobs: Make Retries Safe Before Making Them Fast](/en/blog/retry-safe-background-jobs) covers the duplicate-handling side of that decision. Cancellation controls resource lifetime; it should not become a promise that every interrupted business operation was undone.
+
+Ship a small deadline contract: total budget, cancellation adapters, database limits, cleanup ownership and recovery path. If your API returns timeouts while its dependencies stay busy, [contact Argonaute Digital](/en/contact) to scope a deadline review before increasing the limits.
+
+## Sources
+
+- [Cloud Run request timeout][1]
+- [Node.js 24 AbortSignal documentation][2]
+- [PostgreSQL 18 client connection defaults][3]
+- [PostgreSQL 18 SET command][4]
+
+[1]: https://docs.cloud.google.com/run/docs/configuring/request-timeout
+[2]: https://nodejs.org/docs/latest-v24.x/api/globals.html
+[3]: https://www.postgresql.org/docs/18/runtime-config-client.html
+[4]: https://www.postgresql.org/docs/18/sql-set.html
