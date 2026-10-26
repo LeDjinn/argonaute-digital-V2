@@ -1,0 +1,90 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "ai-tool-approvals-bind-exact-action",
+  "title": "AI Tool Approvals: Bind Permission to the Exact Action",
+  "description": "Design AI tool approvals around immutable proposals, explicit arguments and server-side checks, then test the gap between confirmation and execution.",
+  "author": {
+    "name": "Timour Spiridonov",
+    "src": "/tim.png"
+  },
+  "date": "2026-10-26",
+  "tags": [
+    "new-technology",
+    "ai-agents",
+    "security",
+    "typescript",
+    "architecture"
+  ],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://genai.owasp.org/llmrisk/llm062025-excessive-agency",
+    "https://cheatsheetseries.owasp.org/cheatsheets/Transaction_Authorization_Cheat_Sheet.html",
+    "https://modelcontextprotocol.io/specification/2025-06-18/server/tools"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A confirmation button is not an authorization boundary if the system can change the action after the user clicks it. For an AI assistant that sends messages or updates customer records, I would review the relationship between the preview and the executor before polishing the conversation.
+
+The useful question is specific: can the backend prove that this user approved these arguments for this target, and that the approval has not already been used?
+
+## Approve a proposal, not a conversation
+
+OWASP's Excessive Agency guidance recommends human approval for high-impact actions and authorization in downstream systems rather than letting the model decide what is allowed.[1] My interpretation is that a chat reply saying “yes” should not become reusable permission for whatever the agent proposes next.
+
+Consider a hypothetical support assistant preparing a customer email. The approval should cover the sending account, recipients, subject, body and attachments. “Send the update” is too vague for the executor. It leaves the consequential details outside the thing the user reviewed.
+
+For a TypeScript application, I would make proposal creation a separate backend operation. Validate the tool arguments, resolve the authorized tenant and target, and store an immutable proposal. Return an opaque proposal identifier to the React interface. The model may suggest another proposal; it may not edit an approved one.
+
+## Render the action from trusted data
+
+The June 18, 2025 MCP tools specification recommends confirmation prompts and an interface that shows which tools are exposed and when they run. It does not mandate a particular interaction model.[3] Treat that as a design responsibility, not evidence that adding an MCP client automatically implements approval correctly.
+
+My proposed review screen would render the stored proposal, not a model-generated summary standing in for it. Show the actual destination and complete message. Make attachments inspectable. If the action changes permissions, show the existing and proposed values together.
+
+Keep consequential content visible without requiring a hunt through collapsed JSON. Escape untrusted text, and separate explanatory prose from the action fields. A reassuring explanation should never visually replace the destination the backend will use.
+
+This costs more interface work than a generic “Allow tool?” modal. I would accept that cost for external communication and irreversible changes, while keeping bounded, authorized reads less interruptive.
+
+## Bind approval to execution
+
+OWASP's transaction authorization guidance calls for server-side enforcement, protection against changed transaction data, a final authorization gate before execution, and time-limited, operation-specific authorization credentials.[2] Applying those principles to agent tools does not require treating every tool call like a bank payment. It requires knowing exactly what the permission covers.
+
+My starting record would include the proposal identifier, authenticated approver, tenant, normalized arguments, expiration and execution state. The approval endpoint would accept the identifier and decision, not replacement arguments supplied by the browser or model.
+
+At execution, recheck the user's current permission and the target's relevant version. A revoked role or changed customer record should invalidate the proposal rather than silently expanding its meaning. Enforce the approved arguments at the adapter boundary, including defaults that otherwise might be filled in later.
+
+In PostgreSQL, I would claim the approved proposal through a conditional state transition so competing workers cannot both acquire it. That local claim is not proof of exactly-once delivery to an external provider. Persist the execution attempt and use the provider's documented deduplication mechanism where available. Reconcile uncertain outcomes before offering a retry.
+
+## Test the gap after the click
+
+My minimum acceptance suite would try the failures a happy-path demonstration skips:
+
+- Change a recipient after preview and require a new approval.
+- Execute an expired proposal and expect rejection.
+- Reuse approval from another tenant or account and expect rejection.
+- Submit two concurrent executions and verify one local claim.
+- Revoke permission after approval and before execution.
+- Interrupt the provider response and verify that recovery inspects durable state.
+
+These are proposed checks, not results from a deployed Argonaute system. [AI Agent Evals: Test the State, Not the Story](/en/blog/ai-agent-evals-test-state-not-story) explains the broader evaluation approach. [Background Jobs: Make Retries Safe Before Making Them Fast](/en/blog/retry-safe-background-jobs) covers the duplicate-handling problem that remains after approval.
+
+I would ship one narrow write tool with this contract before enabling a catalog of powerful integrations. The tradeoff is deliberate: fewer automatic actions, but a permission boundary that can be inspected and tested independently of the model.
+
+Building an assistant that can change real customer data? [Contact Argonaute Digital](/en/contact) to review one consequential workflow, from preview to authorization, execution and recovery.
+
+## Sources
+
+- [OWASP: Excessive Agency][1]
+- [OWASP: Transaction Authorization Cheat Sheet][2]
+- [MCP tools specification, June 18, 2025][3]
+
+[1]: https://genai.owasp.org/llmrisk/llm062025-excessive-agency
+[2]: https://cheatsheetseries.owasp.org/cheatsheets/Transaction_Authorization_Cheat_Sheet.html
+[3]: https://modelcontextprotocol.io/specification/2025-06-18/server/tools
