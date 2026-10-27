@@ -1,0 +1,88 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "prevent-lost-updates-atomic-version-checks",
+  "title": "Prevent Lost Updates: Make Version Checks Atomic",
+  "description": "Protect edit forms with atomic PostgreSQL version checks, HTTP If-Match preconditions and a conflict UI that preserves unsaved work.",
+  "author": {
+    "name": "Timour Spiridonov",
+    "src": "/tim.png"
+  },
+  "date": "2026-10-27",
+  "tags": [
+    "software-development",
+    "postgresql",
+    "api-design",
+    "react",
+    "reliability"
+  ],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://www.postgresql.org/docs/18/transaction-iso.html",
+    "https://www.postgresql.org/docs/18/sql-update.html",
+    "https://www.rfc-editor.org/rfc/rfc9110.html"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+Two editors open the same customer record. One corrects the billing address; the other changes the account name using an older copy of the form. My review question is simple: what stops the second save from silently replacing the first editor's work?
+
+I would make that answer part of the API contract before polishing the save animation. For ordinary single-record editing, my starting recommendation is optimistic concurrency: accept a change only if the stored version still matches the version the editor read.
+
+## Put the comparison inside the write
+
+A preliminary read followed by an unconditional update is not my preferred protection. There is still a gap between checking the version and changing the row. Put the identifier, authorization scope and expected version into the update predicate itself.
+
+For an illustrative PostgreSQL table with a non-null integer version, the shape is:
+
+```sql
+UPDATE customer_profiles
+SET display_name = $1, version = version + 1
+WHERE id = $2 AND tenant_id = $3 AND version = $4
+RETURNING id, display_name, version;
+```
+
+This example assumes an authorized tenant context, parameterized values and a unique record identifier. Every writer of the protected state must advance the version. I would explicitly include administrative tools, imports and background jobs in that review, rather than treating the browser endpoint as the only writer.
+
+At PostgreSQL's default Read Committed isolation level, an updater waits for a competing update on the same row; if that transaction commits, PostgreSQL checks the search condition again against the updated row.[1] With this version predicate, my intended outcome is that a stale edit no longer qualifies. That is a single-row design, not a general solution for invariants spanning several records.
+
+PostgreSQL documents that zero updated rows is not an SQL error, and that `RETURNING` reports rows actually updated.[2] In a Node service, I would therefore branch on the result explicitly. A fulfilled database promise is not sufficient evidence that the edit was accepted.
+
+## Give the HTTP boundary the same meaning
+
+HTTP already defines a conditional-write mechanism. `If-Match` uses strong entity-tag comparison and is intended, among other uses, to prevent lost updates. A failed precondition must prevent the method from running; the standard describes a 412 response and a limited already-applied success exception.[3]
+
+For a deliberately narrow JSON editing API, I would return a strong ETag on reads and require the editor to send it back on writes. Define the accepted header syntax, missing-precondition policy and error payload rather than implementing a casual string split. If you support the full header grammar, test lists and wildcard behavior too.
+
+Do not call a row version a strong representation validator without checking the representation boundary. My rule would be that every change affecting the selected representation must invalidate its tag. Joined data, alternative response formats and serializer changes deserve explicit decisions. A version protecting only one field is not automatically a validator for an entire resource.
+
+For the stale-edit path, I prefer a documented 412 response with a stable machine-readable code. Keep authorization checks independent: a version match grants no permission. Likewise, do not disclose another tenant's record through an overly helpful conflict response. [Reviewing the tenant boundary](/en/blog/postgresql-rls-tenant-isolation-review) remains a separate security task.
+
+## Preserve the draft instead of retrying blindly
+
+My preferred React behavior is to keep the unsaved input, explain that the record changed, and offer a comparison with the latest authorized state. Let the user choose how to reconcile conflicting edits. Automatically reading the new version and resubmitting the old form would defeat the policy I just introduced.
+
+A request repeated after a missing response needs a separate decision. Version checks answer whether the original state still qualifies; duplicate-handling answers whether an operation already happened. [Retry-safe background jobs](/en/blog/retry-safe-background-jobs) explores that second concern. I would not silently substitute one mechanism for the other.
+
+## Test the race deliberately
+
+My acceptance test would use two independent database connections reading the same initial version. Hold the first update uncommitted, start the competing update, then commit the first. Assert one accepted edit, one rejected stale edit, the expected final fields and exactly one version increment.
+
+Add a sequential stale submission, an unauthorized tenant, a writer that bypasses the API, and a UI test proving the rejected draft survives. Record expected outcomes before running the tests; do not present this proposed test plan as measured production evidence.
+
+Choose a different design when the product needs collaborative merging or an invariant across multiple rows. For a conventional edit form, however, I would ship an explicit conflict contract before accepting silent overwrites. [Contact Argonaute Digital](/en/contact) to scope a concurrency review across your API, database and editing interface.
+
+## Sources
+
+- [PostgreSQL 18: Transaction Isolation][1]
+- [PostgreSQL 18: UPDATE][2]
+- [RFC 9110: HTTP Semantics, section 13.1.1][3]
+
+[1]: https://www.postgresql.org/docs/18/transaction-iso.html
+[2]: https://www.postgresql.org/docs/18/sql-update.html
+[3]: https://www.rfc-editor.org/rfc/rfc9110.html
