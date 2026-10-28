@@ -1,0 +1,83 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "debugging-skills-trace-investigation",
+  "title": "Prove Your Debugging Skills with a Trace Investigation",
+  "description": "Build a reproducible OpenTelemetry portfolio exercise: trace one request, test context propagation, isolate a delay and keep telemetry free of secrets.",
+  "author": {
+    "name": "Timour Spiridonov",
+    "src": "/tim.png"
+  },
+  "date": "2026-10-28",
+  "tags": [
+    "tech-careers",
+    "engineering-skills",
+    "observability",
+    "nodejs",
+    "testing"
+  ],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://opentelemetry.io/docs/concepts/signals/traces",
+    "https://opentelemetry.io/docs/concepts/context-propagation",
+    "https://opentelemetry.io/docs/concepts/signals/baggage"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A portfolio application can prove that you can assemble a React interface and a Node API. My next question would be harder: when one request becomes slow, can you show where the time went without guessing?
+
+For a developer strengthening their full-stack portfolio, I recommend a small trace investigation rather than another dashboard screenshot. Choose one user action, introduce a controlled delay, and produce a reproducible explanation. Treat this as a proposed learning exercise, not evidence of production experience or a promise about hiring outcomes.
+
+## Start with a question, not an instrumentation checklist
+
+Use a deliberately small path: a React form submits to a Node endpoint, which calls another service and reads PostgreSQL. Ask which operation makes the response late. Write down competing explanations before opening the tracing interface: database execution, waiting for a connection, a downstream request, or application work between calls.
+
+OpenTelemetry describes spans as units of work with timestamps, context and optional parent relationships; related spans form a trace.[1] I would sketch the expected operations first, then compare that sketch with the exported spans. A pretty waterfall is not my acceptance criterion. Coverage of the question is.
+
+Keep the exercise backend-first if browser instrumentation would double the setup. Explain that scope honestly: an API trace does not, in this exercise, establish when the React interface became usable. Add a separate browser measurement if that becomes the question.
+
+## Prove the boundary is connected
+
+Context propagation carries correlation information across process boundaries. OpenTelemetry documents injection into an outgoing carrier and extraction by the receiver, with W3C TraceContext headers used by its default propagator.[2] For this exercise, I would check that the receiving service's span belongs to the expected trace and has the intended parent.
+
+Then deliberately break propagation in the test environment. The request should still work, but your investigation should identify the disconnected telemetry. Restore propagation and keep both exports as evidence. This makes the difference between application correctness and observability coverage concrete.
+
+I would also run two concurrent requests with distinguishable, non-sensitive test markers. Check that their operations do not become mixed in your interpretation. Record library versions and startup configuration so someone else can reproduce the setup, rather than supplying an unexplained screenshot.
+
+## Introduce one delay and test the explanation
+
+Place a configurable delay inside a local downstream stub. Save a baseline run and a delayed run under the same inputs. Predict which span should grow before running either comparison. Do not tune the experiment after seeing the result merely to support your first hypothesis.
+
+My review would compare request duration, the changed operation and any unexplained interval. Do not add every span duration together: in this proposed design, parallel work may overlap. Ask which work the response actually waits for. If the gap sits before a database query, add a separate measurement around connection acquisition instead of immediately rewriting SQL.
+
+For deeper database work, follow the evidence discipline in [a query investigation](/en/blog/performance-skills-query-investigation). Here the deliverable is narrower: explain one request's path and demonstrate that your instrumentation can distinguish your controlled cases.
+
+## Make telemetry safety part of the artifact
+
+I would use an explicit attribute allowlist: operation names, safe outcome categories and synthetic test markers. Exclude authorization headers, submitted form bodies and raw customer records. Make the decision visible in the README instead of assuming a local demonstration needs no data policy.
+
+Baggage deserves a separate review. OpenTelemetry warns that it can reach unintended downstream resources, has no built-in integrity checks, and is separate from span attributes unless explicitly copied.[3] My rule is to keep secrets out and never use propagated baggage as authorization. Test outgoing requests to an untrusted stub and assert that your configured boundary removes anything you decided must remain internal.
+
+## Package judgment, not just tooling
+
+Publish the reproduction command, architecture sketch, sanitized trace exports and a short table of hypotheses versus observations. Include a known limitation: for example, this controlled local experiment does not establish production latency under load. Report measured values only after actually collecting them.
+
+Finish with one regression check for propagation and one for the data allowlist. Use the structure of [an engineering incident write-up](/en/blog/incident-writeups-engineering-judgment) to explain what changed your mind, without pretending a practice exercise was an outage.
+
+My preferred portfolio outcome is a reviewer who can rerun the experiment and challenge the conclusion. [Contact Argonaute Digital](/en/contact) to scope a focused observability review across your frontend, API and database boundaries.
+
+## Sources
+
+- [OpenTelemetry: Traces][1]
+- [OpenTelemetry: Context propagation][2]
+- [OpenTelemetry: Baggage][3]
+
+[1]: https://opentelemetry.io/docs/concepts/signals/traces
+[2]: https://opentelemetry.io/docs/concepts/context-propagation
+[3]: https://opentelemetry.io/docs/concepts/signals/baggage
