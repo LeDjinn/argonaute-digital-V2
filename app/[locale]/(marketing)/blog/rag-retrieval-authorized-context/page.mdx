@@ -1,0 +1,90 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "rag-retrieval-authorized-context",
+  "title": "RAG Retrieval: Authorize the Context Before the Answer",
+  "description": "Design permission-aware RAG retrieval across sessions, document chunks, vector search and caches, then test revocation before shipping a customer assistant.",
+  "author": {
+    "name": "Timour Spiridonov",
+    "src": "/tim.png"
+  },
+  "date": "2026-10-29",
+  "tags": [
+    "new-technology",
+    "ai-integration",
+    "postgresql",
+    "security",
+    "architecture"
+  ],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://learn.microsoft.com/en-us/azure/search/search-security-trimming-for-azure-search",
+    "https://www.postgresql.org/docs/current/ddl-rowsecurity.html",
+    "https://github.com/pgvector/pgvector"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A retrieval-augmented generation feature should not answer a simpler question than your application does. If the application asks “may this person read this document?”, the assistant cannot substitute “does this passage resemble their question?”. I would define the retrieval permission boundary before tuning embeddings or polishing the chat interface.
+
+Consider a hypothetical Next.js support portal backed by Node and PostgreSQL. Customers upload troubleshooting notes, while staff maintain internal escalation guides. Both collections may contain excellent answers. Only some answers belong in a customer's context.
+
+## Derive access from the session
+
+Microsoft's Azure AI Search security-filter documentation makes an important distinction: a principal identifier in a filter is a string, not authentication or authorization by itself.[1] My recommendation is to treat search filters as enforcement inputs produced by trusted application code, never as identity supplied by the model.
+
+The browser should submit the question, not an authoritative tenant identifier or list of allowed groups. On the server, authenticate the session and resolve the user's current access. Build the retrieval scope from that result. A model-generated tool call may request a search; it should not choose whose permissions the search uses.
+
+I would give the retrieval adapter one narrow contract: accept a question plus a server-created access context, then return only passages permitted by that context. Keep raw vector-store clients out of the tool registry. This makes the permission boundary reviewable without reading every prompt.
+
+## Protect chunks, not just documents
+
+My proposed ingestion record would preserve the source document identifier, tenant, permission metadata and source version on every searchable chunk. Missing permission metadata should make a chunk unavailable, not public. Splitting a document must not split its content away from its access rules.
+
+For PostgreSQL, row-level security can restrict which rows normal queries return. Superusers and roles with `BYPASSRLS` bypass it; table owners normally do too, unless forced into row security.[2] Consequently, I would test the retrieval query using the actual application role, not an administrative connection that makes an isolation test meaningless.
+
+[PostgreSQL Row-Level Security: Review the Tenant Boundary](/en/blog/postgresql-rls-tenant-isolation-review) covers that database review. For retrieval, extend the review to every chunk table and lookup path, including document titles and citation previews.
+
+I would also authorize the final passage set before sending it to an external reranker or language model. Filtering the displayed answer is too late for a design whose requirement is to keep unauthorized text out of those services. The same rule should cover debug logs and saved conversation context.
+
+## Keep relevance separate from permission
+
+Authorization can make a search return fewer useful results. That is a relevance problem to solve, not a reason to weaken access checks.
+
+The pgvector documentation explains that approximate indexes apply filtering after scanning the index. Filtered queries can therefore return fewer results; iterative scans can search further, within configured limits.[3] That physical execution detail is not permission to return forbidden rows. Distinguish the database's candidate search from the application's release of passage text.
+
+My starting approach would be an exact search over a suitably indexed, authorized subset when that meets the product's latency budget. Introduce approximate retrieval when measurements justify it. Compare it against an exact baseline for the same user scope, not an unrestricted corpus that the user could never read.
+
+Increasing scan effort trades resources and latency for better retrieval. Returning a smaller authorized set, or explaining that no supported answer was found, is preferable to filling the context with unauthorized material.
+
+## Test revocation and indirect leaks
+
+I would make these proposed acceptance checks part of the feature:
+
+- Place a distinctive phrase in another tenant's document and ask for it directly.
+- Revoke access after a successful question, then repeat it through the same conversation and cache.
+- Remove permission metadata from a chunk and verify exclusion.
+- Request a document title or citation preview without access to its body.
+- Run concurrent requests for different tenants through the same connection pool.
+- Verify the exact passages sent to the reranker and model, not merely the final answer.
+
+For cached retrieval or answers, I would include the effective access scope and a permission revision in the cache identity, and define how revocation invalidates stored results. If that revision cannot be trusted, recheck access before reuse. Treat previously saved context as another retrieval surface, not an exemption.
+
+These are design recommendations, not reported results from an Argonaute deployment. [AI Agent Evals: Test the State, Not the Story](/en/blog/ai-agent-evals-test-state-not-story) explains how to turn such boundaries into observable assertions.
+
+Building document search into a customer-facing assistant? [Contact Argonaute Digital](/en/contact) to review one retrieval path from authenticated session to authorized context, including the failure cases a convincing demo can miss.
+
+## Sources
+
+- [Microsoft: Security filters for Azure AI Search][1]
+- [PostgreSQL: Row Security Policies][2]
+- [pgvector: Filtering and iterative index scans][3]
+
+[1]: https://learn.microsoft.com/en-us/azure/search/search-security-trimming-for-azure-search
+[2]: https://www.postgresql.org/docs/current/ddl-rowsecurity.html
+[3]: https://github.com/pgvector/pgvector
