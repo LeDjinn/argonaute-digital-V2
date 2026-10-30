@@ -1,0 +1,81 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "postgresql-cursor-pagination-contract",
+  "title": "PostgreSQL Cursor Pagination: Define the Contract First",
+  "description": "Design stable PostgreSQL pagination with unique ordering, precise cursor boundaries, tenant scoping and honest behavior under concurrent changes.",
+  "author": {
+    "name": "Timour Spiridonov",
+    "src": "/tim.png"
+  },
+  "date": "2026-10-30",
+  "tags": [
+    "software-development",
+    "postgresql",
+    "api-design",
+    "nextjs",
+    "performance"
+  ],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://www.postgresql.org/docs/18/queries-limit.html",
+    "https://www.postgresql.org/docs/18/functions-comparisons.html",
+    "https://www.postgresql.org/docs/18/transaction-iso.html"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A “load more” button looks like a frontend detail until customers report missing records. My starting point for a PostgreSQL-backed Next.js list would be a pagination contract, not a React component: define the ordering, what the cursor means, and what concurrent changes are allowed to do.
+
+Consider a hypothetical customer portal listing support tickets, newest first. The example below assumes an immutable, non-null creation timestamp and a unique, non-null identifier. It is a design recommendation, not a benchmark or a report from a client deployment.
+
+## Give every row a definite position
+
+PostgreSQL explicitly recommends a unique ordering when using `LIMIT`; otherwise the selected subset is unpredictable.[1] Ordering only by `created_at` is not enough for this proposed schema because multiple tickets can share a timestamp. I would use `ORDER BY created_at DESC, id DESC` and make that ordering part of the endpoint contract.
+
+For the next page, carry both values from the last returned row. In this all-descending, non-null example, the continuation predicate is `(created_at, id) < ($1, $2)`. PostgreSQL compares row fields from left to right until an unequal or null pair determines the outcome.[2] That makes the identifier the tie-breaker when timestamps match.
+
+Do not copy that tuple predicate into a mixed-direction sort without deriving the corresponding comparison. Nulls also need an explicit policy: row comparisons can produce an unknown result when the decisive pair contains null.[2] My preference for this endpoint is to prohibit null cursor fields rather than bury special cases in every continuation query.
+
+## Seek from a boundary, not a page number
+
+PostgreSQL notes that rows skipped by `OFFSET` still have to be computed, making a large offset potentially inefficient.[1] I would therefore start with keyset pagination for a sequential ticket feed, while keeping offset pagination as a reasonable option for small administrative tables where numbered pages are a real requirement.
+
+My proposed query would always apply the authenticated tenant scope and active filters, then the continuation predicate, then the ordering and a bounded limit. I would evaluate a matching tenant-and-sort index against representative queries rather than promise constant-time pagination from the SQL shape alone.
+
+Request one extra row beyond the displayed page size. If it exists, return a continuation cursor built from the last displayed row, not the extra row. That is my recommended implementation convention; skipping the extra row would create a boundary bug.
+
+Use [Prove Your Performance Skills with a Query Investigation](/en/blog/performance-skills-query-investigation) as a guide to measuring the actual plan. Compare the first page and a deep continuation under realistic filters, not just an empty development database.
+
+## Make the cursor a scoped contract
+
+I would encode a version, exact boundary values, sort mode and a fingerprint of the normalized filters. Reject malformed or incompatible cursors with a clear client error. Reset pagination when the user changes filters instead of silently combining an old boundary with a different result set.
+
+Preserve the database timestamp's precision through serialization. For this design, I would avoid routing a boundary through a representation that discards fractional digits. The cursor should reproduce the stored comparison values, not a rounded display timestamp.
+
+Treat the cursor as untrusted input. My recommendation is to authenticate it when tampering matters, validate its fields regardless, and derive tenant access independently from the session. A valid cursor must never grant access. [PostgreSQL Row-Level Security: Review the Tenant Boundary](/en/blog/postgresql-rls-tenant-isolation-review) covers that separate enforcement layer.
+
+## Do not sell a cursor as a snapshot
+
+Under PostgreSQL's default Read Committed isolation, successive queries can see different committed data, even within one transaction.[3] A cursor across separate HTTP requests therefore should not be presented as a frozen export. In this design, a newly inserted ticket ahead of the boundary waits for a refresh; deleting an unseen ticket removes it from later results.
+
+I would document those live-list semantics. Sorting by mutable priority would require a different promise because edits can move rows across the boundary. For a reproducible export, I would design a separate snapshot or materialization workflow rather than keep a database transaction open while someone browses.
+
+Before shipping, I would test equal timestamps across page boundaries, deletion of the boundary row, an intervening insert, changed filters, malformed cursors and cross-tenant reuse. For a fixed fixture, assert that traversing every page returns each expected identifier exactly once. These are proposed acceptance checks, not claimed test results.
+
+Need a dependable customer portal rather than another convincing table demo? [Contact Argonaute Digital](/en/contact) to review the query, cursor contract and user-visible behavior together.
+
+## Sources
+
+- [PostgreSQL: LIMIT and OFFSET][1]
+- [PostgreSQL: Row and Array Comparisons][2]
+- [PostgreSQL: Transaction Isolation][3]
+
+[1]: https://www.postgresql.org/docs/18/queries-limit.html
+[2]: https://www.postgresql.org/docs/18/functions-comparisons.html
+[3]: https://www.postgresql.org/docs/18/transaction-iso.html
