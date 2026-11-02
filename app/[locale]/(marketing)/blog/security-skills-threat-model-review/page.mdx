@@ -1,0 +1,72 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "security-skills-threat-model-review",
+  "title": "Prove Your Security Judgment with a Small Threat Model",
+  "description": "Build a focused full-stack security portfolio artifact: map one workflow, rank concrete threats, explain tradeoffs and connect mitigations to executable checks.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-11-02",
+  "tags": ["tech-careers", "engineering-skills", "security", "full-stack-development", "testing"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://cheatsheetseries.owasp.org/cheatsheets/Threat_Modeling_Cheat_Sheet.html",
+    "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html",
+    "https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A portfolio can show a polished React interface without showing who is allowed to use it. If you want to demonstrate full-stack security judgment, I would add a small threat model to one existing feature rather than start another application. The useful artifact is not a diagram alone: it is a chain from a plausible failure to a design decision and a check someone else can run.
+
+This is a proposed portfolio exercise, not a hiring-market forecast or a claim that one document makes an application secure. Choose a project you own, use synthetic data, and keep the scope narrow enough to explain in a short review.
+
+## Model one workflow, not the whole internet
+
+Consider a hypothetical customer portal where an administrator exports invoices. Draw the browser, Next.js endpoint, Node worker, PostgreSQL database and private file storage. Mark where identity enters, where a tenant is selected, how the job reaches the worker and how the finished file reaches the customer.
+
+OWASP's threat-modeling guidance recommends beginning during design and maintaining the model as the system changes. It also emphasizes data flows and trust boundaries when describing the system.[1] For this exercise, I would annotate each arrow with the data carried and the authority the receiving component assumes.
+
+Write down the assumptions that could invalidate your conclusions. Does removing an administrator revoke access to an export already queued? Does a download require a current session, or does possession of a temporary link suffice? A reviewer should be able to challenge those choices without reverse-engineering your code.
+
+## Turn vague risks into reviewable scenarios
+
+Avoid entries such as “hackers steal data.” I would write three concrete scenarios: a member requests another tenant's export, a removed administrator retrieves a completed file, and repeated export requests exhaust the worker budget. Give each scenario an affected asset, entry point, precondition and consequence.
+
+Rank them using explained judgments rather than invented probability percentages. For this proposed portal, cross-tenant disclosure would block release. The workload-abuse scenario would need a bounded request policy before public exposure. State why that ordering fits your data and audience; a school demo and a financial service do not have identical stakes.
+
+OWASP recommends denying access by default and validating permissions on every request.[2] My proposed implementation would derive tenant membership from the authenticated server-side context, then authorize the requested export operation. A tenant identifier submitted by the browser would be a selector to validate, not proof of access.
+
+If the database is another enforcement layer, link the model to your actual query policy. [PostgreSQL Row-Level Security: Review the Tenant Boundary](/en/blog/postgresql-rls-tenant-isolation-review) provides a related review checklist. Do not write “RLS handles it” without naming which database role executes the worker's query.
+
+## Show the tradeoff, including what remains unresolved
+
+For this exercise, I would prefer an authenticated download endpoint that checks current membership before serving the file. That costs another authorization decision and complicates delivery compared with a freely reusable link. If you choose temporary bearer links instead, document their lifetime, sharing risk and revocation limitations as explicit design decisions to investigate and test.
+
+Record the remaining risks beside the mitigation. For example, checking access at download does not answer whether a queued job should still generate the file after membership changes. Choose a policy for both stages and name who would approve it in a real project.
+
+Include observability without publishing secrets. OWASP recommends recording authorization failures and excluding or protecting sensitive values such as access tokens and passwords in logs.[3] I would propose structured events containing an operation, outcome, correlation identifier and appropriately protected actor reference, rather than dumping request headers or invoice contents.
+
+## Make the evidence executable
+
+Deliver a short README, the workflow diagram, a threat-to-control table and focused tests. My acceptance checks would cover cross-tenant requests, revoked membership at download, direct endpoint access without the UI and the chosen export-rate boundary. These are suggested checks, not results from a system tested here.
+
+For each test, explain the fixture, attempted action and expected protected state. A rejected HTTP request should not leave a queued export or a publicly accessible file. Use the investigation discipline from [Prove Your Debugging Skills with a Trace Investigation](/en/blog/debugging-skills-trace-investigation) to connect requests, jobs and outcomes.
+
+Finish with a brief revision note explaining what changed after review. In my view, a clear correction demonstrates more judgment than a flawless-looking diagram with no challenged assumptions. Keep private architecture and credentials out of the public artifact.
+
+Want a focused security review of a customer portal or export workflow? [Contact Argonaute Digital](/en/contact) to connect the design, implementation and acceptance checks.
+
+## Sources
+
+- [OWASP: Threat Modeling][1]
+- [OWASP: Authorization][2]
+- [OWASP: Logging][3]
+
+[1]: https://cheatsheetseries.owasp.org/cheatsheets/Threat_Modeling_Cheat_Sheet.html
+[2]: https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
+[3]: https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html
