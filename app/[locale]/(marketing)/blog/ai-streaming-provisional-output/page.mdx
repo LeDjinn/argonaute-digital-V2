@@ -1,0 +1,70 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "ai-streaming-provisional-output",
+  "title": "AI Streaming: Treat Partial Output as Provisional",
+  "description": "Design a dependable AI streaming interface with explicit completion states, guarded tool inputs, reconnect semantics and tests for interrupted responses.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-11-03",
+  "tags": ["new-technology", "ai-integration", "react", "typescript", "reliability"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://platform.claude.com/docs/en/build-with-claude/streaming",
+    "https://platform.claude.com/docs/en/agents-and-tools/tool-use/fine-grained-tool-streaming",
+    "https://html.spec.whatwg.org/dev/server-sent-events.html"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A convincing AI demo prints words immediately. A dependable product also knows when those words are unfinished. I would treat streaming as a provisional view of an operation, not as incremental proof that the operation succeeded.
+
+Consider a hypothetical Next.js customer portal that drafts a support reply and can propose updating a ticket. My recommendation is to separate three things: text the user may preview, a completed model response, and a business action the server has actually committed. The interface should never collapse them into one green checkmark.
+
+## Model completion, not just connection status
+
+Anthropic's streaming documentation describes content blocks with start, delta and stop events, followed by message-level updates and a final `message_stop`. It also documents errors delivered inside the event stream.[1] Receiving text is therefore a different observation from receiving the protocol's final event.
+
+For this portal, I would define explicit application states: connecting, receiving, validating, ready, interrupted and failed. Keep the accumulated preview separate from the accepted result. If the connection ends before the expected terminal event, preserve the text with an “incomplete draft” label instead of quietly treating socket closure as success.
+
+Even a terminal event would only end the generation phase in my design. The server would still inspect the outcome, enforce its acceptance rules and publish a distinct application completion event. React would enable “Use draft” only after that event, while leaving copying an incomplete preview as an explicitly labelled option.
+
+## Do not execute a half-built argument
+
+Fine-grained tool streaming can deliver input without server-side JSON validation; Anthropic warns that the result can be invalid and that a token limit can interrupt a parameter.[2] A growing string that resembles a ticket update is not an executable request.
+
+I would accumulate input by tool-call identity and content-block index, enforce a byte limit, and parse only after the relevant block finishes. A parse failure would become a visible failed proposal. I would not append missing braces and send the repaired object to a privileged tool: that would substitute an application guess for the requested action.
+
+Parsing is only the first gate. For the proposed ticket update, validate the schema, derive tenant access from the authenticated session, check the permitted transition and require any necessary approval before execution. [Structured AI Outputs Are Not Business Validation](/en/blog/structured-ai-outputs-business-validation) covers those later checks. Streaming adds an earlier boundary: deciding whether there is a complete candidate to validate at all.
+
+## Reconnect to an operation, not a new generation
+
+The HTML standard specifies reconnection behavior for browser `EventSource` and a `Last-Event-ID` header for reporting the last event identifier when reconnecting.[3] Those transport features are useful, but I would not mistake them for an application replay implementation.
+
+My preferred architecture would create an authenticated operation first, then attach a stream to its identifier. Starting generation and observing progress would be separate endpoints. For an `EventSource` implementation, opening the observation endpoint must not start another model request. A fetch-based stream would need its own explicit reconnect policy rather than assuming browser `EventSource` behavior applies.
+
+For resumable output, I would store ordered application events with monotonically increasing sequence numbers. Reconnection would authenticate access again and replay events after the supplied position; the UI would ignore duplicates. If retaining events is unjustified for a short-lived draft, I would choose a simpler contract: mark interruption clearly and offer a new attempt. Do not advertise resumability without the storage and retention policy behind it.
+
+## Keep cancellation and commitment separate
+
+I would give each attempt its own identifier and keep the business action separately idempotent. Retrying a draft should not repeat a ticket update. [Background Jobs: Make Retries Safe Before Making Them Fast](/en/blog/retry-safe-background-jobs) provides the complementary write-side discipline.
+
+Cancellation would also be an explicit server command, not merely hiding the component. If the ticket update had already committed, the UI would report that persisted outcome rather than promise that stopping the stream reversed it. My proposed status endpoint would remain the authority after a disconnect.
+
+Before shipping, I would test interruption before the first delta, interruption after plausible-looking text, an in-stream error, truncated tool JSON, duplicate replay events and a reconnect after commitment. Assert both visible status and stored state. These are acceptance criteria, not claimed experimental results.
+
+Streaming is worth using when a provisional preview helps someone work sooner. For a short response that cannot be used before validation, I would prefer a clear pending state over extra protocol machinery. Need an AI interface whose completion signal means something? [Contact Argonaute Digital](/en/contact) to review its stream, state and action boundaries.
+
+## Sources
+
+- [Anthropic: Streaming messages][1]
+- [Anthropic: Fine-grained tool streaming][2]
+- [WHATWG: Server-sent events][3]
+
+[1]: https://platform.claude.com/docs/en/build-with-claude/streaming
+[2]: https://platform.claude.com/docs/en/agents-and-tools/tool-use/fine-grained-tool-streaming
+[3]: https://html.spec.whatwg.org/dev/server-sent-events.html
