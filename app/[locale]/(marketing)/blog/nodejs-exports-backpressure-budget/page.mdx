@@ -1,0 +1,72 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "nodejs-exports-backpressure-budget",
+  "title": "Node.js Exports: Backpressure Is a Resource Budget",
+  "description": "Design Node.js exports around bounded production, slow consumers, cancellation and honest completion signals rather than a stream-shaped API alone.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-11-04",
+  "tags": ["software-development", "nodejs", "performance", "reliability", "architecture"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://nodejs.org/docs/latest-v24.x/api/stream.html",
+    "https://nodejs.org/docs/latest-v24.x/api/http.html",
+    "https://nodejs.org/en/learn/modules/backpressuring-in-streams"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+For a hypothetical customer portal exporting support tickets, I would review the resource budget before the CSV formatting. Calling an endpoint “streaming” is not my acceptance criterion. I want to know what happens when the database produces rows faster than a customer downloads them, and who stops the work when that customer leaves.
+
+This is a proposed design review for a Node.js service, not a benchmark or a report from a client deployment. My preferred starting point is bounded production, explicit cancellation and a completion signal that says exactly what it proves.
+
+## Let the slowest stage set the pace
+
+Node's backpressure guide says to stop calling `write()` after it returns `false` and wait for `drain` before writing again.[3] I would treat that return value as a scheduling decision, not a warning to log while the loop continues.
+
+For a conventional stream chain, I would prefer `pipeline` over a collection of manually coordinated event handlers. The Node guide describes it as forwarding errors, cleaning up the chain and notifying the caller when the pipeline completes.[3] That is a useful foundation, not permission to ignore application-owned resources.
+
+My proposed export would fetch a bounded batch, serialize incrementally and request more rows only as downstream demand permits. I would reject an implementation that loads the entire query result into an array before handing it to a stream. I would also cap any enrichment concurrency; an unlimited set of outstanding lookup promises would fail my resource review even if the final writer behaved correctly.
+
+For the retrieval contract, [PostgreSQL Cursor Pagination: Define the Contract First](/en/blog/postgresql-cursor-pagination-contract) explains ordering and boundary decisions. For this export, I would separately decide whether a live view is acceptable or a reproducible dataset is required.
+
+## Budget bytes, not just objects
+
+Node documents `highWaterMark` as a buffering threshold, not a strict memory limit. In object mode it counts objects rather than bytes.[1] I would therefore never approve “sixteen rows buffered” as a complete memory argument without reviewing the permitted size of each row.
+
+My review worksheet would list the fetched batch, serializer output, stream buffers, pending enrichment and compression state. For each stage, I would record what is bounded, what owns it and how it is released. I would include an unusually large ticket description in fixtures rather than extrapolate from uniformly small records.
+
+I would initially choose conservative batch and concurrency limits, then measure throughput and process memory under a deliberately slow consumer. Increasing buffer sizes would need evidence of a useful throughput improvement within the service's memory allowance. My recommendation is to optimize an explicit budget, not maximize every queue independently.
+
+## Give cancellation an owner
+
+The promise-based `pipeline` API accepts an `AbortSignal`; aborting it destroys the underlying pipeline with an `AbortError`.[1] I would connect that mechanism to a request-scoped cancellation owner and make database cleanup a separate responsibility of the export implementation.
+
+Node's HTTP response `close` event can indicate either normal completion or premature termination.[2] I would distinguish those outcomes rather than label every close a failed download. For a premature close, my design would stop requesting batches, invoke the driver's documented cancellation or cursor cleanup, and release the connection in a guaranteed cleanup path.
+
+I would test that behavior with the actual database driver rather than assume a signal passed to a stream cancels a SQL query. [Request Timeouts: Cancel the Work, Not Just the Wait](/en/blog/request-timeouts-cancel-work) covers the same ownership question at a different boundary.
+
+## Define success before shipping
+
+Node's HTTP response `finish` event means the response was handed to the operating system, not that the client received it.[2] I would name the server metric “response finished,” not “customer received export.” If confirmed receipt matters, I would design an explicit application-level acknowledgement instead of inferring one.
+
+My acceptance checklist would cover a slow reader, an oversized record, a serializer failure, a database error and disconnection halfway through delivery. I would assert bounded outstanding work and connection release, not just compare the final CSV on the happy path. These are recommended checks, not claimed test results.
+
+For large or frequently interrupted exports, I would consider a background job producing a downloadable artifact instead of tying generation to one HTTP response. That trades immediacy for storage, expiry and access-control work. Choose it deliberately when a recoverable artifact serves the customer better than a fragile live transfer.
+
+Need an export that behaves predictably beyond the demo? [Contact Argonaute Digital](/en/contact) to review its resource budget, cancellation ownership and delivery contract.
+
+## Sources
+
+- [Node.js 24: Stream][1]
+- [Node.js 24: HTTP][2]
+- [Node.js: Backpressuring in Streams][3]
+
+[1]: https://nodejs.org/docs/latest-v24.x/api/stream.html
+[2]: https://nodejs.org/docs/latest-v24.x/api/http.html
+[3]: https://nodejs.org/en/learn/modules/backpressuring-in-streams
