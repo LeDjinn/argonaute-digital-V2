@@ -1,0 +1,74 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "architecture-decisions-rejected-alternatives",
+  "title": "Show Your Engineering Judgment with the Alternatives You Rejected",
+  "description": "Turn one full-stack architecture choice into a useful portfolio artifact: compare credible options, expose uncertainty and define when to revisit the decision.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-11-05",
+  "tags": ["tech-careers", "engineering-skills", "architecture", "full-stack-development", "technical-writing"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html",
+    "https://docs.cloud.google.com/architecture/architecture-decision-records?hl=en",
+    "https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A working demo tells a reviewer what you built. It does not necessarily explain why that design fits the problem. For a developer portfolio, I would add one short architecture decision record before adding another framework badge. The interesting evidence is not that you chose PostgreSQL, Next.js or a queue. It is that you can describe a credible alternative and explain the cost of declining it.
+
+This is a proposed skills exercise, not a claim about hiring demand or a guarantee of interviews. Use a project you own, publish only non-sensitive context, and label hypothetical requirements as hypothetical.
+
+## Choose a decision with something to lose
+
+AWS describes an architecture decision record, or ADR, as a record of a significant choice, its context and its consequences.[1] Microsoft recommends limiting records to choices affecting structure, important quality attributes or decisions that are difficult to reverse.[3] My recommendation: skip the naming convention debate and pick a boundary that changes operational responsibility.
+
+Consider a hypothetical reporting application with a React interface, a Next.js API and PostgreSQL. The decision is whether report generation belongs inside the request or behind a durable job boundary. Do not begin with “queues scale better.” Begin with the requirements you actually have: acceptable waiting time, cancellation expectations, retry behavior and who will operate the worker.
+
+Write unknowns explicitly. If report duration has not been measured, say so. A number invented to justify your preferred architecture is worse than an unresolved question.
+
+## Give the rejected option a fair hearing
+
+For this exercise, compare three designs: synchronous generation, an asynchronous job backed by the existing database, and a managed queue with a separate worker. Treat these as candidates to investigate, not interchangeable implementations or universal recommendations.
+
+Use the same questions for each option. What happens after the API accepts work? Who retries a failed attempt? Where does the customer see progress? What must be deployed, monitored and recovered? Which failures require manual intervention?
+
+I would reject a comparison that gives the preferred option concrete benefits and its competitors only slogans. Microsoft explicitly includes ruled-out alternatives, tradeoffs and decision confidence in its ADR guidance.[3] Make the strongest case for the simpler design, then name the requirement it cannot satisfy under your stated assumptions.
+
+For example, I might propose a job boundary because this hypothetical product requires accepted reports to remain recoverable after the initiating request ends. That is a design requirement, not proof that a particular queue configuration meets it. The record should point to the implementation and recovery checks that would establish that behavior.
+
+## Separate evidence from the decision
+
+Keep three labels visible: observed, assumed and chosen. “A representative export exceeded our request budget” needs a reproducible measurement. “Customers will tolerate delayed delivery” is an assumption until investigated. “We will expose a job-status endpoint” is a proposed design choice.
+
+Google Cloud's ADR outline includes context, requirements, key options and reasons for the accepted choice.[2] I would attach a small evidence bundle: a synthetic workload, commands to run it, the relevant configuration and an honest summary of what remains untested. Do not publish production records or credentials to make the artifact look realistic.
+
+Connect the choice to its failure semantics. [Background Jobs: Make Retries Safe Before Making Them Fast](/en/blog/retry-safe-background-jobs) is a useful companion when the proposal introduces retries. For database rollout consequences, use [PostgreSQL Migrations Without Release Traps](/en/blog/postgresql-migrations-without-release-traps) rather than treating schema changes as an implementation footnote.
+
+## State what would change your mind
+
+My preferred record ends with an explicit cost and a reconsideration trigger. For the proposed job design, the cost might be an additional worker, status handling and recovery procedures. A trigger might be evidence that the operational burden exceeds the value of surviving request termination for this product.
+
+Keep that trigger separate from permission to rewrite history. AWS treats accepted records as immutable and uses a new record to supersede an old decision.[1] I would preserve the original assumptions, then link a replacement explaining what changed. A portfolio revision is more useful when a reviewer can follow the correction.
+
+## Make the artifact reviewable
+
+Deliver one concise record, a diagram of the affected boundary and links to the checks supporting the decision. Ask a reviewer to challenge the weakest assumption, not merely approve the chosen technology. Keep detailed experiments outside the record so the decision remains easy to find.
+
+In my view, this demonstrates a valuable engineering habit: choosing under constraints without pretending the rejected alternatives were foolish. Want a second opinion on a full-stack architecture decision? [Contact Argonaute Digital](/en/contact) for a focused review of the options, evidence and operational tradeoffs.
+
+## Sources
+
+- [AWS: Architectural decision record process][1]
+- [Google Cloud: Architecture decision records overview][2]
+- [Microsoft: Maintain an architecture decision record][3]
+
+[1]: https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html
+[2]: https://docs.cloud.google.com/architecture/architecture-decision-records?hl=en
+[3]: https://learn.microsoft.com/en-us/azure/well-architected/architect-role/architecture-decision-record
