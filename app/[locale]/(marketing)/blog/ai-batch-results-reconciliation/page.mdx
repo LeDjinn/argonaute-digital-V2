@@ -1,0 +1,71 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "ai-batch-results-reconciliation",
+  "title": "AI Batch Jobs: Reconcile Results by Identity, Not Position",
+  "description": "Build reliable asynchronous AI batch workflows with durable request manifests, per-item outcomes, selective retries and guarded publication of stale results.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-11-06",
+  "tags": ["new-technology", "ai-integration", "nodejs", "postgresql", "reliability"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+    "https://platform.claude.com/docs/en/api/messages/batches"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+An asynchronous AI batch is not a large synchronous request. I would design it as a reconciliation workflow: declare the work, collect individual outcomes, then decide which results may enter the product. A completed batch should never automatically mean a completed business operation.
+
+Consider a hypothetical Next.js catalogue application generating draft descriptions overnight. The useful engineering problem is not submitting the requests. It is identifying what happened to every product while people continue editing the catalogue.
+
+## Persist a manifest before submission
+
+Anthropic documents batch requests as independently processed messages. Its API reference explicitly warns that results may arrive out of request order and provides a developer-supplied `custom_id` for matching them.[1] [2] Joining input and output arrays by index would therefore violate the documented contract.
+
+My recommendation is to persist a PostgreSQL manifest before contacting the provider. Each entry would contain an opaque request identifier, tenant identifier, product identifier, input revision, prompt version and attempt identifier. Keep the provider batch identifier separately. An opaque correlation identifier should locate authorized server-side records, not expose product content or serve as an authorization token.
+
+Make the manifest immutable for that attempt. If the prompt or source changes, create another attempt rather than rewriting the evidence of what was submitted. This gives the importer a fixed set against which to reconcile output.
+
+Submission also needs an uncertain state. If the connection fails before the application records the provider's response, I would mark the attempt as submission-unknown and investigate before resubmitting. Do not assume a lost response proves that no work was accepted. For this workflow, a short operational pause is preferable to silently paying for duplicate generations.
+
+## Ended is not the same as succeeded
+
+The Message Batches API distinguishes successful, errored, canceled and expired per-request results. The guide says processing status becomes `ended` when all requests have finished processing.[1] [2] That is a batch lifecycle observation, not proof that every description is usable.
+
+I would implement a TypeScript importer with an exhaustive branch for each result type. Successful responses become candidates for validation; errors retain their diagnostic category; canceled and expired items remain unfinished business work. Keep provider outcome and application acceptance in separate columns.
+
+For each output line, resolve its identifier against the manifest and reject unknown identifiers. Enforce uniqueness for the attempt and request pair so importing the same file twice cannot apply the same candidate twice. After ingestion, compare the sets of expected and observed identifiers. Matching totals alone would not detect one duplicate replacing one missing item.
+
+These are proposed acceptance rules, not claims about a tested implementation. I would cover shuffled output, duplicate lines, an unknown identifier and an interrupted import before trusting the workflow.
+
+## Retry the unresolved work, not the whole file
+
+My retry unit would be the individual manifest entry. Preserve accepted candidates, investigate invalid inputs and create fresh attempts only for items whose failure policy permits it. Bound attempts and give permanently unresolved items a visible owner instead of leaving an endless spinner.
+
+[Background Jobs: Make Retries Safe Before Making Them Fast](/en/blog/retry-safe-background-jobs) covers the broader write-side discipline. Here, the extra concern is preserving lineage between one business item and potentially several generation attempts. A retry should not erase the previous outcome.
+
+Download and persist results promptly. Anthropic currently documents a 29-day download window after batch creation.[1] I would set an internal ingestion deadline comfortably inside that window and alert on missed retrieval, with a retention policy appropriate to the catalogue data. The provider's result store should not be the application's only audit trail.
+
+## Validate again at the publication boundary
+
+Even a successful generation can target an obsolete input. Before saving a draft, I would compare the current product revision with the manifest revision in the same guarded database write. If the product changed, mark the candidate stale rather than overwriting a newer human edit.
+
+[Prevent Lost Updates: Make Version Checks Atomic](/en/blog/prevent-lost-updates-atomic-version-checks) explains the complementary concurrency boundary. Schema validation and content review would still apply; a successful provider response would bypass neither.
+
+Cancellation needs equally honest wording. Anthropic says in-progress, non-interruptible requests may complete after cancellation begins.[2] I would stop new publication separately, continue reconciling final outcomes, and show which drafts were already accepted. Canceling generation would not promise to reverse committed application writes.
+
+Batching makes sense when delayed results fit the product. I would keep interactive editing synchronous and use asynchronous generation for reviewable background drafts. Need to turn bulk AI output into accountable application state? [Contact Argonaute Digital](/en/contact) to review the manifest, retry and publication boundaries.
+
+## Sources
+
+- [Anthropic: Batch processing][1]
+- [Anthropic: Message Batches API reference][2]
+
+[1]: https://platform.claude.com/docs/en/build-with-claude/batch-processing
+[2]: https://platform.claude.com/docs/en/api/messages/batches
