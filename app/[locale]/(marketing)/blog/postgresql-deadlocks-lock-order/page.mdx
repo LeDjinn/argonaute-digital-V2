@@ -1,0 +1,69 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "postgresql-deadlocks-lock-order",
+  "title": "PostgreSQL Deadlocks: Define the Lock Order Before Retrying",
+  "description": "Review PostgreSQL transaction boundaries with consistent lock ordering, complete-transaction retries, bounded attempts and deterministic concurrency tests.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-11-09",
+  "tags": ["software-development", "postgresql", "nodejs", "reliability", "testing"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://www.postgresql.org/docs/18/explicit-locking.html",
+    "https://www.postgresql.org/docs/18/mvcc-serialization-failure-handling.html"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A deadlock retry is a recovery mechanism, not a transaction design. Before adding another attempt to a Node.js service, I would ask a more useful question: can every competing operation explain which records it locks, in which order, and for how long?
+
+Consider a hypothetical inventory application that moves stock between two warehouse records. One request moves stock from A to B; another moves it from B to A. The business directions differ, but my recommendation is that their database access order should not.
+
+## Make lock order a shared contract
+
+PostgreSQL documents that deadlocks can arise from ordinary row updates, without explicit locking. It detects a deadlock and aborts one participating transaction; applications should not depend on which participant loses.[1]
+
+For the inventory workflow, I would normalize the two warehouse identifiers, remove duplicates, sort them using one documented comparison rule, and acquire the required row locks sequentially in that order. Only then would I check stock and apply both changes. The order would be about record identity, not source versus destination.
+
+This follows PostgreSQL's recommendation that applications acquire locks on multiple objects in a consistent order.[1] The important word for my review is applications: a carefully ordered API handler is insufficient if an administrative tool takes the same locks in reverse.
+
+I would document an ordering hierarchy when a transaction touches several record types: warehouse records first, inventory records second, then movement records. That is a proposed project convention, not a universal database rule. Review triggers, foreign-key interactions and maintenance paths before claiming the convention covers every lock.
+
+## Keep waiting outside the protected work
+
+PostgreSQL warns against keeping transactions open for long periods, including while waiting for user input; without a deadlock, conflicting lock requests can wait indefinitely.[1]
+
+My preferred transaction boundary would therefore contain database decisions and writes, not a supplier HTTP call or an approval dialogue. Fetch optional external information beforehand, then revalidate the relevant database conditions inside the transaction. If external information must remain fresh, define its acceptable age and failure behavior explicitly rather than hiding that uncertainty inside a long transaction.
+
+I would record an outbound event in the same transaction and deliver it afterward through an independently retryable worker. That recommendation needs its own delivery and deduplication design. [Background Jobs: Make Retries Safe Before Making Them Fast](/en/blog/retry-safe-background-jobs) explores that separate boundary; a database retry should not casually resend a notification.
+
+## Retry the decision, not the final statement
+
+The PostgreSQL retry guide identifies deadlocks with SQLSTATE `40P01` and serialization failures with `40001`. It specifically requires retrying the complete transaction, including the logic that selected statements and values.[2]
+
+In a TypeScript service, I would put the transaction callback inside the retry boundary. Each attempt would begin a fresh transaction, acquire locks, read stock again, validate the move and write its outcome. Replaying only the second update with quantities calculated during an aborted attempt would not meet that contract.
+
+My policy would allow a small, explicit attempt budget with jittered delay, constrained by the request's remaining deadline. Roll back before waiting and release the checked-out connection between attempts. Treat those as implementation requirements to test, not properties supplied automatically by a generic retry helper.
+
+Do not classify every constraint error as temporary. PostgreSQL notes that unique-key failures can represent either concurrency conflicts or persistent errors.[2] I would map known business conflicts separately and avoid matching localized error-message strings.
+
+## Test the interleaving deliberately
+
+My acceptance test would use two independent database connections and explicit barriers, not timing guesses. First, arrange opposite lock acquisition to exercise the deadlock recovery path. Then run the production ordering strategy under contention and verify the final inventory invariant, transaction outcomes and retry budget.
+
+These are proposed tests, not reported benchmark results. I would also inject an exhausted deadline, a rollback failure and a non-retryable validation error. Each should produce an honest application outcome rather than an endless spinner or a success response after abandoned work.
+
+Lock ordering also does not replace stale-edit protection. [Prevent Lost Updates: Make Version Checks Atomic](/en/blog/prevent-lost-updates-atomic-version-checks) covers a complementary boundary. For a reviewable implementation, I would want both the concurrency invariant and its failure behavior written down. [Contact Argonaute Digital](/en/contact) to review transaction boundaries before adding another retry layer.
+
+## Sources
+
+- [PostgreSQL 18: Explicit Locking][1]
+- [PostgreSQL 18: Serialization Failure Handling][2]
+
+[1]: https://www.postgresql.org/docs/18/explicit-locking.html
+[2]: https://www.postgresql.org/docs/18/mvcc-serialization-failure-handling.html
