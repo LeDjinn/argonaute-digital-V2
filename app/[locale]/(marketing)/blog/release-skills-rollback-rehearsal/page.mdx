@@ -1,0 +1,69 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "release-skills-rollback-rehearsal",
+  "title": "Prove Your Release Skills with a Rollback Rehearsal",
+  "description": "Turn a portfolio deployment into evidence of engineering judgment: identify artifacts, define stop conditions, rehearse recovery and verify data compatibility.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-11-10",
+  "tags": ["tech-careers", "engineering-skills", "release-engineering", "reliability", "testing"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://sre.google/workbook/canarying-releases",
+    "https://sre.google/sre-book/release-engineering"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A deployed portfolio application demonstrates that you can ship something. I would find the evidence more convincing if it also showed how you would stop a bad release, restore service and check what happened to the data. My suggested career exercise is a rollback rehearsal: deliberately introduce a controlled failure in an isolated environment, then recover using a written procedure.
+
+This is not a recommendation to break a client system or a claim about hiring-market demand. It is a practical way to make release judgment inspectable alongside your React components and TypeScript tests.
+
+## Start with an identifiable artifact
+
+Google's release-engineering chapter describes system-level testing against packaged build artifacts, separate from continuous tests against source code.[2] For this exercise, I would adopt that distinction rather than treating a green repository badge as the final evidence.
+
+Choose a small Next.js frontend and Node API, with disposable PostgreSQL data if persistence matters. Record the candidate's commit, build identifier, configuration version and deployment target. Keep the previously working artifact available. My acceptance condition would be simple: another developer can identify exactly what is running without inferring it from the current branch name.
+
+Use synthetic accounts and a sandbox with no production credentials. Write down who may deploy, who may stop the rollout and which resources the exercise can modify. Keep the scope small enough to understand every recovery step.
+
+## Define the stop decision before the failure
+
+Google's SRE Workbook defines canarying as a limited deployment evaluated before deciding whether to continue. Its example shows why errors broken down by application version can reveal a bad candidate that an aggregate graph obscures.[1]
+
+For a rehearsal, I would prepare a candidate that intentionally fails one synthetic checkout path behind an exercise-only configuration switch. Define the expected failure signal, its observation window and the minimum successful requests needed to interpret the result. These are proposed exercise parameters, not universal production thresholds.
+
+Do not call a staging test a production canary. If your sandbox cannot split traffic, state that limitation and run the candidate separately. The skill worth demonstrating is a defensible stop decision, not the vocabulary of a more elaborate platform.
+
+I would also test the inconclusive case: no requests arrive, or telemetry disappears. My rule would be to pause promotion rather than translate missing evidence into success. Record that decision explicitly.
+
+## Rehearse recovery without erasing the state
+
+Write the recovery procedure before starting the candidate. My checklist would name the previous artifact, the required configuration, the command or control used to restore it, and the checks that establish recovery. Distinguish disabling a feature from replacing a deployment; choose the action that matches the injected fault.
+
+For the database, I would create a synthetic record while the candidate is active, then check that the restored application can still read and update it. If the exercise includes a schema change, make compatibility with both application versions an explicit test requirement. A destructive migration would require a different recovery plan, not an optimistic redeployment.
+
+[PostgreSQL Migrations Without Release Traps](/en/blog/postgresql-migrations-without-release-traps) explores that compatibility boundary. For this exercise, I would prefer an additive change and document any cleanup as a later, separately reviewed operation.
+
+Recovery should end with a user-visible assertion, not just a healthy process. Submit the synthetic checkout, inspect its stored outcome and verify that no duplicate work was recorded. Save timestamps from actual observations; do not invent an impressive recovery time before running the drill.
+
+## Publish evidence, including the awkward parts
+
+My preferred portfolio deliverable would contain a short runbook, sanitized deployment identifiers, the failure signal, the recovery action and the post-recovery checks. Include one limitation: perhaps the sandbox lacks production traffic patterns, or the test does not cover worker compatibility. An honest boundary gives a reviewer something concrete to discuss.
+
+Keep proposed behavior separate from observed results. A procedure you have written but never exercised is a plan. A rehearsal log should identify what actually ran, what failed and what remained unresolved. Never publish credentials or customer data as evidence.
+
+[Show Your Engineering Judgment with an Incident Write-Up](/en/blog/incident-writeups-engineering-judgment) offers a complementary format for explaining the reasoning afterward. The point is not to simulate a dramatic outage. It is to show that shipping includes recognizing uncertainty and recovering deliberately. [Contact Argonaute Digital](/en/contact) to review a release workflow or design a bounded recovery exercise.
+
+## Sources
+
+- [Google SRE Workbook: Canarying Releases][1]
+- [Google SRE Book: Release Engineering][2]
+
+[1]: https://sre.google/workbook/canarying-releases
+[2]: https://sre.google/sre-book/release-engineering
