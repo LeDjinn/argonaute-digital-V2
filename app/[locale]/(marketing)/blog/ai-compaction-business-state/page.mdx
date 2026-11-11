@@ -1,0 +1,67 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "ai-compaction-business-state",
+  "title": "AI Compaction: Shorten the Context, Not the Business Record",
+  "description": "Design long-running AI workflows with durable application state, explicit compaction boundaries and tests that catch lost constraints before actions execute.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-11-11",
+  "tags": ["new-technology", "ai-agents", "typescript", "postgresql", "reliability"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://platform.claude.com/docs/en/build-with-claude/compaction",
+    "https://platform.claude.com/docs/en/build-with-claude/context-editing"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A long-running AI assistant needs a smaller working context, not a smaller record of what the application has promised. I would treat conversation compaction as an inference optimization and keep business state outside it. A summary can help the model continue; it should not decide whether an invoice was approved or an operation already happened.
+
+Consider a hypothetical procurement assistant in a Next.js application. It searches supplier documents, compares quotations and prepares an order. The useful design question is not simply how to fit another conversation turn. It is which facts must remain exact when the earlier discussion is no longer present.
+
+## Separate working context from authoritative state
+
+Anthropic describes compaction as replacing older conversation turns with a server-generated summary. Its overview distinguishes that process from context editing, which clears selected content rather than summarizing it.[1] These are mechanisms for shaping model input, not application transaction protocols.
+
+My recommendation is to keep three separate records: the conversation needed for continuity, a durable workflow record in PostgreSQL, and evidence artifacts with an explicit retention policy. The workflow record would hold the tenant, order revision, selected supplier, spending limit and current approval state. Evidence would preserve the quotation version used for a decision.
+
+Give the model a compact projection of that state on each relevant turn. Let it propose changes through typed tools, but let server-side code validate and persist them. If the summary says an order is approved while the database says approval is pending, the database wins. Do not ask the model to resolve that disagreement by remembering harder.
+
+## Choose what can disappear
+
+Anthropic's tool-result clearing strategy replaces older results with placeholders when its configured conditions are met. The documentation also says server-side context editing leaves the client's full conversation history unmodified.[2] That distinction matters: what the model currently sees and what your application retains are different concerns.
+
+I would classify each tool result before adopting automatic clearing. Search snippets can often be fetched again. A supplier quotation may require a versioned snapshot. An approval receipt belongs in durable state, not only in a conversational tool result. Retaining everything indefinitely is not my recommendation either: separate continuity needs from privacy, audit and deletion requirements.
+
+For this procurement example, I would keep exact identifiers and revisions in the workflow projection, while allowing older exploratory comparisons to be summarized. Store provenance alongside selected facts so a reviewer can open the underlying evidence without reconstructing the entire conversation.
+
+## Treat compaction as a workflow boundary
+
+I would introduce compaction at a recoverable checkpoint: after a tool result has been recorded, before the next consequential action. Persist a checkpoint revision and the conversation position it represents. If summarization fails, pause or retry within a bounded policy rather than silently dropping history.
+
+A summary should describe unresolved questions, rejected options and the next intended step. It should not mint permissions. [AI Tool Approvals: Bind Permission to the Exact Action](/en/blog/ai-tool-approvals-bind-exact-action) covers that separate boundary: the eventual order submission still needs approval for its actual payload, irrespective of how confidently a summary describes earlier agreement.
+
+For concurrent browser sessions, re-read the workflow revision before executing a write. A conversation checkpoint should not authorize overwriting a newer human decision. I would reject stale proposals and return the current state for reconsideration instead.
+
+## Test continuity with state assertions
+
+I would build paired evaluation cases: one with the original conversation, another with the compacted context. Compare permitted actions and final application state, not whether both answers sound equally fluent. These are proposed tests, not reported benchmark results.
+
+Include a spending limit mentioned early, a supplier rejected after an initial recommendation, an approval revoked later, and an order whose submission response was lost. Each case should have an explicit expected outcome: preserve the limit, exclude the rejected supplier, require fresh approval, or reconcile the uncertain submission before retrying.
+
+[AI Agent Evals: Test the State, Not the Story](/en/blog/ai-agent-evals-test-state-not-story) explains the broader evaluation discipline. Here, the extra variable is deliberately removing conversational detail and proving that the application still enforces its invariants.
+
+Compaction is useful when a workflow genuinely needs long-lived context. For short tasks, I would start with bounded conversations and explicit state transitions instead. Need to review where your AI workflow remembers, forgets and commits? [Contact Argonaute Digital](/en/contact) to map those boundaries before adding another memory layer.
+
+## Sources
+
+- [Anthropic: Compaction overview][1]
+- [Anthropic: Context editing][2]
+
+[1]: https://platform.claude.com/docs/en/build-with-claude/compaction
+[2]: https://platform.claude.com/docs/en/build-with-claude/context-editing
