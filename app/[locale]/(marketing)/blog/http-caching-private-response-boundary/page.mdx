@@ -1,0 +1,70 @@
+import { BlogLayout } from "@/components/blog-layout";
+import { generateBlogMetadata } from "@/lib/blog";
+
+export const blog = {
+  "slug": "http-caching-private-response-boundary",
+  "title": "HTTP Caching: Keep Private Responses Out of Shared Caches",
+  "description": "Review private-response caching across HTTP, Next.js and application data caches with explicit policies, tenant boundaries and two-user production tests.",
+  "author": { "name": "Timour Spiridonov", "src": "/tim.png" },
+  "date": "2026-11-13",
+  "tags": ["software-development", "nextjs", "security", "http-caching", "testing"],
+  "draft": false,
+  "readingTime": 4,
+  "sources": [
+    "https://www.rfc-editor.org/rfc/rfc9111.html",
+    "https://nextjs.org/docs/15/app/api-reference/file-conventions/route-segment-config",
+    "https://nextjs.org/docs/15/app/guides/caching"
+  ]
+};
+
+export const generateMetadata = (props) => generateBlogMetadata(blog, props);
+
+export default (props) => <BlogLayout blog={blog} {...props} />;
+
+A private dashboard should have a caching policy before it has a performance target. My review question is simple: which layers may reuse this response, and for whose next request? A fast answer is not useful if the team cannot explain the identity boundary around it.
+
+Consider a hypothetical Next.js account dashboard backed by a Node service and PostgreSQL. Two users request the same URL, but their invoices differ. I would treat response reuse as a security decision, not merely a time-to-live setting. Start with the least ambitious policy that meets the product's needs, then optimize deliberately.
+
+## Choose the actual HTTP promise
+
+RFC 9111 distinguishes three easily confused response directives. Unqualified `private` prohibits storage by shared caches while permitting private-cache storage under the other caching rules. Unqualified `no-cache` requires successful validation before reuse; it does not mean that storage is forbidden. `no-store` prohibits storage and reuse by private and shared caches.[1]
+
+For a sensitive account JSON endpoint, my starting recommendation would be `Cache-Control: no-store`. If the product intentionally permits browser caching, I would instead document that decision and its freshness requirements before choosing `private` with additional controls. These are different product contracts, not interchangeable spellings of "secure."
+
+Do not use cookie presence as the policy. The RFC explicitly says that a `Set-Cookie` response header does not itself prevent caching.[1] I would inspect the response delivered through the real reverse proxy or CDN, not assume that a session library's behavior proves every intermediary is configured correctly.
+
+## Review the framework cache separately
+
+An HTTP response header and a server-side data-cache setting govern different boundaries. The Next.js 15 caching guide distinguishes browser HTTP caching from the server Data Cache, which can persist across incoming requests and deployments.[3]
+
+For a Next.js 15 App Router application using route-segment configuration without Cache Components enabled, `dynamic = 'force-dynamic'` makes the route render at request time and applies uncached behavior to its fetch requests.[2] That version-specific behavior is useful evidence, not a universal recipe for every Next.js release or deployment.
+
+I would still review any custom memoization, database-result cache and upstream service independently. My proposed rule for personalized data is to avoid cross-request caching initially. If a measured bottleneck justifies adding it, require an explicit key design covering tenant, user or permission scope, plus invalidation when access changes.
+
+The guide also explains that opting out of the Full Route Cache does not automatically disable the Data Cache.[3] Consequently, I would reject "the page is dynamic" as the entire review record. Record which API disables which cache, and test the deployed combination rather than borrowing a configuration from another project.
+
+## Separate public work from private work
+
+My preferred optimization would be to split a public product catalogue from account-specific prices and invoice summaries. Give the public resource its own endpoint and documented cache policy. Keep personalized fields out of that response, including fields added later by a shared serializer.
+
+That split has a cost: more request orchestration, separate failure states and potentially more origin traffic. I would accept those costs when they make the sharing boundary easier to audit. If one combined response remains necessary, optimize its database work first rather than casually widening response reuse.
+
+Caching controls are not an authorization system. RFC 9111 warns that `no-store` alone is not sufficient to ensure privacy.[1] Keep authorization checks explicit. [PostgreSQL Row-Level Security: Review the Tenant Boundary](/en/blog/postgresql-rls-tenant-isolation-review) examines the complementary database boundary; neither layer should be used to excuse an unreviewed decision in the other.
+
+## Test with two identities and a warm path
+
+My acceptance test would use two isolated authenticated browser contexts with deliberately different fixture invoices. Request the same URL as user A, repeat it, then request it as user B. Assert the actual response bodies and rendered account fields, not just status codes or cache-related headers. Repeat in reverse order.
+
+I would add logout, account switching and permission removal, including back navigation and a fresh request. Run the checks against a production build through the deployed delivery path. These are proposed tests, not claims that a particular platform leaks data or that this example has been benchmarked.
+
+Save the observed headers, identity fixtures and expected outcomes as a small release artifact. [Prove Your Security Judgment with a Small Threat Model](/en/blog/security-skills-threat-model-review) offers a useful structure for documenting the trust boundaries. [Contact Argonaute Digital](/en/contact) to review a caching change before a performance improvement becomes an identity-boundary regression.
+
+## Sources
+
+- [RFC 9111: HTTP Caching][1]
+- [Next.js 15: Route Segment Config][2]
+- [Next.js 15: Caching][3]
+
+[1]: https://www.rfc-editor.org/rfc/rfc9111.html
+[2]: https://nextjs.org/docs/15/app/api-reference/file-conventions/route-segment-config
+[3]: https://nextjs.org/docs/15/app/guides/caching
